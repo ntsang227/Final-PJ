@@ -8,5 +8,13 @@ Final_Project
     - express 
     - react 
     - mongoose
- - npm command: npm install express react mongoose
-###
+ -Npm command: 
+    - npm install express react
+    - npm install mongoose
+ -MongoDb driver for NodeJS:
+    -npm install mongodb --save
+#Menber for Project : 3
+ - Sáng : ntsang227
+ - Khanh : vankhanh2910
+ - Trực : TrungTruc173
+#Date create Project : 15/4/2022 
