@@ -1,10 +1,110 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
   <head>
-    <title>Test</title>
+    <title>Javascript cơ bản</title>
   </head>
   <body>
-    <h1>Xin chào!</h1>
-    <p>Test Page</p>
+    <h1>Đây là tiêu đề của trang web của bạn</h1>
+    <p>Chào mừng đến với trang web của bạn!</p>
+    
+    <script>    
+        /*const name = prompt("Nhập vào tên của bạn:", "k");
+        <button onclick="console.log(this)">Click me</button>
+        alert("Tên bạn là: "+ name);
+        result(name);
+        //alert('Xin chào trang web');
+        const result = confirm("Bạn muốn tiếp tục sử dụng chương trình?");
+        if (result === true) {
+            alert('Ok');
+        }else alert('Failed');
+        const age = 3 
+        const check = age > 6  ? true : false ;
+        alert(check)
+        //if else
+        const value = prompt("Nhập vào 1 số nguyên dương", "2")
+        if (value %2 ==0) {
+            alert("Số bạn vừa nhập là: " + value);
+        }else alert("Số bạn nhập không phải là số nguyên dương");
+        //switch case 
+        let value = prompt("What browser your using ? ", "Chrome" );
+        switch (value) {
+            case "Firefox": 
+                alert("You are using Firefox"); 
+                break;
+            case "Chrome": 
+                alert("You are using Chrome"); 
+                break;
+            case "Opera": 
+                alert("You are using Opera"); 
+                break;
+            case "Safari":
+                alert("You are using Safari"); 
+                break;
+            case "Edge": 
+                alert("You are using Edge"); 
+                break;
+            default:
+                alert("Unknown browser!");
+        }
+        //function
+        function nhap(){
+            const name = prompt("Nhập vào tên của bạn:", "k");
+            alert("Tên bạn là: "+ name);
+        }
+        nhap();
+        //khai báo Object 
+        let myComputer = {
+            type: "laptop",
+            brand: "Sony",
+            os: "Windows 7",
+            graphicCard: "NVIDIA",
+          };
+          
+        console.log(myComputer);
+        //vòng lặp xuất ra các object của myComputer
+        for (let prop in myComputer){
+            console.log(prop + ": " + myComputer[prop]);
+        }
+        //copy object bằng vòng lặp for...in... 
+        let p1 = { x: 1, y: 2 };
+        let p2 = {};
+        let p3 = {};
+        for (let key in p1) {
+            p2[key] = p1[key];
+        }
+        p2.y= 5;
+        console.log(p1);
+        console.log(p2);
+        //copy object sử dụng object.assign()
+        Object.assign(p3, p1);
+        console.log(p3);
+        //ví dụ về this object
+        this.color = "red"
+        console.log(this.color);
+        //function click me 
+        function myFunction() {
+            return this;
+          }
+        let root = new Object();
+        root.x = 5;
+        root.y = 5;
+        console.log(root);
+        //check num sử dụng isFinite 
+        let num1 = +prompt("Nhập vào số thứ nhất");
+        let num2 = +prompt("Nhập vào số thứ hai");
+        if (isFinite(num1) && isFinite(num2))  {
+            sum = num1+num2;
+            alert("Tổng hai số vừa nhập: "+ sum);
+        } else { alert ("1 trong 2 không phải là số"); }*/
+        let str = "hello";
+        let str1 = "hi";
+        //so sánh 2 tring sử dụng str.localeCompare function
+        let kq = str.localeCompare(str1) == 0 ? "str bằng nhau" : "str không bằng"
+        console.log(kq);
+        //ES6 Template example
+        let str2 = `I'm a "JavaScript Developer".`;
+        console.log(str2);
+
+    </script>
   </body>
 </html>
