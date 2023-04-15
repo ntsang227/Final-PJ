@@ -13,8 +13,10 @@ Final_Project
     - npm install mongoose
  -MongoDb driver for NodeJS:
     -npm install mongodb --save
-#Menber for Project : 3
+ -Cài đặt browserify(Không khuyến khích): 
+    -npm install -g browserify
+# Menber for Project : 3
  - Sáng : ntsang227
  - Khanh : vankhanh2910
  - Trực : TrungTruc173
-#Date create Project : 15/4/2022 
+# Date create Project : 15/4/2022 
