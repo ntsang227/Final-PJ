@@ -4,7 +4,7 @@
   "description": "",
   "main": "public/App.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node public/App.js"
   },
   "repository": {
     "type": "git",
@@ -16,11 +16,10 @@
     "url": "https://github.com/vankhanh2910/Final_Project/issues"
   },
   "homepage": "https://github.com/vankhanh2910/Final_Project#readme",
-  "scripts": {
-    "start": "node public/App.js"
-    } ,
   "dependencies": {
     "express": "^4.18.2",
+    "mongodb": "^5.2.0",
+    "mongoose": "^7.0.3",
     "react": "^18.2.0"
   }
 }
