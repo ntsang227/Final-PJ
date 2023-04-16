@@ -2,12 +2,14 @@ const mongoose = require('mongoose');
 
 const dataSchema = new mongoose.Schema({
     name: {
-        required: true,
-        type: String
+        required: false,
+        type: String,
+        defaul: 'noname',
     },
     email: {
-        required: true,
-        type: String
+        required: false,
+        type: String,
+        default : 'email',
     }
 })
 

@@ -1,18 +1,18 @@
 const express = require('express');
-const User = require('../models/model');
+const Admin = require('../models/admin');
 const router = express.Router();
 
 //Post Method
-router.post('/post', async (req, res) => {
-    const user = new User({
+router.post('/admins/post', async (req, res) => {
+    const admin = new Admin({
         name: req.body.name,
-        email: req.body.email
+        email: req.body.email,
+        username : req.body.username,
+        password : req.body.password
     })
-    console.log(req.body.name);
-    console.log(req.body.email);
     try {
-        const newUser = await user.save();
-        res.status(200).json(newUser)
+        const newAdmin = await admin.save();
+        res.status(200).json(newAdmin)
     }
     catch (error) {
         res.status(400).json({ message: error.message })
@@ -20,16 +20,16 @@ router.post('/post', async (req, res) => {
 })
 
 //Get all Method
-router.get('/getAll', async (req, res) => {
+router.get('/admins/getAll', async (req, res) => {
     try {
-        const user = await User.find();
-        res.json(user)
+        const admin = await Admin.find();
+        res.json(admin)
     }
     catch (error) {
         res.status(500).json({ message: error.message })
     }
 })
-
+/*
 //Get by ID Method
 router.get('/getOne/:id', async (req, res) => {
     try {
@@ -70,5 +70,5 @@ router.delete('/delete/:id', async (req, res) => {
         res.status(400).json({ message: error.message })
     }
 })
-
+*/
 module.exports = router;

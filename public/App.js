@@ -7,7 +7,7 @@ const fs = require('fs');
 
 // Kết nối đến database bằng cách import file database.js 
 //require('../src/DB/database.js');
-require('../src/api/mongodb.js');
+require('../src/api/database.js');
 // Đọc nội dung file html
 const homePage = fs.readFileSync('./public/index.html');
 // Tạo server và render file html khi client request
