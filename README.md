@@ -15,7 +15,7 @@ Final_Project
     -npm install mongodb --save
  -Cài đặt browserify(Không khuyến khích): 
     -npm install -g browserify
-# Menber for Project : 3
+# Member for Project : 3
  - Sáng : ntsang227
  - Khanh : vankhanh2910
  - Trực : TrungTruc173
