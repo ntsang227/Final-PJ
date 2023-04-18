@@ -4,11 +4,11 @@ Final_Project
 - Step 1: Go to folder your project and run Git Bash or Command Prompt for Windows
 - Step 2: Start command: npm init -y
 - Step 3: Install package for starting project
- - NodeJS package: 
+  - NodeJS package: 
     - express 
     - react 
     - mongoose
- -Npm command: 
+  - Npm command: 
     - npm install express react
     - npm install mongoose
  -MongoDb driver for NodeJS:
