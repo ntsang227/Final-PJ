@@ -32,14 +32,18 @@ app.get('/style.css', (req, res) => {
   res.end();
 });
 
-
+// Api routes
 const routes = require('./api/routes/routes');
 const admins = require('./api/routes/admins');
 
 app.use('/api', routes);
 app.use('/api', admins);
-
-
+// Đăng kí thư mục chứ tài nguyên tĩnh
+app.use(express.static('./Admin'));
+// Điều hướng đến link trong trang index
+app.get('/admin/home.html', (req, res) => {
+    res.sendFile(__dirname + '/Admin/admin/home.html');
+});
 // Chạy server admin tại cổng 8000
 app.listen(3000, () => {
   console.log('Database server, Admin client and User client are running at port 3000');
