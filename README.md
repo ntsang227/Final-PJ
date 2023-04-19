@@ -11,18 +11,11 @@ Final_Project
   - Npm command: 
     - npm install express react
     - npm install mongoose
- -MongoDb driver for NodeJS:
+  - MongoDb driver for NodeJS:
     -npm install mongodb --save
- -Cài đặt browserify(Không khuyến khích): 
+  - Cài đặt browserify(Không khuyến khích): 
     -npm install -g browserify
 # Member for Project : 3
-=========
-  - MongoDb driver for NodeJS:
-    - npm install mongodb --save
-  - Cài đặt browserify(Không khuyến khích): 
-    - npm install -g browserify
-# Member of Project : 3
->>>>>>>>> Temporary merge branch 2
  - Sáng : ntsang227
  - Khanh : vankhanh2910
  - Trực : TrungTruc173
