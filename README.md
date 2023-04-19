@@ -15,7 +15,14 @@ Final_Project
     -npm install mongodb --save
  -Cài đặt browserify(Không khuyến khích): 
     -npm install -g browserify
-# Menber for Project : 3
+# Member for Project : 3
+=========
+  - MongoDb driver for NodeJS:
+    - npm install mongodb --save
+  - Cài đặt browserify(Không khuyến khích): 
+    - npm install -g browserify
+# Member of Project : 3
+>>>>>>>>> Temporary merge branch 2
  - Sáng : ntsang227
  - Khanh : vankhanh2910
  - Trực : TrungTruc173
