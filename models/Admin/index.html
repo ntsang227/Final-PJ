@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  <div class="container">
+      <h1>Login Form</h1>
+      <form id="login-form">
+          <label for="username">Username:</label>
+          <input type="text" id="username" name="username" required>
+
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required>
+
+          <button type="submit" id="login-btn">Login</button>
+      </form>
+      <p id="error-msg"></p>
+  </div>
+  <script>
+    const form = document.querySelector('#login-form');
+    const errorMsg = document.querySelector('#error-msg');
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      // Lấy thông tin từ trường username và password
+      const formData = new FormData(form);
+      const username = formData.get('username');
+      const password = formData.get('password');
+      // Gọi API để lấy danh sách quản trị viên
+      fetch('/api/admins/getAll', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => response.json())
+      .then(admins => {
+        // Kiểm tra xem người dùng có phải là một quản trị viên hay không
+        const isAdmin = admins.find(admin => admin.username === username && admin.password === password);
+
+        if (isAdmin) {
+          // Nếu người dùng là một quản trị viên, chuyển hướng sang trang home.html
+          window.location.href = './admin/home.html';
+        } else {
+          // Nếu không phải, hiển thị thông báo lỗi
+          errorMsg.textContent = 'Tên đăng nhập hoặc mật khẩu không đúng';
+        }
+     })   
+      .catch(error => console.error(error));
+   });
+  </script>
+</body>
+</html>
