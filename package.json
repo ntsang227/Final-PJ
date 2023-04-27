@@ -2,9 +2,9 @@
   "name": "final_project",
   "version": "1.0.0",
   "description": "",
-  "main": "public/App.js",
+  "main": "drivers/webserver/server.js",
   "scripts": {
-    "start": "nodemon public/App.js"
+    "start": "nodemon drivers/webserver/server.js"
   },
   "repository": {
     "type": "git",

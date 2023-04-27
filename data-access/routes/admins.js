@@ -1,5 +1,5 @@
 const express = require('express');
-const Admin = require('../models/admin');
+const Admin = require('../../db/models/admin');
 const router = express.Router();
 
 //Post Method
