@@ -58,22 +58,22 @@ app.get('/images/:imageName', (req, res) => {
   }
 });
 
-
-
+// code để nạp file index sau khi đăng nhập
+const adminhomePage = fs.readFileSync('./models/Admin/doc/index.html');
+app.get('/doc/index.html', (req, res) => { 
+  res.writeHead(200, { 'Content-Type': 'text/html' });
+  res.write(adminhomePage);
+  res.end();
+})
 
 
 // Api routes
-const routes = require('../../data-access/routes/routes.js');
-const admins = require('../../data-access/routes/admins.js');
+// const routes = require('../../data-access/routes/users.js');
+ //const admins = require('../../data-access/routes/admins.js');
+// app.use('/api', routes);
+//app.use('/api', admins);
 
-app.use('/api', routes);
-app.use('/api', admins);
-// Đăng kí thư mục chứ tài nguyên tĩnh
-//app.use(express.static('./Admin'));
-// Điều hướng đến link trong trang index
-app.get('/admin/home.html', (req, res) => {
-    res.sendFile(__dirname + '/Admin/admin/home.html');
-});
+
 // Chạy server admin tại cổng 8000
 app.listen(3000, () => {
   console.log('Database server, Admin client and User client are running at port 3000');
