@@ -69,9 +69,9 @@ app.get('/doc/index.html', (req, res) => {
 
 // Api routes
 // const routes = require('../../data-access/routes/users.js');
- //const admins = require('../../data-access/routes/admins.js');
+const admins = require('../../data-access/routes/admins.js');
 // app.use('/api', routes);
-//app.use('/api', admins);
+app.use('/api', admins);
 
 
 // Chạy server admin tại cổng 8000
