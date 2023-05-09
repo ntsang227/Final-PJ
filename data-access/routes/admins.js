@@ -1,5 +1,5 @@
 const express = require('express');
-const Admin = require('../../db/models/admin');
+const Admin = require('../../models/models/admin');
 const router = express.Router();
 
 //Post Method
@@ -29,6 +29,7 @@ router.get('/admins/getAll', async (req, res) => {
         res.status(500).json({ message: error.message })
     }
 })
+
 /*
 //Get by ID Method
 router.get('/getOne/:id', async (req, res) => {
