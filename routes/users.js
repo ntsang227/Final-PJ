@@ -1,18 +1,18 @@
 const express = require('express');
-const Admin = require('../../models/models/admin');
+const User = require('../../models/models/users');
 const router = express.Router();
 
 //Post Method
-router.post('/admins/post', async (req, res) => {
-    const admin = new Admin({
+router.post('/post', async (req, res) => {
+    const user = new User({
         name: req.body.name,
-        email: req.body.email,
-        username : req.body.username,
-        password : req.body.password
+        email: req.body.email
     })
+    console.log(req.body.name);
+    console.log(req.body.email);
     try {
-        const newAdmin = await admin.save();
-        res.status(200).json(newAdmin)
+        const newUser = await user.save();
+        res.status(200).json(newUser)
     }
     catch (error) {
         res.status(400).json({ message: error.message })
@@ -20,17 +20,16 @@ router.post('/admins/post', async (req, res) => {
 })
 
 //Get all Method
-router.get('/admins/getAll', async (req, res) => {
+router.get('/getAll', async (req, res) => {
     try {
-        const admin = await Admin.find();
-        res.json(admin)
+        const user = await User.find();
+        res.json(user)
     }
     catch (error) {
         res.status(500).json({ message: error.message })
     }
 })
 
-/*
 //Get by ID Method
 router.get('/getOne/:id', async (req, res) => {
     try {
@@ -71,5 +70,6 @@ router.delete('/delete/:id', async (req, res) => {
         res.status(400).json({ message: error.message })
     }
 })
-*/
+
+
 module.exports = router;

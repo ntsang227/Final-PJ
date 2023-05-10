@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const dataSchema = new mongoose.Schema({
+const adminSchema = new mongoose.Schema({
     name: {
         required: false,
         type: String,
@@ -23,4 +23,4 @@ const dataSchema = new mongoose.Schema({
 
 })
 
-module.exports = mongoose.model('admins', dataSchema)
+module.exports = mongoose.model('admins', adminSchema)
