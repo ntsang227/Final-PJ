@@ -61,6 +61,9 @@ router.get('/home', function(req, res) {
       res.redirect('/');
     }
   });
-
+  //yêu cầu trang chủ admin
+  router.get('/admin', function(req, res) {
+    res.render('Admin/login.ejs', { message: '' });
+  });
 
 module.exports = router;

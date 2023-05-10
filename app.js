@@ -1,6 +1,8 @@
 
 const express = require('express');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const session = require('express-session');
 const http = require('http');
 const fs = require('fs');
 const app = express();
@@ -42,13 +44,22 @@ app.get('/images/:imageName', (req, res) => {
   }
 });
 
-// Api routes
-// const routes = require('../../data-access/routes/users.js');
-//const admins = require('../../data-access/routes/admins.js');
-// app.use('/api', routes);
-//app.use('/api', admins);
+// middleware
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(session({
+  secret: 'secret_key',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false }
+}));
+
+// định nghĩa route
 
 
+const admins = require('./routes/admins.js');
+
+app.use('/', admins);
 
 
 module.exports = app;

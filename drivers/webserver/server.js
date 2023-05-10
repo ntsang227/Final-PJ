@@ -1,6 +1,6 @@
-//var app = require('../../app.js');
+var app = require('../../app.js');
 
-var app = require('../../index.js');
+//var app = require('../../index.js');
 
 var http = require('http');
 
