@@ -34,4 +34,5 @@ const dataSchema = new mongoose.Schema({
         default : '',
     }
 })
-module.exports = mongoose.model('tutors', dataSchema)
+const Tutor =  mongoose.model('tutors', dataSchema);
+module.exports = Tutor;

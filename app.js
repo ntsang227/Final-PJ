@@ -9,7 +9,7 @@ const app = express();
 const path = require('path');
 
 app.set('view engine', 'ejs');
-
+app.use(express.static(path.join(__dirname, 'public')));
 // Kết nối đến database bằng cách import file database.js 
 require('./db/mongodb/database.js');
 // Đọc nội dung file html
@@ -58,8 +58,8 @@ app.use(session({
 
 
 const admins = require('./routes/admins.js');
-
+const course = require('./routes/course.js');
 app.use('/', admins);
-
+app.use('/', course);
 
 module.exports = app;
