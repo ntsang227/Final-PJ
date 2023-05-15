@@ -58,12 +58,16 @@ router.get('/home', function(req, res) {
     if (req.session.loggedin) {
       res.render('Admin/home.ejs', { username: req.session.username });
     } else {
-      res.redirect('/');
+      res.redirect('/admin');
     }
   });
   //yêu cầu trang chủ admin
   router.get('/admin', function(req, res) {
-    res.render('Admin/login.ejs', { message: '' });
+    res.render('Admin/login.ejs', { message: 'Bạn không có đủ quyền!' });
+  });
+  router.get('/logout',  function(req, res) {
+    req.session.destroy();
+    res.render('Admin/login.ejs', { message: 'Bạn đã đăng xuất khỏi server' });
   });
 
 module.exports = router;
