@@ -30,29 +30,20 @@
                   <button type="submit" class="btn btn-primary">Tạo tin tức</button>
                 </form>
                 <br>
-                
-                <table class="table table-striped">
-                  <thead>
-                    <tr>
-                      <th>Tên</th>
-                      <th>Nội dung ( mẫu chưa được lấy từ db) </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>John</td>
-                      <td>Doe</td>
-                    </tr>
-                    <tr>
-                      <td>Jane</td>
-                      <td>Doe</td>
-                    </tr>
-                    <tr>
-                      <td>Mark</td>
-                      <td>Smith</td>
-                    </tr>
-                  </tbody>
-                </table>
+                <% if (typeof news !== 'undefined' && Array.isArray(news) && news.length > 0) { %>
+                    <% for(var i=0; i< news.length; i++){ %>
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Tên : <%= news[i].name %></h5>
+                                <p class="card-text">Nội dung: <%= news[i].content %></p>
+                                <p class="card-text"><small class="text-muted">Created at <%= news[i].createdAt %> | Updated at <%= news[i].updatedAt %></small></p>
+                                <br>
+                            </div>
+                        </div>
+                    <% } %>
+                <% } else { %>
+                    <p>No news found</p>
+                <% } %>
               </div>
         </section>
     </section>
