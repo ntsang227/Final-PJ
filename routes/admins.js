@@ -2,36 +2,9 @@ const express = require('express');
 const Admin = require('../db/models/admins.js');
 const router = express.Router();
 
-//Post Method
-router.post('/admins/post', async (req, res) => {
-    const admin = new Admin({
-        name: req.body.name,
-        email: req.body.email,
-        username : req.body.username,
-        password : req.body.password
-    })
-    try {
-        const newAdmin = await admin.save();
-        res.status(200).json(newAdmin)
-    }
-    catch (error) {
-        res.status(400).json({ message: error.message })
-    }
-})
-
-//Get all Method
-router.get('/admins/getAll', async (req, res) => {
-    try {
-        const admin = await Admin.find();
-        res.json(admin)
-    }
-    catch (error) {
-        res.status(500).json({ message: error.message })
-    }
-})
-
+//Admin Login
 router.get('/', function(req, res) {
-    res.render('Admin/login/index.ejs', { message: 'Bạn cần đăng nhập để tiếp tục' });
+    res.render('Admin/login/index', { message: 'Bạn cần đăng nhập để tiếp tục' });
   });
   
 router.post('/login', async function(req, res) {
@@ -46,7 +19,7 @@ router.post('/login', async function(req, res) {
         } else {
           req.session.loggedin = true;
           req.session.username = username;
-          res.redirect('/home');
+          res.redirect('/admin/home');
         }
       } catch (err) {
         console.error(err);
@@ -57,7 +30,7 @@ router.post('/login', async function(req, res) {
 router.get('/home', async function(req, res) {
     try {
         if (req.session.loggedin) {
-          res.render('Admin/main/index.ejs', { username: req.session.username });
+          res.render('Admin/main/index', { username: req.session.username });
         } else {
           res.redirect('/admin');
         }
@@ -69,22 +42,23 @@ router.get('/home', async function(req, res) {
   //yêu cầu trang chủ admin
   router.get('/admin', function(req, res) {
     try {
-        res.render('Admin/login/index.ejs', { message: 'Bạn không có đủ quyền!' });
+        res.render('Admin/login/index', { message: 'Bạn không có đủ quyền!' });
     }
     catch (error) {
         res.status(500).json({ message: 'Lỗi' })
     }
     
   });
+  //Đăng xuất 
   router.get('/logout',  function(req, res) {
     try {
         req.session.destroy();
-        res.render('Admin/login/index.ejs', { message: 'Bạn đã đăng xuất khỏi server' });
+        res.render('Admin/login/index', { message: 'Bạn đã đăng xuất khỏi server' });
     }
     catch (error) {
         res.status(500).json({ message: 'Lỗi' })
     }
     
   });
-
+  
 module.exports = router;

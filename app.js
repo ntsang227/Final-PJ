@@ -59,7 +59,11 @@ app.use(session({
 
 const admins = require('./routes/admins.js');
 const course = require('./routes/course.js');
-app.use('/', admins);
-app.use('/', course);
+const news = require('./routes/news.js');
+app.use('/admin', admins);
+app.use('/course', course);
+app.use('/news', news);
+
+
 
 module.exports = app;
