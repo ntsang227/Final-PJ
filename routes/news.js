@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const Admin = require('../db/models/admins.js');
 const News = require('../db/models/news.js');
 const router = express.Router();
+//const regex = require('regex');
 
 //News - yêu cầu chuyển hướng
   // Lấy tin tức từ database hiển thị
@@ -50,7 +51,26 @@ const router = express.Router();
           res.status(500).json({ message: error.message });
         }
       });
-      
+      //Tìm kiếm tin tức
+      router.post('/search' ,checkAdmin,  async (req, res) => {
+        // Get the search query from req.body
+        const query = req.body.query;
+        try {
+            const news = await News.find({
+                $or: [
+                  { name: new RegExp('.*' + query + '.*', 'i') },
+                  { content: new RegExp('.*' + query + '.*', 'i') }
+                ]
+              });
+          res.render('Admin/news/index.ejs', 
+                {
+                    news ,
+                    username: req.session.username,
+                    });
+        } catch (err) {
+            res.status(500).json({ message: error.message })
+        }
+      });
 //Thao tác db
     //Thêm tin tức bằng post 
     router.post('/add', function (req, res) {

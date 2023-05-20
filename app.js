@@ -42,7 +42,7 @@ const images = fs.readdirSync(imageDir);
 
 app.get('/images/:imageName', (req, res) => { 
   const imageName = req.params.imageName;
-  const imagePath = path.join(__dirname, `public/images/${imageName}`);
+  const imagePath = path.join(__dirname, `./public/images/${imageName}`);
   
   if (fs.existsSync(imagePath)) {
     const image = fs.readFileSync(imagePath);
