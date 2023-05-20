@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <base href="http://localhost:3000" />
+    <link rel="stylesheet" href="css/signup-styles.css">
+</head>
+
+<body>
+    <main>
+        <form action="/register" method="post">
+            <p> Register </p>
+            <p class="text">Create a new account</p>
+            <input type="text" name="username" id="username" placeholder="Username">
+            <input type="email" name="email" id="email" placeholder="Email">
+            <input type="password" name="password" id="password" placeholder="Password">
+            <div class="check-term">
+                <input class="checkbox" type="checkbox" checked="checked">
+                <p class="text-su check-term-p">By signing in, you agree to our <a href="#">Terms & Conditions</a></p>
+            </div>
+            <input type="submit" value="Register" class="button">
+    </main>
+</body>
+
+</html>

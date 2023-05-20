@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <base href="http://localhost:3000/" />
+    <link rel="stylesheet" href="css/login-styles.css">
+</head>
+
+<body>
+    <main>
+        <form action="/login" method="post">
+            <p> Welcome Back! </p>
+            <p class="text">Login to your account</p>
+            <% if (message !=='' ) { %>
+                <div style="font-size: 14px; text-align: center; padding-top: 20px;margin-bottom: 20px; color: #ff3737; font-weight: bold;">
+                    <%= message %>
+                </div>
+                <% } %>
+            <input type="email" name="email" id="email" placeholder="Email">
+            <input type="password" name="password" id="password" placeholder="Password">
+            <a href="#" class="fg-pword"> Forgot Password ?</a>
+            <input type="submit" value="Login" class="button">
+            <p class="text-su">Do you have an account ? <a href="/register">Signup</a></p>
+        </form>
+    </main>
+</body>
+
+</html>

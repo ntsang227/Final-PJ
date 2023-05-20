@@ -1,29 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Khóa Học Lập Trình Laravel Framework 5.x Tại Khoa Phạm">
+    <meta name="description" content="Login Admin">
     <meta name="author" content="">
-
+    <link rel="stylesheet" href="css/login-styles.css">
     <title>Admin - Login </title>
     <base href="http://localhost:3000/" />
-    <!-- Bootstrap Core CSS -->
-    <link href="TT_Admin/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- MetisMenu CSS -->
-    <link href="TT_Admin/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <link href="TT_Admin/dist/css/sb-admin-2.css" rel="stylesheet">
-
-    <!-- Custom Fonts -->
-    <link href="TT_Admin/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
 </head>
 
 <body>
+<<<<<<< Updated upstream
     <% if (message !== '') { %>
         <div style="font-size: 30px; text-align: center; padding-top: 30px;"><%= message %></div>
     <% } %>
@@ -49,20 +40,21 @@
                     </div>
                 </div>
             </div>
+=======
+    <% if (message !=='' ) { %>
+        <div style="font-size: 24px; text-align: center; padding-top: 30px; color: #1560BD; font-weight: bold;">
+            <%= message %>
+>>>>>>> Stashed changes
         </div>
-    </div>
-
-    <!-- jQuery -->
-    <script src="TT_Admin/bower_components/jquery/dist/jquery.min.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="TT_Admin/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="TT_Admin/bower_components/metisMenu/dist/metisMenu.min.js"></script>
-
-    <!-- Custom Theme JavaScript -->
-    <script src="TT_Admin/dist/js/sb-admin-2.js"></script>
+        <% } %>
+            <main>
+                <form action="/login" method="post">
+                    <p style="margin-bottom: 25px;"> Admin</p>
+                    <input type="text" name="username" id="username" placeholder="Username">
+                    <input type="password" name="password" id="password" placeholder="Password">
+                    <input style="margin-top: 45px;" type="submit" value="Login" class="button">
+                </form>
+            </main>
 
 </body>
 
