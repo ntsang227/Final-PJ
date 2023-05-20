@@ -21,7 +21,9 @@ router.get('/login', function(req, res) {
   res.render('Tutor_Student/login/index.ejs', { message: '' });
 });
 
-
+router.get('/home', checkMember ,function(req, res) {
+  res.render('Tutor_Student/main/index.ejs', { username: req.session.username });
+});
 router.post('/login', async function (req, res) {
   const email = req.body.email;
   const password = req.body.password;
