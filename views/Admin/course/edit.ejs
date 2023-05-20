@@ -1,0 +1,33 @@
+<%- include('../layout/header.ejs') %>
+<!-- END TOPBAR -->
+<!-- START CONTAINER -->
+<div class="page-container row-fluid container-fluid">
+    <!-- SIDEBAR - START -->
+      <%- include('../layout/menu.ejs') %>
+    <!--  SIDEBAR - END -->
+    <!-- START CONTENT -->
+    <section id="main-content" class=" ">
+        <section class="wrapper main-wrapper row" style=''>
+            <div class='col-xs-12'>
+                <div class="page-title">
+                    <div class="pull-left">
+                        <h1 class="title">Dashboard</h1>
+                    </div>
+                </div>
+            </div>
+            <h1>Sửa Tin Tức</h1>
+            <form method="POST" action="/news/<%= news._id %>?_method=PUT">
+            <label for="name">Tên tin tức muốn sửa:</label>
+            <input type="text" id="name" name="name" value="<%= news.name %>"><br><br>
+
+            <label for="content">Nội dung mới:</label>
+            <textarea id="content" name="content"><%= news.content %></textarea><br><br>
+
+            <input type="submit" value="Cập nhật">
+            </form>
+        </section>
+    </section>
+    <!-- END CONTENT -->
+    <div class="chatapi-windows ">
+    </div>
+<%- include('../layout/footer.ejs') %>

@@ -27,12 +27,12 @@ router.post('/login', async function(req, res) {
       }
     });
     
-router.get('/home', async function(req, res) {
+router.get('/home',checkAdmin, async function(req, res) {
     try {
         if (req.session.loggedin) {
           res.render('Admin/main/index', { username: req.session.username });
         } else {
-          res.redirect('/admin');
+          res.redirect('/');
         }
     }
     catch (error) {
@@ -40,7 +40,7 @@ router.get('/home', async function(req, res) {
     }
   });
   //yêu cầu trang chủ admin
-  router.get('/admin', function(req, res) {
+  router.get('/admin',checkAdmin, function(req, res) {
     try {
         res.render('Admin/login/index', { message: 'Bạn không có đủ quyền!' });
     }
@@ -50,15 +50,27 @@ router.get('/home', async function(req, res) {
     
   });
   //Đăng xuất 
-  router.get('/logout',  function(req, res) {
+  router.get('/logout', checkAdmin,  function(req, res) {
     try {
         req.session.destroy();
-        res.render('Admin/login/index', { message: 'Bạn đã đăng xuất khỏi server' });
+        res.render('Admin/login/index',{ message: 'Bạn đã đăng xuất khỏi server' });
     }
     catch (error) {
         res.status(500).json({ message: 'Lỗi' })
     }
-    
   });
+
+  function checkAdmin(req, res, next){
+    try {
+    if (req.session.loggedin) {
+        next();  
+    } else {
+        res.redirect('/admin');
+    }
+}
+catch (error) {
+    res.status(500).json({ message: 'Lỗi' })
+    }
+}
   
 module.exports = router;

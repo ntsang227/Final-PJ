@@ -21,21 +21,21 @@ router.get('/login', function(req, res) {
   res.render('Tutor_Student/login/index.ejs', { message: '' });
 });
 
-router.get('/home', checkMember ,function(req, res) {
-  res.render('Tutor_Student/main/index.ejs', { email: req.session.email  });
-});
+
 router.post('/login', async function (req, res) {
   const email = req.body.email;
   const password = req.body.password;
   try {
-    const tutor = await Tutor.findOne({ email: email });
+    const tutor = await Tutor.findOne({ email: email});
     if (!tutor) {
       res.render('Tutor_Student/login', { message: 'Tên đăng nhập hoặc mật khẩu không đúng.' });
     } else if (tutor.password !== password) {
       res.render('Tutor_Student/login', { message: 'Tên đăng nhập hoặc mật khẩu không đúng.' });
     } else {
+      
       req.session.loggedin = true;
       req.session.email = email;
+      req.session.username = tutor.username;
       res.redirect('/tutor/home');
     }
   } catch (err) {
@@ -44,7 +44,9 @@ router.post('/login', async function (req, res) {
   }
 });
 //Get method
-
+router.get('/home', checkMember ,function(req, res) {
+  res.render('Tutor_Student/main/index.ejs', { email: req.session.username  });
+});
 
 router.get('/register', function (req, res) {
   res.render('Tutor_Student/signup/index.ejs');
@@ -55,7 +57,7 @@ function checkMember(req, res, next){
   if (req.session.loggedin) {
       next();  
   } else {
-      res.redirect('/');
+      res.redirect('/login');
   }
 }
 catch (error) {
