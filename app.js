@@ -7,6 +7,15 @@ const http = require('http');
 const fs = require('fs');
 const app = express();
 const path = require('path');
+const methodOverride = require('method-override');
+const flash = require('connect-flash');
+
+app.use(express.urlencoded({ extended: true }));
+
+// Sử dụng middleware flash
+app.use(flash());
+
+app.use(methodOverride('_method'));
 
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));

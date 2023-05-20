@@ -15,8 +15,16 @@
                     </div>
                 </div>
             </div>
-           
-         
+            <h1>Sửa Tin Tức</h1>
+            <form method="POST" action="/news/<%= news._id %>?_method=PUT">
+            <label for="name">Tên tin tức muốn sửa:</label>
+            <input type="text" id="name" name="name" value="<%= news.name %>"><br><br>
+
+            <label for="content">Nội dung mới:</label>
+            <textarea id="content" name="content"><%= news.content %></textarea><br><br>
+
+            <input type="submit" value="Cập nhật">
+            </form>
         </section>
     </section>
     <!-- END CONTENT -->
