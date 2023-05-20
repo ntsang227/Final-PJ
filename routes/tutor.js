@@ -11,7 +11,7 @@ router.post('/register', async (req, res) => {
   })
   try {
     const newTutor = await tutor.save();
-    res.redirect('/login');
+    res.redirect('/tutor/login');
   }
   catch (error) {
     res.status(400).json({ message: error.message })
@@ -19,6 +19,10 @@ router.post('/register', async (req, res) => {
 });
 router.get('/login', function(req, res) {
   res.render('Tutor_Student/login/index.ejs', { message: '' });
+});
+
+router.get('/home', checkMember ,function(req, res) {
+  res.render('Tutor_Student/main/index.ejs', { email: req.session.email  });
 });
 router.post('/login', async function (req, res) {
   const email = req.body.email;
@@ -32,7 +36,7 @@ router.post('/login', async function (req, res) {
     } else {
       req.session.loggedin = true;
       req.session.email = email;
-      res.redirect('/home');
+      res.redirect('/tutor/home');
     }
   } catch (err) {
     console.error(err);
@@ -41,24 +45,21 @@ router.post('/login', async function (req, res) {
 });
 //Get method
 
-router.get('/home', async function(req, res) {
-  try {
-      if (req.session.loggedin) {
-        res.render('Tutor_Student/main/index.ejs', { username: req.session.username });
-      } else {
-        res.redirect('/home');
-      }
-  }
-  catch (error) {
-      res.status(500).json({ message: 'Lỗi' })
-  }
-});
-router.get('/login', function (req, res) {
-  res.render('Tutor_Student/login/index.ejs');
-});
+
 router.get('/register', function (req, res) {
   res.render('Tutor_Student/signup/index.ejs');
 });
-
-
-module.exports = router;
+// Functions check member
+function checkMember(req, res, next){
+  try {
+  if (req.session.loggedin) {
+      next();  
+  } else {
+      res.redirect('/');
+  }
+}
+catch (error) {
+  res.status(500).json({ message: 'Lỗi' })
+  }
+}
+module.exports = router; 

@@ -23,15 +23,9 @@
     "ejs": "^3.1.9",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
-<<<<<<< Updated upstream
     "method-override": "^3.0.0",
     "mongodb": "^5.2.0",
     "mongoose": "^7.0.3",
-=======
-    "mongodb": "^5.5.0",
-    "mongoose": "^7.1.1",
-    "nodemon": "^2.0.22",
->>>>>>> Stashed changes
     "react": "^18.2.0"
   }
 }

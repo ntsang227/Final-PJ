@@ -12,7 +12,7 @@
 
 <body>
     <main>
-        <form action="/login" method="post">
+        <form action="/tutor/login" method="post">
             <p> Welcome Back! </p>
             <p class="text">Login to your account</p>
             <% if (message !=='' ) { %>
@@ -24,7 +24,7 @@
             <input type="password" name="password" id="password" placeholder="Password">
             <a href="#" class="fg-pword"> Forgot Password ?</a>
             <input type="submit" value="Login" class="button">
-            <p class="text-su">Do you have an account ? <a href="/register">Signup</a></p>
+            <p class="text-su">Do you have an account ? <a href="/tutor/register">Signup</a></p>
         </form>
     </main>
 </body>
