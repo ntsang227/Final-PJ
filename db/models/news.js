@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const newSchema = new Schema({
   name: { type: String, required: true },
   content: { type: String, required: true },
-  images: { type: String, required: true , default: 'null' },
+  image: { type: String, required: true , default: 'null' },
   createdAt: { type: Date, required: true, default: Date.now },
   updatedAt: { type: Date, required: true, default: Date.now }
 });
