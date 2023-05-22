@@ -7,7 +7,9 @@ const courseSchema = new Schema({
   nameuser: { type: String, default: ''},
   key: { type: String, required: true },
   status : { type: String, default: 'null'},
-  datePost  : { type: Date, required: true, default: Date.now }
+  content : { type: String, default: 'null' },
+  datePost  : { type: Date, required: true, default: Date.now },
+  updatedAt: { type: Date, required: true, default: Date.now }
 });
 
 const Course = mongoose.model('course', courseSchema);
