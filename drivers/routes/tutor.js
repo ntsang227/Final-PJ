@@ -17,10 +17,9 @@ const router = express.Router();
   // Chuyển hướng đến trang chủ reviews
   router.get('/index.html',checkAdmin, async (req, res) => {
     try {
-        const reviews = await Review.find();
-        const nametutor = reviews.nametutor;
-        const tutors = await Tutor.find(nametutor)
-        //console.log(JSON.stringify(news)) 
+        const tutors = await Tutor.find()
+        const nametutor = tutors.nametutor;
+        const reviews = await Review.find(nametutor);
         res.render('Admin/tutor/index', 
         {
             reviews,
@@ -31,7 +30,8 @@ const router = express.Router();
     catch (error) {
         res.status(500).json({ message: error.message })
     }
-  }) 
+  })
+  
   // Chuyển hướng đến details tutor
   router.get('/details.html/:id',checkAdmin, async function(req, res) {
     try {

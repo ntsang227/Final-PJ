@@ -50,7 +50,18 @@
                                                 <%= tutors[i].email %>
                                             </td>
                                             <td>
-                                                <%= reviews[i].rate %>
+                                                <% var hasReview = false; %>
+                                                    <% for (var j=0; j < reviews.length; j++) { %>
+                                                        <% if (tutors[i].username === reviews[j].nametutor) { %>
+                                                            <p>
+                                                                <%= reviews[j].rate %>
+                                                            </p>
+                                                            <% hasReview = true; %>
+                                                                <% } %>
+                                                                    <% } %>
+                                                                        <% if (!hasReview) { %>
+                                                                            <p>No reviews</p>
+                                                                            <% } %>
                                             </td>
                                             <td>
                                                 <% if (tutors[i].status==='inactive' ) { %>
