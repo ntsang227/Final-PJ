@@ -58,7 +58,7 @@ const upload = multer({ storage: storage })
         }
     }); 
     // Chuyển hướng đến details news
-    router.get('/details/:id',checkAdmin, async function(req, res) {
+    router.get('/details.html/:id',checkAdmin, async function(req, res) {
         try {
             const id = req.params.id;
             const courses = await Course.findById(id);

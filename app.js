@@ -18,6 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
 app.set('view engine', 'ejs');
+
 app.use(express.static(path.join(__dirname, 'public')));
 // Kết nối đến database bằng cách import file database.js 
 require('./db/mongodb/database.js');

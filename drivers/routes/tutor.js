@@ -6,7 +6,10 @@ const Review = require('../../db/models/reviews.js');
 const Course = require('../../db/models/course.js');
 const router = express.Router();
 //Yêu cầu chuyển hướng
-
+  router.get('/', checkMember ,function(req, res) {
+    req.session.destroy();
+    res.render('Tutor_Student/main/index.ejs', { username: req.session.username });
+  }); 
   // Chuyển hướng đến trang home tutor 
   router.get('/home', checkMember ,function(req, res) {
     res.render('Tutor_Student/main/index.ejs', { username: req.session.username });
@@ -92,7 +95,7 @@ router.get('/block/:id', checkAdmin, async function(req, res) {
     const id = req.params.id;
     const status = "inactive";
     await Tutor.findByIdAndUpdate(id, { $set: { status } }, { new: true });
-    res.redirect('/tutor/');
+    res.redirect('/tutor/index.html');
   } catch (error) {
     res.status(500).json({ message: error.message })
   }
@@ -103,11 +106,7 @@ router.get('/unblock/:id', checkAdmin, async function(req, res) {
     const id = req.params.id;
     const status = "active";
     await Tutor.findByIdAndUpdate(id, { $set: { status } }, { new: true });
-    res.render('Admin/tutor/index', 
-    {
-      username: req.session.username ,
-      message : 'Đã mở khóa'
-    });
+    res.redirect('/tutor/index.html');
   } catch (error) {
     res.status(500).json({ message: error.message })
   }

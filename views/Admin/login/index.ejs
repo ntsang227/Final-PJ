@@ -12,14 +12,14 @@
 </head>
 
 <body>
-    <% if (message !=='' ) { %>
-        <div style="font-size: 24px; text-align: center; padding-top: 30px; color: #1560BD; font-weight: bold;">
-            <%= message %>
-        </div>
-        <% } %>
             <main>
                 <form action="/admin/login" method="post">
-                    <p style="margin-bottom: 25px;"> Admin</p>
+                    <p style="margin-bottom: 15px; font-size:50px ;"> Admin Login</p>
+                    <% if (message !=='' ) { %>
+                        <div style="font-size: 22px; text-align: center; padding-top: 30px; color: #cb2124; font-weight: bold; padding-bottom: 30px;">
+                            <%= message %>
+                        </div>
+                        <% } %>
                     <input type="text" name="username" id="username" placeholder="Username">
                     <input type="password" name="password" id="password" placeholder="Password">
                     <input style="margin-top: 45px;" type="submit" value="Login" class="button">
