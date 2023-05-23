@@ -19,8 +19,6 @@ const adminSchema = new mongoose.Schema({
         type: String,
         default : '12345',
     }
-
-
 })
 const Admin = mongoose.model('admins', adminSchema)
 module.exports = Admin

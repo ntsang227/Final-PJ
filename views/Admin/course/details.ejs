@@ -26,21 +26,17 @@
                                     <div class="card mb-3">
                                         <div class="card-body">
                                             <h5 class="card-title">Tên : <%= courses.name %></h5>
-                                            <p class="card-text">Key ID : <%= courses.key %></p>
+                                            <p class="card-text">Mã khóa học : <%= courses.key %></p>
                                             <p class="card-text">Tên giáo viên: <%= courses.nametutor %></p>
                                             <p class="card-text">Tên học sinh: <%= courses.nameuser %></p>
-                                            <p class="card-text">Nội dung: <%= courses.content %></p>
+                                            <p class="card-text">Danh mục : <%= courses.cate %></p>
+                                            <p class="card-text">Nội dung: <%= courses.decs %></p>
                                             <p class="card-text">Trạng thái: <%= courses.status %></p>
                                         </p>
                                         <p class="date" style="flex:1;">Ngày tạo: <%= new Date(courses.datePost).toLocaleString('vi-VN') %>
                                         </p>
                                         <p class="date" style="flex:1 ; ">Cập nhật lần cuối: <%= new Date(courses.updatedAt).toLocaleString('vi-VN') %>
                                         </p>
-                                            <td>
-                                                <a href="/course/edit/<%= courses._id %>">Sửa</a>|
-                                                <a href="/course/delete/<%= courses._id %>">Xoá</a> 
-                                            </td>
-                                            
                                         </div>
                                     </div>
                                 </div>

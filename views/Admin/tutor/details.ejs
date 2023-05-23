@@ -1,0 +1,70 @@
+<%- include('../layout/header.ejs') %>
+    <!-- END TOPBAR -->
+    <!-- START CONTAINER -->
+    <div class="page-container row-fluid container-fluid">
+        <!-- SIDEBAR - START -->
+        <%- include('../layout/menu.ejs') %>
+            <!--  SIDEBAR - END -->
+            <!-- START CONTENT -->
+            <section id="main-content" class=" ">
+                <section class="wrapper main-wrapper row">
+                    <div class='col-xs-12'>
+                        <div class="page-title">
+                            <div style="background-color: #FFC0CB; display: flex; flex-direction: row; justify-content: space-evenly; height: 50px; margin-bottom: 3%;">
+                                <h1 class="title" style="flex:1; margin-left: 15px;">News</h1>
+                                <form action="/news/search" method="post" style="flex: 1; margin-left: 40%; margin-top: 10px;">
+                                    <input type="search" placeholder="Search..." style="padding-right: 30%; margin-right: 10px;">
+                                    <input type="submit" value="Search">
+                                </form>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container">
+                        <% if (typeof tutors !=='undefined' && tutors) { %>
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Mã giáo viên : <%= tutors._id %></h5>
+                                        <h5 lass="card-title">Tên giáo viên : <%= tutors.username %></h5>
+                                        <p class="card-text">Ngày sinh : <%= tutors.birthday %></p>
+                                        <p class="card-text">Email : <%= tutors.email %></p>
+                                        <p class="card-text">Địa chỉ : <%= tutors.address %></p>
+                                        <p class="card-text">Số sao đánh giá: <%= reviews.rate %></p>
+                                        <p class="card-text">Khóa học tham gia hiện tại :  <% if (course.length === 0) { %>
+                                            Không có khóa học nào.
+                                          <% } else { %>
+                                            <% for (let i = 0; i < course.length; i++) { %>
+                                              <%= course[i].name %>
+                                            <% } %>
+                                          <% } %>
+                                          
+                                        </p>
+                                        <div>
+                                            <p class="card-text">Trạng thái:
+                                                <% if (tutors.status === 'inactive') { %>
+                                                  Tài khoản đã khóa
+                                                <% } else { %>
+                                                  Đang hoạt động
+                                              </p>  
+                                              <% } %>   
+                                        </div>
+                                          <td>
+                                            <a href="/tutor/block/<%= tutors._id %>">Khóa tài khoản</a>
+                                          </td>
+                                    </div>
+                                    <br>
+                                </div>
+                            <% } else { %>
+                                <% if (typeof message !== 'undefined' && message != '') { %>
+                                    <div class="alert alert-success" style="margin-top: 100px ;"><%= message %></div>
+                                <% } else { %>
+                                    <p>Không có thông tin để hiển thị </p>
+                                <% } %>
+                            <% } %>
+                    </div>
+                </section>
+            </section>
+            <!-- END CONTENT -->
+            <div class="chatapi-windows ">
+            </div>
+            <%- include('../layout/footer.ejs') %>

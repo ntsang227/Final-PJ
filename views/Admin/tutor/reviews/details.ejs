@@ -1,9 +1,9 @@
-<%- include('../layout/header.ejs') %>
+<%- include('../../layout/header.ejs') %>
 <!-- END TOPBAR -->
 <!-- START CONTAINER -->
 <div class="page-container row-fluid container-fluid">
     <!-- SIDEBAR - START -->
-      <%- include('../layout/menu.ejs') %>
+      <%- include('../../layout/menu.ejs') %>
     <!--  SIDEBAR - END -->
     <!-- START CONTENT -->
     <section id="main-content" class=" ">
@@ -12,7 +12,7 @@
                 <div class="page-title">
                     <div style="background-color: #FFC0CB; display: flex; flex-direction: row; justify-content: space-evenly; height: 50px; margin-bottom: 3%;">
                         <h1 class="title" style="flex:1; margin-left: 15px;">Khóa học</h1>
-                        <form action="/course/search" method="post" style="flex: 1; margin-left: 40%; margin-top: 10px;">
+                        <form action="/tutor/reviews/search" method="post" style="flex: 1; margin-left: 40%; margin-top: 10px;">
                             <input type="text" placeholder="Search..." id="query" name="query" style="padding-right: 30%; margin-right: 10px;">
                             <input type="submit" value="Search">
                         </form>
@@ -22,26 +22,22 @@
             </div>
             <div class="container">
                
-                <% if (typeof courses !== 'undefined' && Array.isArray(courses) && courses.length > 0) { %>
-                    <% for(var i=0; i< courses.length; i++){ %>
+                <% if (typeof reviews !== 'undefined') { %>
                         <div class="card mb-3">
                             <div class="card-body">
-                                <h5 class="card-title">Tên : <%= courses[i].name %></h5>
-                                <p class="card-text">Mã khóa học : <%= courses[i].key %></p>
-                                <p class="card-text">Tên giáo viên: <%= courses[i].nametutor %></p>
-                                <p class="card-text">Trạng thái: <%= courses[i].status %></p>
-                                <td>
-                                    <a href="/course/details/<%= courses[i]._id %>">Chi tiết</a>
-                                </td>
-        
+                                <h5 class="card-title">Tên giáo viên : <%= reviews.nametutor %></h5>
+                                <p class="card-text">Số sao : <%= reviews.rate %></p>
+                                <p class="card-text">Nội dung đánh giá : <%= reviews.content%></p>
+                                <p class="date" style="flex:1;">Ngày được đánh giá: <%= new Date(reviews.createdAt).toLocaleString('vi-VN') %>
+                                <p class="date" style="flex:1;">Ngày cập nhật đánh giá: <%= new Date(reviews.updatedAt).toLocaleString('vi-VN') %>
+                                </p>
                             </div>
                         </div>
-                    <% } %>
                     <% } else { %>
                         <% if (typeof message !== 'undefined' && message != '') { %>
                             <div class="alert alert-success" style="margin-top: 100px ;"><%= message %></div>
                         <% } else { %>
-                            <p>No news found</p>
+                            <p>Không có đánh giá nào</p>
                         <% } %>
                     <% } %>
             </div>
@@ -52,4 +48,4 @@
     <!-- END CONTENT -->
     <div class="chatapi-windows ">
     </div>
-<%- include('../layout/footer.ejs') %>
+<%- include('../../layout/footer.ejs') %>
