@@ -1,68 +1,91 @@
 <%- include('../layout/header.ejs') %>
-<!-- END TOPBAR -->
-<!-- START CONTAINER -->
-<div class="page-container row-fluid container-fluid">
-    <!-- SIDEBAR - START -->
-      <%- include('../layout/menu.ejs') %>
-    <!--  SIDEBAR - END -->
-    <!-- START CONTENT -->
-    <section id="main-content" class=" ">
-        <section class="wrapper main-wrapper row">
-            <div class='col-xs-12'>
-                <div class="page-title">
-                    <div style="background-color: #FFC0CB; display: flex; flex-direction: row; justify-content: space-evenly; height: 50px; margin-bottom: 3%;">
-                        <h1 class="title" style="flex:1; margin-left: 15px;">Khóa học</h1>
-                        <form action="/tutor/search" method="post" style="flex: 1; margin-left: 40%; margin-top: 10px;">
-                            <input type="text" placeholder="Search..." id="query" name="query" style="padding-right: 30%; margin-right: 10px;">
-                            <input type="submit" value="Search">
-                        </form>
-                        
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <% if (typeof tutors !== 'undefined' && Array.isArray(tutors) && tutors.length > 0) { %>
-                    <% for(var i=0; i< tutors.length; i++){ %>
-                        <div class="card mb-3">
-                            <div class="card-body">
-                                <h5 lass="card-title">Tên giáo viên : <%= tutors[i].username %></h5>
-                                <h5 class="card-title">Mã giáo viên : <%= tutors[i]._id %></h5>
-                                <p class="card-text">Email : <%= tutors[i].email %></p>
-                                <p class="card-text">Số sao đánh giá: <%= reviews[i].rate %></p>
-                                <div>
-                                    <p class="card-text">Trạng thái:
-                                        <% if (tutors[i].status === 'inactive') { %>
-                                          Tài khoản đã khóa
-                                        <% } else { %>
-                                          Đang hoạt động
-                                      </p>  
-                                      <% } %>   
-                                </div>
-                                <td>
-                                    <a href="/tutor/details/<%= tutors[i]._id %>">Chi tiết</a> |
-                                    <% if (tutors[i].status === "active") { %>
-                                      <a href="/tutor/block/<%= tutors[i]._id %>">Khóa tài khoản</a>
-                                    <% } else { %>
-                                      <a href="/tutor/unblock/<%= tutors[i]._id %>">Mở khóa tài khoản</a>
-                                    <% } %>
-                                  </td>
+    <!-- END TOPBAR -->
+    <!-- START CONTAINER -->
+    <div class="page-container row-fluid container-fluid">
+        <!-- SIDEBAR - START -->
+        <%- include('../layout/menu.ejs') %>
+            <!--  SIDEBAR - END -->
+            <!-- START CONTENT -->
+            <section id="main-content" class=" ">
+                <section class="wrapper main-wrapper row">
+                    <div class='col-xs-12'>
+                        <div class="page-title">
+                            <div
+                                style="background-color: #FFC0CB; display: flex; flex-direction: row; justify-content: space-evenly; height: 50px; margin-bottom: 3%;">
+                                <h1 class="title" style="flex:1; margin-left: 15px;">Khóa học</h1>
+                                <form action="/tutor/search" method="post"
+                                    style="flex: 1; margin-left: 40%; margin-top: 10px;">
+                                    <input type="text" placeholder="Search..." id="query" name="query"
+                                        style="padding-right: 30%; margin-right: 10px;">
+                                    <input type="submit" value="Search">
+                                </form>
+
                             </div>
-                            <br>
                         </div>
-                    <% } %>
-                    <% } else { %>
-                        <% if (typeof message !== 'undefined' && message != '') { %>
-                            <div class="alert alert-success" style="margin-top: 100px ;"><%= message %></div>
-                        <% } else { %>
-                            <p>Không có thông tin để hiển thị </p>
-                        <% } %>
-                    <% } %>
+                    </div>
+                    <div class="container">
+                        <table class="table">
+                            <thead class="" style="background-color: #67CDF9; color: aliceblue;">
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Rate</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Edit</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if (typeof tutors !=='undefined' && Array.isArray(tutors) && tutors.length> 0) { %>
+                                    <% for(var i=0; i< tutors.length; i++){ %>
+
+                                        <tr>
+                                            <td>
+                                                <%= tutors[i].username %>
+                                            </td>
+                                            <td>
+                                                <%= tutors[i]._id %>
+                                            </td>
+                                            <td>
+                                                <%= tutors[i].email %>
+                                            </td>
+                                            <td>Rate</td>
+                                            <td>
+                                                <% if (tutors[i].status==='inactive' ) { %>
+                                                    Tài khoản đã khóa
+                                                    <% } else { %>
+                                                        Đang hoạt động
+                                                        <% } %>
+                                            </td>
+                                            <td>
+                                                <a href="/tutor/details/<%= tutors[i]._id %>">Chi tiết</a> |
+                                                <% if (tutors[i].status==="active" ) { %>
+                                                    <a href="/tutor/block/<%= tutors[i]._id %>">Khóa tài khoản</a>
+                                                    <% } else { %>
+                                                        <a href="/tutor/unblock/<%= tutors[i]._id %>">Mở khóa tài
+                                                            khoản</a>
+                                                        <% } %>
+                                            </td>
+                                        </tr>
+
+                                        <% } %>
+                                            <% } else { %>
+                                                <% if (typeof message !=='undefined' && message !='' ) { %>
+                                                    <div class="alert alert-success" style="margin-top: 100px ;">
+                                                        <%= message %>
+                                                    </div>
+                                                    <% } else { %>
+                                                        <p>Không có thông tin để hiển thị </p>
+                                                        <% } %>
+                                                            <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </section>
+
+            </section>
+            <!-- END CONTENT -->
+            <div class="chatapi-windows ">
             </div>
-           
-        </section>
-        
-    </section>
-    <!-- END CONTENT -->
-    <div class="chatapi-windows ">
-    </div>
-<%- include('../layout/footer.ejs') %>
+            <%- include('../layout/footer.ejs') %>

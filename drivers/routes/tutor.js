@@ -103,11 +103,12 @@ router.get('/unblock/:id', checkAdmin, async function(req, res) {
     const id = req.params.id;
     const status = "active";
     await Tutor.findByIdAndUpdate(id, { $set: { status } }, { new: true });
-    res.render('Admin/tutor/index', 
-    {
-      username: req.session.username ,
-      message : 'Đã mở khóa'
-    });
+    res.redirect('/tutor/');
+    // res.render('Admin/tutor/index', 
+    // {
+    //   username: req.session.username ,
+    //   message : 'Đã mở khóa'
+    // });
   } catch (error) {
     res.status(500).json({ message: error.message })
   }
