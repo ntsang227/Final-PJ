@@ -10,13 +10,16 @@
                 <section class="wrapper main-wrapper row">
                     <div class='col-xs-12'>
                         <div class="page-title">
-                            <div style="background-color: #FFC0CB; display: flex; flex-direction: row; justify-content: space-evenly; height: 50px; margin-bottom: 3%;">
+                            <div
+                                style="background-color: #FFC0CB; display: flex; flex-direction: row; justify-content: space-evenly; height: 50px; margin-bottom: 3%;">
                                 <h1 class="title" style="flex:1; margin-left: 15px;">News</h1>
-                                <form action="/search" method="post" style="flex: 1; margin-left: 40%; margin-top: 10px;">
-                                    <input type="search" placeholder="Search..." style="padding-right: 30%; margin-right: 10px;">
+                                <form action="/news/search" method="post"
+                                    style="flex: 1; margin-left: 40%; margin-top: 10px;">
+                                    <input id="query" name="query" type="search" placeholder="Search..."
+                                        style="padding-right: 30%; margin-right: 10px;">
                                     <input type="submit" value="Search">
                                 </form>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -24,16 +27,17 @@
                         <% if (typeof news !=='undefined' && Array.isArray(news) && news.length> 0) { %>
                             <% for(var i=0; i< news.length; i++){ %>
                                 <div class="container" style="display: flex; flex-direction: row;">
-                                    <img class="img" src="images/logotam.jpg" alt="Images" style="flex: 1; max-heigh: 100px; max-width: 150px; margin-right: 30px;">
+                                    <img class="img" src="images/logotam.jpg" alt="Images"
+                                        style="flex: 1; height: 190px; max-width: 150px; margin-right: 30px;">
                                     <div class="content" style="flex:4; display: flex; flex-direction: column;">
-                                        <h5 class="name" style="flex:1;">Tên : <%= news[i].name %>
+                                        <h5 class="name" style="flex:1; line-height: 1.8; max-height: 30px;">Tên : <%= news[i].name %>
                                         </h5>
-                                        <p class="text" style="flex:3;">Nội dung: <%= news[i].content %>
+                                        <p class="text" style="flex:3; line-height: 1.8; max-height: 90px; overflow: hidden; max-width: 880px;">Nội dung: <%= news[i].content %>
                                         </p>
                                         <p class="date" style="flex:1;">Created at <%= news[i].createdAt %> | Updated at
                                                 <%= news[i].updatedAt %>
                                         </p>
-                                        <p class="edit" style="flex:1; border-bottom: rgb(168, 168, 168) solid 1px;">
+                                        <p class="edit" style="flex:1; border-bottom: rgb(168, 168, 168) solid 1px; max-width: 880px;">
                                             <a href="#">Chi tiết</a>|
                                             <a href="/news/edit/<%= news[i]._id %>">Sửa</a>|
                                             <a href="/news/delete/<%= news[i]._id %>">Xoá</a>
