@@ -15,7 +15,7 @@ const router = express.Router();
     res.render('Tutor_Student/signup/index.ejs');
   });
   // Chuyển hướng đến trang chủ reviews
-  router.get('/',checkAdmin, async (req, res) => {
+  router.get('/index.html',checkAdmin, async (req, res) => {
     try {
         const reviews = await Review.find();
         const nametutor = reviews.nametutor;
@@ -33,7 +33,7 @@ const router = express.Router();
     }
   }) 
   // Chuyển hướng đến details tutor
-  router.get('/details/:id',checkAdmin, async function(req, res) {
+  router.get('/details.html/:id',checkAdmin, async function(req, res) {
     try {
       const id = req.params.id;
       const tutors = await Tutor.findById(id);
@@ -54,7 +54,7 @@ const router = express.Router();
   }
   }) 
   //chuyển hướng đến reviews
-  router.get('/reviews',checkAdmin, async function(req, res) {
+  router.get('/reviews.html',checkAdmin, async function(req, res) {
     try {
       const reviews = await Review.find();
       res.render('Admin/tutor/reviews/index', 
@@ -174,8 +174,8 @@ router.post('/register', async (req, res) => {
     try {
     if (req.session.loggedin) {
         next();  
-    } else {
-        res.redirect('/login');
+    } else {  
+        res.redirect('/tutor/login');
     }
   }
   catch (error) {
