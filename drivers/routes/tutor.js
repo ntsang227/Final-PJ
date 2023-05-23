@@ -6,6 +6,7 @@ const Review = require('../../db/models/reviews.js');
 const Course = require('../../db/models/course.js');
 const router = express.Router();
 //Yêu cầu chuyển hướng
+
   // Chuyển hướng đến trang home tutor 
   router.get('/home', checkMember ,function(req, res) {
     res.render('Tutor_Student/main/index.ejs', { username: req.session.username });
@@ -17,21 +18,20 @@ const router = express.Router();
   // Chuyển hướng đến trang chủ reviews
   router.get('/index.html',checkAdmin, async (req, res) => {
     try {
-        const tutors = await Tutor.find()
-        const nametutor = tutors.nametutor;
-        const reviews = await Review.find(nametutor);
+      const tutors = await Tutor.find()
+      const nametutor = tutors.username;
+      const reviews = await Review.find(nametutor);
         res.render('Admin/tutor/index', 
         {
-            reviews,
-            tutors,
-            username: req.session.username,
-            });
-    }
+          reviews,
+          tutors,
+          username: req.session.username,
+        });
+      }
     catch (error) {
         res.status(500).json({ message: error.message })
     }
-  })
-  
+  }) 
   // Chuyển hướng đến details tutor
   router.get('/details.html/:id',checkAdmin, async function(req, res) {
     try {
@@ -103,12 +103,11 @@ router.get('/unblock/:id', checkAdmin, async function(req, res) {
     const id = req.params.id;
     const status = "active";
     await Tutor.findByIdAndUpdate(id, { $set: { status } }, { new: true });
-    res.redirect('/tutor/');
-    // res.render('Admin/tutor/index', 
-    // {
-    //   username: req.session.username ,
-    //   message : 'Đã mở khóa'
-    // });
+    res.render('Admin/tutor/index', 
+    {
+      username: req.session.username ,
+      message : 'Đã mở khóa'
+    });
   } catch (error) {
     res.status(500).json({ message: error.message })
   }

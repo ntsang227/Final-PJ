@@ -7,13 +7,13 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const methodOverride = require('method-override');
-const flash = require('express-flash');
+//const flash = require('express-flash');
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 
 // Sử dụng middleware flash
-app.use(flash());
+//app.use(flash());
 
 app.use(methodOverride('_method'));
 
