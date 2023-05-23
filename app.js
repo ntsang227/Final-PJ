@@ -66,11 +66,11 @@ app.use(session({
 // định nghĩa route
 
 
-const admins = require('./routes/admins.js');
-const course = require('./routes/course.js');
-const tutor = require('./routes/tutor.js');
-const user = require('./routes/users.js');
-const news = require('./routes/news.js');
+const admins = require('./drivers/routes/admins.js');
+const course = require('./drivers/routes/course.js');
+const tutor = require('./drivers/routes/tutor.js');
+const user = require('./drivers/routes/users.js');
+const news = require('./drivers/routes/news.js');
 
 app.use('/admin', admins);
 app.use('/course', course);
