@@ -6,27 +6,36 @@
       <%- include('../layout/menu.ejs') %>
     <!--  SIDEBAR - END -->
     <!-- START CONTENT -->
-    <section id="main-content" class=" ">
-        <section class="wrapper main-wrapper row" style=''>
-            <div class='col-xs-12'>
-                <div class="page-title">
-                    <div class="pull-left">
-                        <h1 class="title">Dashboard</h1>
-                    </div>
+    <section id="main-content" class="dashboard-page" style="background-color: #f2f2f2; padding: 50px 0;">
+        <div class="container">
+          <div class="page-header" style="margin-bottom: 40px;">
+            <h1 class="title">Dashboard</h1>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <h2>Sửa Tin Tức</h2>
+              <form method="POST" action="/news/<%= news._id %>?_method=PUT" style="background-color: #fff; border: 1px solid #ccc; padding: 20px; border-radius: 5px;">
+                <div class="form-group" style="margin-bottom: 20px;">
+                  <label for="name" style="font-weight: bold;">Tên tin tức muốn sửa:</label>
+                  <input type="text" id="name" name="name" value="<%= news.name %>" class="form-control">
                 </div>
+      
+                <div class="form-group" style="margin-bottom: 20px;">
+                  <label for="content" style="font-weight: bold;">Nội dung mới:</label>
+                  <textarea id="content" name="content" class="form-control"><%= news.content %></textarea>
+                </div>
+      
+                <button type="submit" class="btn btn-primary" style="padding: 10px 30px; background-color: #007bff; color: #fff; border-radius: 5px; transition: all 0.3s ease;">Cập nhật</button>
+              </form>
+              <br>
+              <% if (typeof message !== 'undefined' && message != '') { %>
+                <div class="alert alert-success"><%= message %></div>
+            <% } %>
             </div>
-            <h1>Sửa Tin Tức</h1>
-            <form method="POST" action="/news/<%= news._id %>?_method=PUT">
-            <label for="name">Tên tin tức muốn sửa:</label>
-            <input type="text" id="name" name="name" value="<%= news.name %>"><br><br>
-
-            <label for="content">Nội dung mới:</label>
-            <textarea id="content" name="content"><%= news.content %></textarea><br><br>
-
-            <input type="submit" value="Cập nhật">
-            </form>
-        </section>
-    </section>
+          </div>
+        </div>
+      </section>
+      
     <!-- END CONTENT -->
     <div class="chatapi-windows ">
     </div>

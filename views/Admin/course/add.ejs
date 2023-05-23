@@ -11,39 +11,38 @@
             <div class='col-xs-12'>
                 <div class="page-title">
                     <div class="pull-left">
-                        <h1 class="title">Dashboard</h1>
+                        <h1 class="title">Khóa Học</h1>
                     </div>
                 </div>
             </div>
            
             <div class="container">
-                <h3>Thêm dữ liệu</h3>
-                <form method="post" action="/news/add">
-                  <div class="form-group" >
-                    <label for="name">Tên khóa học:</label>
-                    <input type="text" class="form-control" name="name" id="name">
-                  </div>
-                  <div class="form-group">
-                    <label for="content">Nội dung:</label>
-                    <textarea class="form-control" rows="5" name="content" id="content"></textarea>
-                  </div>
-                  <button type="submit" class="btn btn-primary">Tạo tin tức</button>
-                </form>
+                <h1 style=" color: #333;">Thêm khóa học mới</h1>
+                    <form action="course/add" method="POST">
+                    <label for="name" style="display: block; margin-bottom: 10px;">Tên khóa học:</label>
+                    <input type="text" id="name" name="name" style="padding: 5px; border-radius: 3px; border: 1px solid #ccc;" required>
+
+                    <label for="nametutor" style="display: block; margin-bottom: 10px;">Giảng viên:</label>
+                    <input type="text" id="nametutor" name="nametutor" style="padding: 5px; border-radius: 3px; border: 1px solid #ccc;" required>
+
+                    <label for="nameuser" style="display: block; margin-bottom: 10px;">Người học:</label>
+                    <input type="text" id="nameuser" name="nameuser" style="padding: 5px; border-radius: 3px; border: 1px solid #ccc;">
+
+                    <label for="content" style="display: block; margin-bottom: 10px;">Nội dung khóa học:</label>
+                    <textarea id="content" name="content" style="padding: 5px; border-radius: 3px; border: 1px solid #ccc;"></textarea>
+
+                    <label for="key" style="display: block; margin-bottom: 10px;">Mã khóa học:</label>
+                    <input type="text" id="key" name="key" style="padding: 5px; border-radius: 3px; border: 1px solid #ccc;" required>
+
+                    <label for="status" style="display: block; margin-bottom: 10px;">Trạng thái:</label>
+                    <select id="status" name="status" style="padding: 5px; border-radius: 3px; border: 1px solid #ccc;">
+                        <option value="Đang mở">Đang mở</option>
+                        <option value="Đã đóng">Đã đóng</option>
+                    </select>
+
+                    <button type="submit" style="display: block; margin-top: 10px; padding: 10px 20px; background-color: #333; color: #fff; border: none; border-radius: 3px;">Thêm khóa học</button>
+                    </form>
                 <br>
-                <% if (typeof news !== 'undefined' && Array.isArray(news) && news.length > 0) { %>
-                    <% for(var i=0; i< news.length; i++){ %>
-                        <div class="card mb-3">
-                            <div class="card-body">
-                                <h5 class="card-title">Tên : <%= news[i].name %></h5>
-                                <p class="card-text">Nội dung: <%= news[i].content %></p>
-                                <p class="card-text"><small class="text-muted">Created at <%= news[i].createdAt %> | Updated at <%= news[i].updatedAt %></small></p>
-                                <br>
-                            </div>
-                        </div>
-                    <% } %>
-                <% } else { %>
-                    <p>No news found</p>
-                <% } %>
               </div>
         </section>
     </section>

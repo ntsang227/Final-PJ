@@ -1,12 +1,24 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const Admin = require('../db/models/admins.js');
-const News = require('../db/models/news.js');
+const Admin = require('../../db/models/admins.js');
+const News = require('../../db/models/news.js');
 const router = express.Router();
-//const regex = require('regex');
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'public/images')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname)
+  }
+})
+
+const upload = multer({ storage: storage })
+
 
 //News - yêu cầu chuyển hướng
-  // Lấy tin tức từ database hiển thị
+  // Chuyển hướng đến trang chủ 
     router.get('/',checkAdmin, async (req, res) => {
             try {
                 const news = await News.find();
@@ -21,6 +33,7 @@ const router = express.Router();
                 res.status(500).json({ message: error.message })
             }
         })
+        // Chuyển hướng  đến edit 
     router.get('/edit', checkAdmin ,   function(req, res) {
         try {
         res.render('Admin/news/edit', { username: req.session.username });
@@ -29,6 +42,7 @@ const router = express.Router();
             res.status(500).json({ message: 'Lỗi' })
         }
     });
+    // Chuyển hướng đến add 
     router.get('/add',checkAdmin, async function(req, res) {
         try {
             const news = await News.find();
@@ -41,43 +55,48 @@ const router = express.Router();
         catch (error) {
             res.status(500).json({ message: 'Lỗi' })
         }
-    });
-    router.get('/edit/:id',checkAdmin , async (req, res) => {
+    }); 
+    // Chuyển hướng đến details news
+    router.get('/details/:id',checkAdmin, async function(req, res) {
         try {
-          const id = req.params.id;
-          const news = await News.findById(id);
-          res.render('Admin/news/edit', { news, username: req.session.username });
-        } catch (error) {
-          res.status(500).json({ message: error.message });
-        }
-      });
-      //Tìm kiếm tin tức
-      router.post('/search' ,checkAdmin,  async (req, res) => {
-        // Get the search query from req.body
-        const query = req.body.query;
-        try {
-            const news = await News.find({
-                $or: [
-                  { name: new RegExp('.*' + query + '.*', 'i') },
-                  { content: new RegExp('.*' + query + '.*', 'i') }
-                ]
-              });
-          res.render('Admin/news/index.ejs', 
+            const id = req.params.id;
+            const news = await News.findById(id);
+                res.render('Admin/news/details', 
                 {
                     news ,
                     username: req.session.username,
                     });
-        } catch (err) {
-            res.status(500).json({ message: error.message })
         }
-      });
-//Thao tác db
+        catch (error) {
+            res.redirect('/news/');
+        }
+    }); 
+//Thao tác data
     //Thêm tin tức bằng post 
-    router.post('/add', function (req, res) {
+            //cách cũ không post hình
+                // router.post('/add', function (req, res) {
+                //     const { name, content } = req.body;
+                //     const newNews = new News({
+                //     name,
+                //     content,
+                //     });
+                //     newNews.save()
+                //     .then(news => {
+                //         // Lưu thông báo vào session
+                //         res.redirect('/news');
+                //     })
+                //     .catch(err => {
+                //         console.log('Error adding news to database:', err);
+                //         res.redirect('/news/add');
+                //     });
+                // });
+            //cách mới post được hình
+    router.post('/add', upload.single('image'), function (req, res) {
         const { name, content } = req.body;
         const newNews = new News({
-        name,
-        content,
+            name,
+            content,
+            image: `/images/${req.file.filename}`
         });
         newNews.save()
         .then(news => {
@@ -89,6 +108,16 @@ const router = express.Router();
             res.redirect('/news/add');
         });
     });
+    // edit theo id news 
+    router.get('/edit/:id',checkAdmin , async (req, res) => {
+        try {
+          const id = req.params.id;
+          const news = await News.findById(id);
+          res.render('Admin/news/edit', { news, username: req.session.username });
+        } catch (error) {
+          res.status(500).json({ message: error.message });
+        }
+      });
     // Xóa tin tức 
     router.get('/delete/:id', function (req, res) {
         News.findOneAndDelete({ _id: req.params.id })
@@ -111,16 +140,35 @@ const router = express.Router();
             const id = req.params.id;
             const updateNews = req.body;
             updateNews.updatedAt = new Date();
-
+            const news = await News.findById(id);
             await News.findByIdAndUpdate(
                 id, updateNews
             )
-            res.redirect('/news');
+            res.render('Admin/news/edit', {news , username: req.session.username , message: 'Sửa thành công'})
         }
         catch (error) {
             res.status(500).json({ message: error.message })
         }
     });
+    //Tìm kiếm tin tức
+    router.post('/search' ,checkAdmin,  async (req, res) => {
+        const query = req.body.query;
+        try {
+            const news = await News.find({
+                $or: [
+                  { name: new RegExp('.*' + query + '.*', 'i') },
+                  { content: new RegExp('.*' + query + '.*', 'i') }
+                ]
+              });
+          res.render('Admin/news/index.ejs', 
+                {
+                    news ,
+                    username: req.session.username,
+                    });
+        } catch (err) {
+            res.status(500).json({ message: error.message })
+        }
+      });
 
 
 //Functions

@@ -7,7 +7,7 @@
     <!--  SIDEBAR - END -->
     <!-- START CONTENT -->
     <section id="main-content" class=" ">
-        <section class="wrapper main-wrapper row" style=''>
+        <section class="wrapper main-wrapper row">
             <div class='col-xs-12'>
                 <div class="page-title">
                     <div class="pull-left">
@@ -18,7 +18,7 @@
            
             <div class="container">
                 <h3>Thêm dữ liệu</h3>
-                <form method="post" action="/news/add">
+                <form method="post" action="/news/add" enctype="multipart/form-data">
                   <div class="form-group" >
                     <label for="name">Tên:</label>
                     <input type="text" class="form-control" name="name" id="name">
@@ -27,16 +27,26 @@
                     <label for="content">Nội dung:</label>
                     <textarea class="form-control" rows="5" name="content" id="content"></textarea>
                   </div>
+                  <div class="form-group">
+                    <label for="image">Hình ảnh:</label>
+                    <input type="file" name="image" id="image">
+                  </div>
                   <button type="submit" class="btn btn-primary">Tạo tin tức</button>
                 </form>
                 <br>
+                
                 <% if (typeof news !== 'undefined' && Array.isArray(news) && news.length > 0) { %>
                     <% for(var i=0; i< news.length; i++){ %>
                         <div class="card mb-3">
                             <div class="card-body">
-                                <h5 class="card-title">Tên : <%= news[i].name %></h5>
-                                <p class="card-text">Nội dung: <%= news[i].content %></p>
-                                <p class="card-text"><small class="text-muted">Created at <%= news[i].createdAt %> | Updated at <%= news[i].updatedAt %></small></p>
+                                <h5 class="card-title" style="font-size: 20px;">Tên : <%= news[i].name %></h5>
+                                <p class="card-text" style="flex:3; overflow:hidden;max-height: 90px; max-width: 100%; ">Nội dung: <%= news[i].content %></p>
+                                </p>
+                                <p class="date" style="flex:1;"><small class="text-muted"></small>Ngày tạo: <%= new Date(news[i].createdAt).toLocaleString('vi-VN') %>
+                                </p>
+                                <p class="date" style="flex:1 ; "><small class="text-muted"></small>Cập nhật lần cuối: <%= new Date(news[i].updatedAt).toLocaleString('vi-VN') %>
+                                </p>
+                                </p>
                                 <br>
                             </div>
                         </div>

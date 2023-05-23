@@ -1,0 +1,54 @@
+<%- include('../layout/header.ejs') %>
+    <!-- END TOPBAR -->
+    <!-- START CONTAINER -->
+    <div class="page-container row-fluid container-fluid">
+        <!-- SIDEBAR - START -->
+        <%- include('../layout/menu.ejs') %>
+            <!--  SIDEBAR - END -->
+            <!-- START CONTENT -->
+            <section id="main-content" class=" ">
+                <section class="wrapper main-wrapper row">
+                    <div class='col-xs-12'>
+                        <div class="page-title">
+                            <div style="background-color: #FFC0CB; display: flex; flex-direction: row; justify-content: space-evenly; height: 50px; margin-bottom: 3%;">
+                                <h1 class="title" style="flex:1; margin-left: 15px;">News</h1>
+                                <form action="/news/search" method="post" style="flex: 1; margin-left: 40%; margin-top: 10px;">
+                                    <input type="search" placeholder="Search..." style="padding-right: 30%; margin-right: 10px;">
+                                    <input type="submit" value="Search">
+                                </form>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container">
+                        <% if (typeof news !=='undefined' && news) { %>
+                                <div class="container" style="display: flex; flex-direction: row;">
+                                    <img class="img" src="images/logotam.jpg" alt="Images" style="flex: 1; max-height: 160px; max-width: 150px; margin-right: 30px;">
+                                    <div class="content" style="flex:4; display: flex; flex-direction: column;">
+                                        <h5 class="name" style="flex:1; margin-top: 30px; font-size: 30px ">Tên : <%= news.name %>
+                                        </h5>
+                                        <p class="text" style="flex:auto; overflow:hidden; max-width: 100%; ">Nội dung: <%= news.content %>
+                                        </p>
+                                        <p class="date" style="flex:1;">Ngày tạo: <%= new Date(news.createdAt).toLocaleString('vi-VN') %>
+                                        </p>
+                                        <p class="date" style="flex:1 ; ">Cập nhật lần cuối: <%= new Date(news.updatedAt).toLocaleString('vi-VN') %>
+                                        </p>
+                                        <p class="edit" style="flex:1; border-bottom: rgb(168, 168, 168) solid 1px;">
+                                            <a href="/news/edit/<%= news._id %>">Sửa</a>|
+                                            <a href="/news/delete/<%= news._id %>">Xoá</a>
+                                        </p>
+                                    </div>
+                                </div>
+                                <br>
+                                    <% } else { %>
+                                        <p>No news found</p>
+                                        <% } %>
+                    </div>
+
+
+                </section>
+            </section>
+            <!-- END CONTENT -->
+            <div class="chatapi-windows ">
+            </div>
+            <%- include('../layout/footer.ejs') %>

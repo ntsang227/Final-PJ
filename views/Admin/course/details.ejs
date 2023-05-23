@@ -1,0 +1,55 @@
+<%- include('../layout/header.ejs') %>
+    <!-- END TOPBAR -->
+    <!-- START CONTAINER -->
+    <div class="page-container row-fluid container-fluid">
+        <!-- SIDEBAR - START -->
+        <%- include('../layout/menu.ejs') %>
+            <!--  SIDEBAR - END -->
+            <!-- START CONTENT -->
+            <section id="main-content" class=" ">
+                <section class="wrapper main-wrapper row">
+                    <div class='col-xs-12'>
+                        <div class="page-title">
+                            <div style="background-color: #FFC0CB; display: flex; flex-direction: row; justify-content: space-evenly; height: 50px; margin-bottom: 3%;">
+                                <h1 class="title" style="flex:1; margin-left: 15px;">News</h1>
+                                <form action="/course/search" method="post" style="flex: 1; margin-left: 40%; margin-top: 10px;">
+                                    <input type="search" placeholder="Search..." style="padding-right: 30%; margin-right: 10px;">
+                                    <input type="submit" value="Search">
+                                </form>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container">
+                        <% if (typeof courses !=='undefined' && courses) { %>
+                                <div class="container" style="display: flex; flex-direction: row;">
+                                    <div class="card mb-3">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Tên : <%= courses.name %></h5>
+                                            <p class="card-text">Mã khóa học : <%= courses.key %></p>
+                                            <p class="card-text">Tên giáo viên: <%= courses.nametutor %></p>
+                                            <p class="card-text">Tên học sinh: <%= courses.nameuser %></p>
+                                            <p class="card-text">Danh mục : <%= courses.cate %></p>
+                                            <p class="card-text">Nội dung: <%= courses.decs %></p>
+                                            <p class="card-text">Trạng thái: <%= courses.status %></p>
+                                        </p>
+                                        <p class="date" style="flex:1;">Ngày tạo: <%= new Date(courses.datePost).toLocaleString('vi-VN') %>
+                                        </p>
+                                        <p class="date" style="flex:1 ; ">Cập nhật lần cuối: <%= new Date(courses.updatedAt).toLocaleString('vi-VN') %>
+                                        </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                    <% } else { %>
+                                        <p>không có khóa học để hiển thị</p>
+                                        <% } %>
+                    </div>
+
+
+                </section>
+            </section>
+            <!-- END CONTENT -->
+            <div class="chatapi-windows ">
+            </div>
+            <%- include('../layout/footer.ejs') %>
