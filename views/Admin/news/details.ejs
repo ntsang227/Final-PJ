@@ -35,7 +35,8 @@
                                         </p>
                                         <p class="edit" style="flex:1; border-bottom: rgb(168, 168, 168) solid 1px;">
                                             <a href="/news/edit/<%= news._id %>">Sửa</a>|
-                                            <a href="/news/delete/<%= news._id %>">Xoá</a>
+                                            <a href="/news/delete/<%= news._id %>" onclick="return confirm('Bạn chắc chắn muốn xóa tin tức này?')">Xóa</a>
+
                                         </p>
                                     </div>
                                 </div>

@@ -5,10 +5,10 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const http = require('http');
 const fs = require('fs');
-const app = express();
 const path = require('path');
 const methodOverride = require('method-override');
-const flash = require('connect-flash');
+const flash = require('express-flash');
+const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 

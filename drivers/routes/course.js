@@ -5,6 +5,7 @@ const Course = require('../../db/models/course.js');
 const router = express.Router();
 const multer = require('multer');
 
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'public/images')
@@ -85,7 +86,12 @@ const upload = multer({ storage: storage })
         });
         newCourse.save()
         .then(course => {
-            res.redirect('/course');
+            res.render('Admin/course/add ',
+            {
+                message: 'Thêm thành công',
+                username: req.session.username 
+            })
+
         })
         .catch(err => {
             console.log('Error adding course to database:', err);

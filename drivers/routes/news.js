@@ -99,14 +99,12 @@ const upload = multer({ storage: storage })
             image: `/images/${req.file.filename}`
         });
         newNews.save()
-        .then(news => {
-            // Lưu thông báo vào session
-            res.redirect('/news');
-        })
-        .catch(err => {
-            console.log('Error adding news to database:', err);
-            res.redirect('/news/add');
-        });
+        res.render('Admin/news/add',
+            {
+                message: 'Thêm thành công',
+                username: req.session.username 
+            });
+
     });
     // edit theo id news 
     router.get('/edit/:id',checkAdmin , async (req, res) => {

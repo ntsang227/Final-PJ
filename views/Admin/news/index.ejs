@@ -61,7 +61,8 @@
                                             <a href="/news/details/<%= news[i]._id %>">Chi tiết</a>|
 >>>>>>> 17d71502464f705b138944bf08250130d92fd136
                                             <a href="/news/edit/<%= news[i]._id %>">Sửa</a>|
-                                            <a href="/news/delete/<%= news[i]._id %>">Xoá</a>
+                                            <a href="/news/delete/<%= news[i]._id %>" onclick="return confirm('Bạn chắc chắn muốn xóa tin tức này?')">Xóa</a>
+
                                         </p>
                                     </div>
                                 </div>
