@@ -36,8 +36,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <% if (typeof tutors !=='undefined' && Array.isArray(tutors) && tutors.length> 0) { %>
-                                    <% for(var i=0; i< tutors.length; i++){ %>
+                                <% if (typeof students !=='undefined' && Array.isArray(students) && students.length> 0) { %>
+                                    <% for(var i=0; i< students.length; i++){ %>
 
                                         <tr>
                                             <td>
@@ -73,11 +73,11 @@
                                                         <% } %>
                                             </td>
                                             <td>
-                                                <a href="/admin/tutor/details.html/<%= tutors[i]._id %>">Chi tiết</a> |
+                                                <a href="/tutor/details.html/<%= tutors[i]._id %>">Chi tiết</a> |
                                                 <% if (tutors[i].status==="active" ) { %>
-                                                    <a href="/admin/tutor/block/<%= tutors[i]._id %>">Khóa tài khoản</a>
+                                                    <a href="/tutor/block/<%= tutors[i]._id %>">Khóa tài khoản</a>
                                                     <% } else { %>
-                                                        <a href="/admin/tutor/unblock/<%= tutors[i]._id %>">Mở khóa tài
+                                                        <a href="/tutor/unblock/<%= tutors[i]._id %>">Mở khóa tài
                                                             khoản</a>
                                                         <% } %>
                                             </td>

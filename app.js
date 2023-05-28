@@ -8,7 +8,6 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const methodOverride = require('method-override');
-//const flash = require('express-flash');
 
 const app = express();
 app.use(bodyParser.json());
@@ -83,17 +82,14 @@ app.use(session({
 }));
 
 // định nghĩa route
-
-
-const admins = require('./drivers/routes/admins.js');
-const course = require('./drivers/routes/course.js');
+const admins = require('./drivers/routes/Admin/admins.js');
+const course = require('./drivers/routes/Admin/course.js');
+const tutorAdmin = require('./drivers/routes/Admin/tutor.js');
 const tutor = require('./drivers/routes/tutor.js');
 const user = require('./drivers/routes/users.js');
-const news = require('./drivers/routes/news.js');
+const news = require('./drivers/routes/Admin/news.js');
 
-app.use('/admin', admins);
-app.use('/course', course);
-app.use('/news', news);
+app.use('/admin', [ admins, course, news , tutorAdmin ]);
 app.use('/tutor',tutor);
 app.use('/user',user);
 

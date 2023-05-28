@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const Admin = require('../../db/models/admins.js');
-const News = require('../../db/models/news.js');
+const Admin = require('../../../db/models/admins.js');
+const News = require('../../../db/models/news.js');
 const router = express.Router();
 const multer = require('multer');
 
@@ -19,7 +19,7 @@ const upload = multer({ storage: storage })
 
 //News - yêu cầu chuyển hướng
   // Chuyển hướng đến trang chủ 
-    router.get('/',checkAdmin, async (req, res) => {
+    router.get('/news/',checkAdmin, async (req, res) => {
             try {
                 const news = await News.find();
                 //console.log(JSON.stringify(news)) 
@@ -34,7 +34,7 @@ const upload = multer({ storage: storage })
             }
         })
         // Chuyển hướng  đến edit 
-    router.get('/edit', checkAdmin ,   function(req, res) {
+    router.get('/news/edit', checkAdmin ,   function(req, res) {
         try {
         res.render('Admin/news/edit', { username: req.session.username });
         }
@@ -43,7 +43,7 @@ const upload = multer({ storage: storage })
         }
     });
     // Chuyển hướng đến add 
-    router.get('/add',checkAdmin, async function(req, res) {
+    router.get('/news/add',checkAdmin, async function(req, res) {
         try {
             const news = await News.find();
                 res.render('Admin/news/add', 
@@ -57,7 +57,7 @@ const upload = multer({ storage: storage })
         }
     }); 
     // Chuyển hướng đến details news
-    router.get('/details/:id',checkAdmin, async function(req, res) {
+    router.get('/news/details/:id',checkAdmin, async function(req, res) {
         try {
             const id = req.params.id;
             const news = await News.findById(id);
@@ -91,7 +91,7 @@ const upload = multer({ storage: storage })
                 //     });
                 // });
             //cách mới post được hình
-    router.post('/add', upload.single('image'), function (req, res) {
+    router.post('/news/add', upload.single('image'), function (req, res) {
         const { name, content } = req.body;
         const newNews = new News({
             name,
@@ -107,7 +107,7 @@ const upload = multer({ storage: storage })
 
     });
     // edit theo id news 
-    router.get('/edit/:id',checkAdmin , async (req, res) => {
+    router.get('/news/edit/:id',checkAdmin , async (req, res) => {
         try {
           const id = req.params.id;
           const news = await News.findById(id);
@@ -117,7 +117,7 @@ const upload = multer({ storage: storage })
         }
       });
     // Xóa tin tức 
-    router.get('/delete/:id', function (req, res) {
+    router.get('/news/delete/:id', function (req, res) {
         News.findOneAndDelete({ _id: req.params.id })
         .then(data => {
             if (!data) {
@@ -133,7 +133,7 @@ const upload = multer({ storage: storage })
         });
     });
     // Sửa tin tức
-    router.put('/:id', checkAdmin ,async (req, res) => {
+    router.put('/news/:id', checkAdmin ,async (req, res) => {
         try {
             const id = req.params.id;
             const updateNews = req.body;
@@ -149,7 +149,7 @@ const upload = multer({ storage: storage })
         }
     });
     //Tìm kiếm tin tức
-    router.post('/search' ,checkAdmin,  async (req, res) => {
+    router.post('/news/search' ,checkAdmin,  async (req, res) => {
         const query = req.body.query;
         try {
             const news = await News.find({

@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const Admin = require('../../db/models/admins.js');
-const Course = require('../../db/models/course.js');
+const Admin = require('../../../db/models/admins.js');
+const Course = require('../../../db/models/course.js');
 const router = express.Router();
 const multer = require('multer');
 
@@ -20,7 +20,7 @@ const upload = multer({ storage: storage })
 
 //News - yêu cầu chuyển hướng
   // Chuyển hướng đến trang chủ 
-    router.get('/',checkAdmin, async (req, res) => {
+    router.get('/course/',checkAdmin, async (req, res) => {
             try {
                 const courses = await Course.find();
                 //console.log(JSON.stringify(news)) 
@@ -35,7 +35,7 @@ const upload = multer({ storage: storage })
             }
         })
         // Chuyển hướng  đến edit 
-    router.get('/edit', checkAdmin ,   function(req, res) {
+    router.get('/course/edit', checkAdmin ,   function(req, res) {
         try {
         res.render('Admin/course/edit', { username: req.session.username });
         }
@@ -44,7 +44,7 @@ const upload = multer({ storage: storage })
         }
     });
     // Chuyển hướng đến add 
-    router.get('/add',checkAdmin, async function(req, res) {
+    router.get('/course/add',checkAdmin, async function(req, res) {
         try {
             const course = await Course.find();
                 res.render('Admin/course/add', 
@@ -58,7 +58,7 @@ const upload = multer({ storage: storage })
         }
     }); 
     // Chuyển hướng đến details news
-    router.get('/details.html/:id',checkAdmin, async function(req, res) {
+    router.get('/course/details.html/:id',checkAdmin, async function(req, res) {
         try {
             const id = req.params.id;
             const courses = await Course.findById(id);
@@ -74,7 +74,7 @@ const upload = multer({ storage: storage })
     }); 
 //Thao tác db
     //Thêm khóa học
-    router.post('/add', upload.single('image'), function (req, res) {
+    router.post('/course/add', upload.single('image'), function (req, res) {
         const { name, nametutor,nameuser,key, status , content } = req.body;
         const newCourse = new Course({
             name,
@@ -99,7 +99,7 @@ const upload = multer({ storage: storage })
         });
     });
     // Sửa theo id
-    router.get('/edit/:id',checkAdmin , async (req, res) => {
+    router.get('/course/edit/:id',checkAdmin , async (req, res) => {
         try {
           const id = req.params.id;
           const courses = await Course.findById(id);
@@ -109,7 +109,7 @@ const upload = multer({ storage: storage })
         }
       });
     // Xóa tin tức 
-    router.get('/delete/:id',  async (req, res) => {
+    router.get('/course/delete/:id',  async (req, res) => {
         Course.findOneAndDelete({ _id: req.params.id })
         .then(data => {
             if (!data) {
@@ -124,7 +124,7 @@ const upload = multer({ storage: storage })
         });
     });
     // Sửa tin tức
-    router.put('/:id', checkAdmin ,async (req, res) => {
+    router.put('/course/:id', checkAdmin ,async (req, res) => {
         try {
             const id = req.params.id;
             const updateCourse = req.body;
@@ -140,7 +140,7 @@ const upload = multer({ storage: storage })
         }
     });
     //Tìm kiếm tin tức
-    router.post('/search' ,checkAdmin,  async (req, res) => {
+    router.post('/course/search' ,checkAdmin,  async (req, res) => {
         let query = req.body.query.trim()
         try {
             const courses = await Course.find({

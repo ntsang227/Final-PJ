@@ -37,9 +37,9 @@
                                     <p class="date" style="flex:1 ; ">Cập nhật lần cuối: <%= new Date(news[i].updatedAt).toLocaleString('vi-VN') %>
                                     </p>
                                         <p class="edit" style="flex:1; border-bottom: rgb(168, 168, 168) solid 1px;">
-                                            <a href="/news/details/<%= news[i]._id %>">Chi tiết</a>|
-                                            <a href="/news/edit/<%= news[i]._id %>">Sửa</a>|
-                                            <a href="/news/delete/<%= news[i]._id %>" onclick="return confirm('Bạn chắc chắn muốn xóa tin tức này?')">Xóa</a>
+                                            <a href="/admin/news/details/<%= news[i]._id %>">Chi tiết</a>|
+                                            <a href="/admin/news/edit/<%= news[i]._id %>">Sửa</a>|
+                                            <a href="/admin/news/delete/<%= news[i]._id %>" onclick="return confirm('Bạn chắc chắn muốn xóa tin tức này?')">Xóa</a>
 
                                         </p>
                                     </div>

@@ -12,7 +12,7 @@
                         <div class="page-title">
                             <div style="background-color: #FFC0CB; display: flex; flex-direction: row; justify-content: space-evenly; height: 50px; margin-bottom: 3%;">
                                 <h1 class="title" style="flex:1; margin-left: 15px;">News</h1>
-                                <form action="/news/search" method="post" style="flex: 1; margin-left: 40%; margin-top: 10px;">
+                                <form action="/admin/news/search" method="post" style="flex: 1; margin-left: 40%; margin-top: 10px;">
                                     <input type="search" placeholder="Search..." style="padding-right: 30%; margin-right: 10px;">
                                     <input type="submit" value="Search">
                                 </form>
@@ -34,8 +34,8 @@
                                         <p class="date" style="flex:1 ; ">Cập nhật lần cuối: <%= new Date(news.updatedAt).toLocaleString('vi-VN') %>
                                         </p>
                                         <p class="edit" style="flex:1; border-bottom: rgb(168, 168, 168) solid 1px;">
-                                            <a href="/news/edit/<%= news._id %>">Sửa</a>|
-                                            <a href="/news/delete/<%= news._id %>" onclick="return confirm('Bạn chắc chắn muốn xóa tin tức này?')">Xóa</a>
+                                            <a href="/admin/news/edit/<%= news._id %>">Sửa</a>|
+                                            <a href="/admin/news/delete/<%= news._id %>" onclick="return confirm('Bạn chắc chắn muốn xóa tin tức này?')">Xóa</a>
 
                                         </p>
                                     </div>

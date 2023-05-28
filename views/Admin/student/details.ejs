@@ -25,22 +25,11 @@
                                 <div class="card mb-3">
                                     <img class="img" src="<%= tutors.avt %>" alt="Images" style="flex: 1; max-height: 160px; max-width: 150px; margin-right: 30px;">
                                     <div class="card-body">
-                                        <h5 class="card-title">Mã giáo viên : <%= tutors._id %></h5>
-                                        <h5 lass="card-title">Tên giáo viên : <%= tutors.username %></h5>
-                                        <p class="card-text">Ngày sinh : <%= tutors.birthday %></p>
-                                        <p class="card-text">Email : <%= tutors.email %></p>
-                                        <p class="card-text">Địa chỉ : <%= tutors.address %></p>
-                                        <% if (reviews.length === 0) { %>
-                                            Số sao đánh giá: Không có đánh giá nào
-                                          <% } else { %>
-                                            <% for (let i = 0; i < reviews.length; i++) { %>
-                                              Số sao đánh giá : 
-                                                <% for (let j = 0; j < reviews[i].rate; j++) { %>
-                                                    &#11088; <!-- &#9733; Hoặc &#11088; -->
-                                                <% } %>
-                                            <% } %>
-                                          <% } %>
-                                          
+                                        <h5 class="card-title">Mã học viên: <%= students._id %></h5>
+                                        <h5 lass="card-title">Tên học viên : <%= students.username %></h5>
+                                        <p class="card-text">Ngày sinh : <%= students.birthday %></p>
+                                        <p class="card-text">Email : <%= students.email %></p>
+                                        <p class="card-text">Địa chỉ : <%= students.address %></p>
                                         <p class="card-text">Khóa học tham gia hiện tại :  <% if (course.length === 0) { %>
                                             Không có khóa học nào.
                                           <% } else { %>
@@ -48,10 +37,11 @@
                                               <%= course[i].name %>
                                             <% } %>
                                           <% } %>
+                                          
                                         </p>
                                         <div>
                                             <p class="card-text">Trạng thái:
-                                                <% if (tutors.status === 'inactive') { %>
+                                                <% if (students.status === 'inactive') { %>
                                                   Tài khoản đã khóa
                                                 <% } else { %>
                                                   Đang hoạt động
@@ -59,12 +49,7 @@
                                               <% } %>   
                                         </div>
                                           <td>
-                                            <% if (tutors.status==="active" ) { %>
-                                              <a href="/admin/tutor/block/<%= tutors._id %>">Khóa tài khoản</a>
-                                              <% } else { %>
-                                                  <a href="/admin/tutor/unblock/<%= tutors._id %>">Mở khóa tài
-                                                      khoản</a>
-                                                  <% } %>
+                                            <a href="/student/block/<%= students._id %>">Khóa tài khoản</a>
                                           </td>
                                     </div>
                                     <br>
