@@ -18,7 +18,9 @@
   "homepage": "https://github.com/vankhanh2910/Final_Project#readme",
   "dependencies": {
     "body-parser": "^1.20.2",
+    "concurrently": "^8.0.1",
     "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.3",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
@@ -31,5 +33,9 @@
     "nodemon": "^2.0.22",
     "react": "^18.2.0",
     "regex": "^0.1.1"
+  },
+  "devDependencies": {
+    "webpack": "^5.84.1",
+    "webpack-dev-server": "^4.15.0"
   }
 }

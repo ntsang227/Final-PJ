@@ -40,10 +40,10 @@ const router = express.Router();
     try {
       const id = req.params.id;
       const tutors = await Tutor.findById(id);
-      const name = tutors.nametutor;
-      const reviews = await Review.find(name);
+      const name = tutors.username;
+      const reviews = await Review.find({nametutor: name});
       const course = await Course.find({ nametutor: new RegExp('.*' + name + '.*', 'i') });
-      //console.log(JSON.stringify(news)) 
+      //console.log(JSON.stringify(reviews)) 
       res.render('Admin/tutor/details', 
       {
           tutors,
@@ -180,7 +180,4 @@ router.post('/register', async (req, res) => {
     res.status(500).json({ message: 'Lỗi' })
     }
   }
-
-
-
 module.exports = router; 

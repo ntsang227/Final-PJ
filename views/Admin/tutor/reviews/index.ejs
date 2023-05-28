@@ -20,14 +20,17 @@
                     </div>
                 </div>
             </div>
-            <div class="container">
-               
+            <div class="container"> 
                 <% if (typeof reviews !== 'undefined' && Array.isArray(reviews) && reviews.length > 0) { %>
                     <% for(var i=0; i< reviews.length; i++){ %>
                         <div class="card mb-3">
                             <div class="card-body">
                                 <h5 class="card-title">Tên giáo viên : <%= reviews[i].nametutor %></h5>
-                                <p class="card-text">Số sao : <%= reviews[i].rate %></p>
+                                <p class="card-text">Số sao: 
+                                    <% for (let j = 0; j < reviews[i].rate; j++) { %>
+                                        &#11088; <!-- &#9733; Hoặc &#11088; -->
+                                    <% } %>
+                                </p>
                                 <p class="date" style="flex:1;">Ngày được đánh giá: <%= new Date(reviews[i].createdAt).toLocaleString('vi-VN') %>
                                 </p>
                                 <td>

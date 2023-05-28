@@ -54,7 +54,9 @@
                                                     <% for (var j=0; j < reviews.length; j++) { %>
                                                         <% if (tutors[i].username === reviews[j].nametutor) { %>
                                                             <p>
-                                                                <%= reviews[j].rate %>
+                                                                    <% for (let k = 0; k < reviews[j].rate; k++) { %>
+                                                                        &#11088; <!-- &#9733; Hoặc &#11088; -->
+                                                                    <% } %>
                                                             </p>
                                                             <% hasReview = true; %>
                                                                 <% } %>

@@ -6,6 +6,10 @@ const dataSchema = new mongoose.Schema({
         type: String,
         defaul: 'No Name',
     },
+    avt: {
+        type: String,
+        defaul: ''
+    },
     birthday: {
         type: Date,
         defaul: '1/1/1960',

@@ -32,3 +32,9 @@
       .catch(error => console.error(error));
    });
   </script>
+
+  "scripts": {
+    "server": "nodemon drivers/webserver/server.js",
+    "client": "npm run start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },

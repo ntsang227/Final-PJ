@@ -29,7 +29,17 @@
                                         <p class="card-text">Ngày sinh : <%= tutors.birthday %></p>
                                         <p class="card-text">Email : <%= tutors.email %></p>
                                         <p class="card-text">Địa chỉ : <%= tutors.address %></p>
-                                        <p class="card-text">Số sao đánh giá: <%= reviews.rate %></p>
+                                        <% if (reviews.length === 0) { %>
+                                            Số sao đánh giá: Không có đánh giá nào
+                                          <% } else { %>
+                                            <% for (let i = 0; i < reviews.length; i++) { %>
+                                              Số sao đánh giá : 
+                                                <% for (let j = 0; j < reviews[i].rate; j++) { %>
+                                                    &#11088; <!-- &#9733; Hoặc &#11088; -->
+                                                <% } %>
+                                            <% } %>
+                                          <% } %>
+                                          
                                         <p class="card-text">Khóa học tham gia hiện tại :  <% if (course.length === 0) { %>
                                             Không có khóa học nào.
                                           <% } else { %>

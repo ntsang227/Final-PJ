@@ -3,13 +3,16 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const cookieParser = require('cookie-parser');
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const methodOverride = require('method-override');
 //const flash = require('express-flash');
-const app = express();
 
+const app = express();
+app.use(bodyParser.json());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 // Sử dụng middleware flash
@@ -33,26 +36,41 @@ app.get('/', (req, res) => {
 });
 const dirCss = path.join(__dirname, 'public/styles.css');
 
-app.get('/styles.css', function(req, res) {
-    res.setHeader('Content-Type', 'text/css');
-    res.sendFile(dirCss);
-  });
+app.get('/api/helloworld', (req, res) => {
+  res.json({sayHi: 'Hello CC'})
+})
+const Tutor = require('./db/models/tutor.js');
+app.get('/api/tutors', async (req, res) => {
+  try {
+    const tutors = await Tutor.find({}, 'username email'); // Lấy danh sách các tutor từ database
 
-const imageDir = path.join(__dirname, 'public/images');
-const images = fs.readdirSync(imageDir);
-
-app.get('/images/:imageName', (req, res) => { 
-  const imageName = req.params.imageName;
-  const imagePath = path.join(__dirname, `./public/images/${imageName}`);
-  
-  if (fs.existsSync(imagePath)) {
-    const image = fs.readFileSync(imagePath);
-    res.writeHead(200, {'Content-Type': 'image/jpeg' });
-    res.end(image);
-  } else {
-    res.status(404).send('Image not found');
+    res.json(tutors); // Gửi danh sách các tutor về client dưới dạng JSON
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 });
+
+// app.get('/styles.css', function(req, res) {
+//     res.setHeader('Content-Type', 'text/css');
+//     res.sendFile(dirCss);
+//   });
+
+// const imageDir = path.join(__dirname, 'public/images');
+// const images = fs.readdirSync(imageDir);
+
+// app.get('/images/:imageName', (req, res) => { 
+//   const imageName = req.params.imageName;
+//   const imagePath = path.join(__dirname, `./public/images/${imageName}`);
+  
+//   if (fs.existsSync(imagePath)) {
+//     const image = fs.readFileSync(imagePath);
+//     res.writeHead(200, {'Content-Type': 'image/jpeg' });
+//     res.end(image);
+//   } else {
+//     res.status(404).send('Image not found');
+//   }
+// });
 
 // middleware
 app.use(bodyParser.urlencoded({ extended: true }));

@@ -20,27 +20,30 @@
                     </div>
                 </div>
             </div>
-            <div class="container">
-               
+            <<div class="container">
                 <% if (typeof reviews !== 'undefined') { %>
-                        <div class="card mb-3">
-                            <div class="card-body">
-                                <h5 class="card-title">Tên giáo viên : <%= reviews.nametutor %></h5>
-                                <p class="card-text">Số sao : <%= reviews.rate %></p>
-                                <p class="card-text">Nội dung đánh giá : <%= reviews.content%></p>
-                                <p class="date" style="flex:1;">Ngày được đánh giá: <%= new Date(reviews.createdAt).toLocaleString('vi-VN') %>
-                                <p class="date" style="flex:1;">Ngày cập nhật đánh giá: <%= new Date(reviews.updatedAt).toLocaleString('vi-VN') %>
-                                </p>
-                            </div>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Tên giáo viên: <%= reviews.nametutor %></h5>
+                            <p class="card-text">Số sao: 
+                                <% for (let i = 0; i < reviews.rate; i++) { %>
+                                    &#11088; <!-- &#9733; Hoặc &#11088; -->
+                                <% } %>
+                            </p>
+                            <p class="card-text">Nội dung đánh giá: <%= reviews.content %></p>
+                            <p class="date" style="flex:1;">Ngày được đánh giá: <%= new Date(reviews.createdAt).toLocaleString('vi-VN') %></p>
+                            <p class="date" style="flex:1;">Ngày cập nhật đánh giá: <%= new Date(reviews.updatedAt).toLocaleString('vi-VN') %></p>
                         </div>
+                    </div>
+                <% } else { %>
+                    <% if (typeof message !== 'undefined' && message != '') { %>
+                        <div class="alert alert-success" style="margin-top: 100px;"><%= message %></div>
                     <% } else { %>
-                        <% if (typeof message !== 'undefined' && message != '') { %>
-                            <div class="alert alert-success" style="margin-top: 100px ;"><%= message %></div>
-                        <% } else { %>
-                            <p>Không có đánh giá nào</p>
-                        <% } %>
+                        <p>Không có đánh giá nào</p>
                     <% } %>
+                <% } %>
             </div>
+            
            
         </section>
         
