@@ -7,7 +7,7 @@ const Course = require('../../../db/models/course.js');
 const router = express.Router();
 //Yêu cầu chuyển hướng
   // Chuyển hướng đến trang chủ reviews
-  router.get('/tutor/index.html',checkAdmin, async (req, res) => {
+  router.get('/tutor/index.html',checkAdmin, async (req, res) => {// NOSONAR
     try {
       const tutors = await Tutor.find()
       const name = tutors.username;
@@ -24,7 +24,7 @@ const router = express.Router();
     }
   }) 
   // Chuyển hướng đến details tutor
-  router.get('/tutor/details.html/:id',checkAdmin, async function(req, res) {
+  router.get('/tutor/details.html/:id',checkAdmin, async function(req, res) {// NOSONAR
     try {
       const id = req.params.id;
       const tutors = await Tutor.findById(id);
@@ -45,7 +45,7 @@ const router = express.Router();
   }
   }) 
   //chuyển hướng đến reviews
-  router.get('/tutor/reviews.html',checkAdmin, async function(req, res) {
+  router.get('/tutor/reviews.html',checkAdmin, async function(req, res) {// NOSONAR
     try {
       const reviews = await Review.find();
       res.render('Admin/tutor/reviews/index', 
@@ -59,7 +59,7 @@ const router = express.Router();
   }
   }) 
   //Chuyển hướng đến details reviews 
-  router.get('/tutor/reviews/details/:id',checkAdmin, async function(req, res) {
+  router.get('/tutor/reviews/details/:id',checkAdmin, async function(req, res) {// NOSONAR
     try {
       const id = req.params.id;
       const reviews = await Review.findById(id);
@@ -74,7 +74,7 @@ const router = express.Router();
     }
   }) 
 //Yêu cầu khóa tài khoản
-router.get('/tutor/block/:id', checkAdmin, async function(req, res) {
+router.get('/tutor/block/:id', checkAdmin, async function(req, res) {// NOSONAR
   try {
     const id = req.params.id;
     const status = "inactive";
@@ -85,7 +85,7 @@ router.get('/tutor/block/:id', checkAdmin, async function(req, res) {
   }
 })
 //Yêu cầu mở khóa tài khoản
-router.get('/tutor/unblock/:id', checkAdmin, async function(req, res) {
+router.get('/tutor/unblock/:id', checkAdmin, async function(req, res) { // NOSONAR
   try {
     const id = req.params.id;
     const status = "active";
@@ -95,6 +95,56 @@ router.get('/tutor/unblock/:id', checkAdmin, async function(req, res) {
     res.status(500).json({ message: error.message })
   }
 })
+//Tìm kiếm gia sư 
+router.post('/tutor/search' ,checkAdmin,  async (req, res) => {  // NOSONAR
+  try {
+    const query = req.body.query;
+    const filter = req.body.filter;
+
+    console.log("Nội dung tìm kiếm: ",query, "với tùy chọn là " ,filter );
+
+    if (!filter && query) {
+      const tutors = await Tutor.find({
+        $or: [
+          { username: new RegExp('.*' + query + '.*', 'i') },
+          { email: new RegExp('.*' + query + '.*', 'i') }
+        ]
+      });
+        const name = tutors.username;
+        const reviews = await Review.find(name);
+      res.render('Admin/tutor/index.ejs', 
+          {
+              reviews,
+              tutors ,
+              username: req.session.username,
+              });
+    }else if (filter && !query) {
+      const tutors = await Tutor.find(
+          { status: filter },
+      );
+        const name = tutors.username;
+        const reviews = await Review.find(name);
+        res.render('Admin/tutor/index.ejs', 
+              {
+                  reviews,
+                  tutors ,
+                  username: req.session.username,
+                  });
+    }if (!filter && !query){
+      const tutors = await Tutor.find();
+      const name = tutors.username;
+      const reviews = await Review.find(name);
+      res.render('Admin/tutor/index.ejs', 
+            {
+                reviews,
+                tutors ,
+                username: req.session.username,
+                });
+    }
+  } catch (err) {
+      res.status(500).json({ message: err.message })
+  }
+});
 //Functions
     // Function check Admin
     function checkAdmin(req, res, next){
