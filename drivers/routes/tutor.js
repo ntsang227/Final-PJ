@@ -86,10 +86,15 @@ router.post('/register', async (req, res) => { //NOSONAR
       console.log(name);
       const reviews = await Review.findOne({nametutor: name});
       const course = await Course.findOne({nametutor: name});
+      const birthday = new Date(tutors.birthday);
+      const options = { day: 'numeric', month: 'numeric', year: 'numeric' };
+      const formattedBirthday = birthday.toLocaleDateString('vi-VN', options);
+
       res.render('Tutor_Student/account/index.ejs', {
         tutors,
         reviews,
         course,
+        formattedBirthday,
         username: req.session.username,
       });
     } catch (err) {
