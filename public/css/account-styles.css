@@ -1,0 +1,83 @@
+.gradient-custom {
+    /* fallback for old browsers */
+    background: #00B2FF;
+
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right bottom, #67CDF9, #00B2FF);
+
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right bottom, #67CDF9, #00B2FF)
+}
+
+.btn-edit-profile,
+.btn-back,.btn-cancel,.btn-save-profile {
+    width: 80px;
+    height: 32px;
+    background: rgb(103, 205, 249);
+    border-radius: 25px;
+    border: none;
+    font-size: 16px;
+    color: #FFFFFF;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    margin-bottom: 18px;
+}
+
+.btn-edit-profile:hover,
+.btn-back:hover,.btn-cancel:hover ,.btn-save-profile:hover {
+    background: #00B2FF;
+}
+
+.btn-edit-profile {
+    float: right;
+}
+
+.btn-back {
+    float: left;
+}
+
+a.course p {
+    margin-bottom: 1px;
+    color: #757575;
+}
+
+a.course p:hover {
+    color: #00B2FF !important;
+}
+.modal{
+    margin-top: 8%;
+}
+/* Modal Content */
+.modal-content {
+    border-radius: 0;
+}
+
+/* Header */
+.modal-header {
+    background-color: #00B2FF;
+    color: #fff;
+    border-bottom: none;
+}
+
+/* Close Button */
+.close {
+    border: none;
+}
+
+/* Body */
+.modal-body {
+    padding: 20px;
+}
+
+/* Footer */
+.modal-footer {
+    border-top: none;
+}
+
+/* Background Overlay */
+.modal-backdrop {
+    opacity: 0.5;
+    background-color: #000;
+}
+i.far.fa-edit.mb-5 {
+    font-size: 1.3em; /* Change this value to adjust the size */
+  }

@@ -14,9 +14,12 @@ const router = express.Router();
   router.get('/home', checkMember ,function(req, res) {
     res.render('Tutor_Student/main/index.ejs', { username: req.session.username });
   }); 
+  router.get('/profile', checkMember ,function(req, res) {
+    res.render('Tutor_Student/account/index.ejs', { username: req.session.username });
+  }); 
   //Chuyển hướng đến đăng kí thành viên
   router.get('/register', function (req, res) {
-    res.render('Tutor_Student/signup/index.ejs');
+    res.render('Tutor_Student/signup/index.ejs', { message: '' });
   });
   // Chuyển hướng đến trang chủ reviews
   router.get('/index.html',checkAdmin, async (req, res) => {
@@ -119,6 +122,16 @@ router.post('/register', async (req, res) => {
     email: req.body.email,
     password: req.body.password
   })
+  const email = req.body.email;
+  const username = req.body.username;
+  const existingUsername = await Tutor.findOne({ username});
+  const existingEmail = await Tutor.findOne({ email });
+  if (existingEmail) {
+    return res.render('Tutor_Student/signup',{ message: 'Email đã được đăng ký.' });
+  }
+  if (existingUsername) {
+    return res.render('Tutor_Student/signup',{ message: 'Username đã được sử dụng.' });
+  }
   try {
     await tutor.save();
     res.redirect('/tutor/login');

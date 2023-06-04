@@ -1,37 +1,67 @@
 <%- include('../layout/header.ejs') %>
     <%- include('../layout/menu.ejs') %>
-<<<<<<< Updated upstream
-            <div class="section">
-                <div class="search-container">
-                    <form action="#" method="post">
-                        <input id="query" name="query" type="search" placeholder="Search..."
-                            style="padding-right: 15%; margin-right: 10px; border: solid 1px #cccc; padding-left: 10px; padding-top: 10px; padding-bottom: 10px; border-radius: 5px;">
-                        <input class="btn-search" type="submit" value="Tìm kiếm">
-                    </form>
-                </div>
-            </div>
-=======
         <div class="section">
             <form action="#" method="post">
+                <div class="dropdown">
+                    <select id="grade-select">
+                        <option value="primary">Dành cho Tiểu Học</option>
+                        <option value="secondary">Dành cho THCS</option>
+                        <option value="high-school">Dành cho THPT</option>
+                        <option value="training-high-school">Luyện thi THPT QG</option>
+                        <option value="english-cerificate">Luyện thi Chứng Chỉ Tiếng Anh</option>
+                        <option value="english-communication">Tiếng Anh giao tiếp</option>
+                    </select>
+                </div>
+                <div class="dropdown">
+                    <select id="subject-select" disabled>
+                        <option value="">-- Select a subject --</option>
+                    </select>
+                </div>
                 <input id="query" name="query" type="search" placeholder="Search..."
                     style="padding: 10px; margin-right: 10px; border: solid 1px #cccc;border-radius: 5px; padding-right: 15%;">
                 <input class="btn-search" type="submit" value="Tìm kiếm">
                 <select class="status" name="status" id="status">
                     <optgroup label="Trạng thái">
-                      <option value="active">Đang mở</option>
-                      <option value="inactive">Đã tắt</option>
+                        <option value="active">Đang mở</option>
+                        <option value="inactive">Đã tắt</option>
                     </optgroup>
-                  </select>
-            </form>
-            <div class="section-course">
-                <div class="subject"><p>Tiếng Anh</p></div>
-                <div class="subject"><p>Toán</p></div>
-                <div class="subject"><p>Văn</p></div>
-                <div class="subject"><p>Hóa Học</p></div>
+                </select>
+            </form><br><br>
+            <h5 class="title-content">Khóa học phổ biến</h5>
+            <div class="card card-course">
+                <div class="card-body">
+                    <h5 class="card-title ">{{modelName}}</h5>
+                    <p class="card-text">Name Tutor: {{nameTutor}}</p>
+                    <p class="card-text">Status: {{status}}</p>
+                    <p class="card-text">Description: {{decs}}</p>
+                    <p class="card-text"><small class="text-muted">Posted on {{datePost}}</small></p>
+                    <button class="btn-apply">Apply</button>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{modelName}}</h5>
+                    <p class="card-text">Name Tutor: {{nameTutor}}</p>
+                    <p class="card-text">Status: {{status}}</p>
+                    <p class="card-text">Description: {{decs}}</p>
+                    <p class="card-text"><small class="text-muted">Posted on {{datePost}}</small></p>
+                    <button class="btn-apply">Apply</button>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{modelName}}</h5>
+                    <p class="card-text">Name Tutor: {{nameTutor}}</p>
+                    <p class="card-text">Status: {{status}}</p>
+                    <p class="card-text">Description: {{decs}}</p>
+                    <p class="card-text"><small class="text-muted">Posted on {{datePost}}</small></p>
+                    <button class="btn-apply">Apply</button>
+                </div>
+
             </div>
+
         </div>
         </div>
->>>>>>> Stashed changes
+
+
+        </div>
+        </div>
         </body>
 
         </html>

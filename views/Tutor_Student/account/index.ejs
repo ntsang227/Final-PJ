@@ -1,0 +1,187 @@
+<head>
+    <link rel="stylesheet" href="/css/account-styles.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
+
+    <!-- JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <!-- MDB -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.css" rel="stylesheet" />
+</head>
+<section class="vh-100" style="background-color: #f4f5f7;">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col col-lg-6 mb-4 mb-lg-0">
+                <div class="card mb-3" style="border-radius: .5rem;">
+                    <div class="row g-0">
+                        <div class="col-md-4 gradient-custom text-center text-white"
+                            style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+                            <img src="/images/logotam.jpg" alt="Avatar" class="img-fluid my-5" id="avatar"
+                                style="width: 100px; height: 100px; border-radius: 50px;" />
+                            <h5>Marie Horwitz</h5>
+                            <input type="file" id="avatar-upload-input" style="display:none;">
+                            <a href="#"><i class="far fa-edit mb-5"></i></a>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body p-4">
+                                <h6>Information</h6>
+                                <hr class="mt-0 mb-4">
+                                <div class="row pt-1">
+                                    <div class="col-6 mb-3">
+                                        <h6>Email</h6>
+                                        <p class="text-muted">info@example.com</p>
+                                    </div>
+                                    <div class="col-6 mb-3">
+                                        <h6>Phone</h6>
+                                        <p class="text-muted">123 456 789</p>
+                                    </div>
+                                    <div class="col-6 mb-3">
+                                        <h6>Date</h6>
+                                        <p class="text-muted">22/07/2001</p>
+                                    </div>
+                                    <div class="col-6 mb-3">
+                                        <h6>Address</h6>
+                                        <p class="text-muted">Ho Chi Minh</p>
+                                    </div>
+                                </div>
+                                <h6>Projects</h6>
+                                <hr class="mt-0 mb-4">
+                                <div class="row pt-1">
+                                    <div class="col-6 mb-3">
+                                        <h6>Course</h6>
+                                        <a href="#" class="course">
+                                            <p>This is tên khóa học.</p>
+                                        </a>
+                                    </div>
+                                    <div class="col-6 mb-3">
+                                        <h6>Rate</h6>
+                                        <p class="text-muted">Đây là ngôi sao.</p>
+                                    </div>
+                                </div>
+                                <!-- <div class="d-flex justify-content-start">
+                                    <a href="#!"><i class="fab fa-facebook-f fa-lg me-3"></i></a>
+                                    <a href="#!"><i class="fab fa-twitter fa-lg me-3"></i></a>
+                                    <a href="#!"><i class="fab fa-instagram fa-lg"></i></a>
+                                </div> -->
+                                <a href="/tutor/home"><button class="btn-back">Back</button></a>
+                                <a href="#"><button class="btn-edit-profile" data-toggle="modal"
+                                        data-target="#profileModal"> Edit </button></a>
+                                <!-- Modal edit profile -->
+                                <div class="modal fade" id="profileModal" tabindex="-1" role="dialog"
+                                    aria-labelledby="profileModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="profileModalLabel">Edit Profile</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <form>
+                                                <div class="modal-body">
+                                                    <div class="form-group">
+                                                        <label for="name_input">Name</label>
+                                                        <input type="text" class="form-control" id="name_input"
+                                                            value="Marie Horwitz">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="email_input">Email address</label>
+                                                        <input type="email" class="form-control" id="email_input"
+                                                            value="info@example.com">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="phone_input">Phone</label>
+                                                        <input type="text" class="form-control" id="phone_input"
+                                                            value="123 456 789">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="date_input">Date</label>
+                                                        <input type="text" class="form-control" id="date_input"
+                                                            value="22/07/2001">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="address_input">Address</label>
+                                                        <input type="text" class="form-control" id="address_input"
+                                                            value="Ho Chi Minh">
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn-cancel"
+                                                        data-dismiss="modal">Cancel</button>
+                                                    <button type="submit" class="btn-save-profile">Save</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+        $('i.far.fa-edit').click(function () { // Target the i tag with the classes 'far' and 'fa-edit'
+            $('#avatar-upload-input').click(); // Trigger a click event on the input element
+        });
+
+        $('#avatar-upload-input').change(function (event) { // Listen for changes to the input element
+            var inputFile = event.target.files[0]; // Get the selected file object
+            var reader = new FileReader(); // Create a new FileReader instance
+            reader.onload = function (event) {
+                $('#avatar').attr('src', event.target.result); // Set the avatar image source to the uploaded image
+            };
+            reader.readAsDataURL(inputFile); // Read the contents of the selected file as a data URL
+        });
+    });
+    var profileModal = document.getElementById('profileModal');
+    var editProfileBtn = document.querySelector('.btn-edit-profile');
+    var closeModalBtns = document.querySelectorAll('[data-dismiss="modal"]');
+
+    editProfileBtn.addEventListener('click', function () {
+        profileModal.classList.add('show');
+        profileModal.style.display = 'block';
+    });
+
+    closeModalBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            profileModal.classList.remove('show');
+            profileModal.style.display = 'none';
+        });
+    });
+
+    window.addEventListener('click', function (event) {
+        if (event.target == profileModal) {
+            profileModal.classList.remove('show');
+            profileModal.style.display = 'none';
+        }
+    });
+
+    var form = profileModal.querySelector('form');
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        // Code to save changes goes here
+
+        profileModal.classList.remove('show');
+        profileModal.style.display = 'none';
+    });
+</script>

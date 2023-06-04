@@ -6,8 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signup</title>
-    <base href="http://localhost:3000" />
-    <link rel="stylesheet" href="css/signup-styles.css">
+    <link rel="stylesheet" href="/css/signup-styles.css">
 </head>
 
 <body>
@@ -18,6 +17,11 @@
             <input type="text" name="username" id="username" placeholder="Username">
             <input type="email" name="email" id="email" placeholder="Email">
             <input type="password" name="password" id="password" placeholder="Password">
+            <% if (message !=='' ) { %>
+                <div style="font-size: 14px; text-align: center; padding-top: 20px; color: #ff3737; font-weight: bold;">
+                    <%= message %>
+                </div>
+                <% } %>
             <div class="check-term">
                 <input class="checkbox" type="checkbox" checked="checked">
                 <p class="text-su check-term-p">By signing in, you agree to our <a href="#">Terms & Conditions</a></p>
