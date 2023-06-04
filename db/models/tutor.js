@@ -4,18 +4,22 @@ const dataSchema = new mongoose.Schema({
     username: {
         required: false,
         type: String,
-        defaul: 'No Name',
+        default: 'No Name',
     },
     avt: {
         type: String,
-        defaul: ''
+        default: ''
     },
     birthday: {
         type: Date,
-        defaul: '1/1/1960',
+        default: '1/1/1960',
     },
     email: {
         required: true,
+        type: String,
+        default : '',
+    },
+    phonenumber: {
         type: String,
         default : '',
     },
