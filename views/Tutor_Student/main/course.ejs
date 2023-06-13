@@ -1,0 +1,41 @@
+<%- include('../layout/header.ejs') %>
+    <%- include('../layout/menu.ejs') %>
+        <div class="section">
+            <form class="form-course" action="/new-courses" method="POST">
+                <label for="name">Tiêu đề khóa học:</label>
+                <input type="text" id="name" name="name" required> <br />
+
+                <div class="dropdown">
+                    <select id="grade-select">
+                        <option value="primary">Dành cho Tiểu Học</option>
+                        <option value="secondary">Dành cho THCS</option>
+                        <option value="high-school">Dành cho THPT</option>
+                        <option value="training-high-school">Luyện thi THPT QG</option>
+                        <option value="english-cerificate">Luyện thi Chứng Chỉ Tiếng Anh</option>
+                        <option value="english-communication">Tiếng Anh giao tiếp</option>
+                    </select>
+                </div>
+                <div class="dropdown">
+                    <select id="subject-select" disabled>
+                        <option value="">-- Select a subject --</option>
+                    </select>
+                </div>
+
+                <select class="status" name="status" id="status">
+                    <optgroup label="Trạng thái">
+                        <option value="active">Đang mở</option>
+                        <option value="inactive">Đã tắt</option>
+                    </optgroup>
+                </select> <br />
+
+                <label for="decs">Mô tả:</label>
+                <textarea id="decs" name="decs"></textarea> <br />
+
+                <button type="submit">Create Course</button> <br />
+            </form>
+        </div>
+        </div>
+        <%- include('../layout/footer.ejs') %>
+            </body>
+
+            </html>

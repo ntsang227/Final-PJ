@@ -39,7 +39,7 @@ button {
     width: 140px;
     height: 52px;
     background: rgb(103, 205, 249);
-    border-radius: 20px;
+    border-radius: 4px;
     border: none;
     font-size: 16px;
     color: #FFFFFF;
@@ -52,12 +52,22 @@ button:hover {
     background: #00B2FF;
 }
 
+.footer {
+    background: #414141;
+    color: white !important;
+
+}
+
+.footer .row {
+    justify-content: space-around;
+}
+
 .dropdowna {
     border: none;
     font-size: 14px;
 }
 
-.dropdown{
+.dropdown {
     position: relative;
     display: inline-block;
 }
@@ -103,6 +113,7 @@ button:hover {
     margin-top: 30px;
     justify-content: space-between;
     z-index: 1;
+    min-height: 800px;
 }
 
 .menu-sidebar {
@@ -130,7 +141,7 @@ button:hover {
 }
 
 .menu-sidebar .dropdown .dropdown-content {
-    margin-left: 120px;
+    margin-left: 80px;
 }
 
 
@@ -139,22 +150,25 @@ button:hover {
     margin-left: 2%;
 }
 
-form {
+form.form-search {
     display: flex;
     flex-direction: row;
     margin-right: 3%;
-    height: 50px;
+    height: auto;
     margin-top: 15px;
     justify-content: space-around;
 
 }
-.status{
+
+.status {
     margin-left: 10px;
     border: #cccc solid 1px;
     border-radius: 10px;
     font-size: 14px;
-    
+}
 
+form.form-course .status {
+    padding: 10px;
 }
 
 .btn-search {
@@ -162,41 +176,136 @@ form {
     padding: 10px;
     border: none;
     background-color: #67CDF9;
-    border-radius: 10px;
+    border-radius: 4px;
     min-width: 100px;
-   
+
 }
 
 .btn-search:hover {
     background-color: #00B2FF;
 }
-#grade-select, #subject-select{
+
+#grade-select,
+#subject-select {
     padding: 10px;
 }
-.title-content{
+
+.title-content {
     color: #00B2FF;
-    margin-top: 30px;
+    margin-top: 20px;
+    font-weight: bold;
     margin-bottom: 20px;
+    margin-top: 10px;
 }
-.card-course{
+
+.card-wrapper {
     display: flex;
-    flex-direction: row;
     flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-around;
 }
-.card-course .card-body{
-    min-width: 250px;
+
+.card-body {
+    max-width: 280px;
+    margin-bottom: 20px;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
 }
-button.btn-apply{
-    width: 100px;
-    height: 50px;
+
+/* Style the card title */
+.card-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Style the card text */
+.card-text {
+    font-size: 14px;
+    margin-bottom: 5px;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    max-height: 100px;
+    overflow: hidden;
+
+}
+
+
+button.btn-apply {
+    width: 80px;
+    height: 40px;
+    line-height: 40px;
     background: rgb(103, 205, 249);
-    border-radius: 25px;
+    border-radius: 4px;
     border: none;
     font-size: 16px;
     color: #FFFFFF;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    margin-bottom: 18px;
+    flex: 1;
+
 }
-button.btn-apply:hover{
+
+button.btn-apply:hover {
     background: #00B2FF;
+}
+
+.form-course {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form-course label {
+    display: inline-block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-course input[type="text"],
+.form-course select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    border: none;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    background-color: #f2f2f2;
+}
+
+.form-course .dropdown {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+.form-course .dropdown select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    border: none;
+    background-color: #f2f2f2;
+    cursor: pointer;
+}
+
+.form-course .status select {
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    color: #555;
+    background-color: #f2f2f2;
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+textarea {
+    width: 100%;
+    height: 150px;
+    padding: 8px;
+    border-radius: 4px;
+    border: none;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    background-color: #f2f2f2;
 }

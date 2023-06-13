@@ -1,7 +1,7 @@
 <%- include('../layout/header.ejs') %>
     <%- include('../layout/menu.ejs') %>
         <div class="section">
-            <form action="#" method="post">
+            <form class="form-search" action="#" method="post">
                 <div class="dropdown">
                     <select id="grade-select">
                         <option value="primary">Dành cho Tiểu Học</option>
@@ -27,8 +27,8 @@
                     </optgroup>
                 </select>
             </form><br><br>
-            <h5 class="title-content">Khóa học phổ biến</h5>
-            <div class="card card-course">
+            <h5 class="title-content">Khóa học mới nhất</h5>
+            <div class="card card-wrapper">
                 <div class="card-body">
                     <h5 class="card-title ">{{modelName}}</h5>
                     <p class="card-text">Name Tutor: {{nameTutor}}</p>
@@ -38,7 +38,7 @@
                     <button class="btn-apply">Apply</button>
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title">{{modelName}}</h5>
+                    <h5 class="card-title ">{{modelName}}</h5>
                     <p class="card-text">Name Tutor: {{nameTutor}}</p>
                     <p class="card-text">Status: {{status}}</p>
                     <p class="card-text">Description: {{decs}}</p>
@@ -46,7 +46,49 @@
                     <button class="btn-apply">Apply</button>
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title">{{modelName}}</h5>
+                    <h5 class="card-title ">{{modelName}}</h5>
+                    <p class="card-text">Name Tutor: {{nameTutor}}</p>
+                    <p class="card-text">Status: {{status}}</p>
+                    <p class="card-text">Description: {{decs}}</p>
+                    <p class="card-text"><small class="text-muted">Posted on {{datePost}}</small></p>
+                    <button class="btn-apply">Apply</button>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title ">{{modelName}}</h5>
+                    <p class="card-text">Name Tutor: {{nameTutor}}</p>
+                    <p class="card-text">Status: {{status}}</p>
+                    <p class="card-text">Description: {{decs}}</p>
+                    <p class="card-text"><small class="text-muted">Posted on {{datePost}}</small></p>
+                    <button class="btn-apply">Apply</button>
+                </div>
+            </div>
+            <div class="card card-wrapper">
+                <div class="card-body">
+                    <h5 class="card-title ">{{modelName}}</h5>
+                    <p class="card-text">Name Tutor: {{nameTutor}}</p>
+                    <p class="card-text">Status: {{status}}</p>
+                    <p class="card-text">Description: {{decs}}</p>
+                    <p class="card-text"><small class="text-muted">Posted on {{datePost}}</small></p>
+                    <button class="btn-apply">Apply</button>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title ">{{modelName}}</h5>
+                    <p class="card-text">Name Tutor: {{nameTutor}}</p>
+                    <p class="card-text">Status: {{status}}</p>
+                    <p class="card-text">Description: {{decs}}</p>
+                    <p class="card-text"><small class="text-muted">Posted on {{datePost}}</small></p>
+                    <button class="btn-apply">Apply</button>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title ">{{modelName}}</h5>
+                    <p class="card-text">Name Tutor: {{nameTutor}}</p>
+                    <p class="card-text">Status: {{status}}</p>
+                    <p class="card-text">Description: {{decs}}</p>
+                    <p class="card-text"><small class="text-muted">Posted on {{datePost}}</small></p>
+                    <button class="btn-apply">Apply</button>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title ">{{modelName}}</h5>
                     <p class="card-text">Name Tutor: {{nameTutor}}</p>
                     <p class="card-text">Status: {{status}}</p>
                     <p class="card-text">Description: {{decs}}</p>
@@ -55,13 +97,9 @@
                 </div>
 
             </div>
-
         </div>
         </div>
+        <%- include('../layout/footer.ejs') %>
+            </body>
 
-
-        </div>
-        </div>
-        </body>
-
-        </html>
+            </html>

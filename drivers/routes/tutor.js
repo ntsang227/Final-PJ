@@ -15,10 +15,11 @@ const router = express.Router();
   router.get('/home', checkMember ,function(req, res) { 
     res.render('Tutor_Student/main/index.ejs', { username: req.session.username });
   }); 
-  
-  //Chuyển hướng đến đăng kí thành viên
-  router.get('/register', function (req, res) {
-    res.render('Tutor_Student/signup/index.ejs', { message: '' });
+  router.get('/profile', checkMember ,function(req, res) {
+    res.render('Tutor_Student/account/index.ejs', { username: req.session.username });
+  }); 
+  router.get('/courses', checkMember ,function(req, res) {
+    res.render('Tutor_Student/main/course.ejs', { username: req.session.username });
   });
   //Chuyển hướng đến đăng kí thành viên
   router.get('/register', function (req, res) {
