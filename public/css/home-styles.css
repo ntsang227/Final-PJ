@@ -203,11 +203,11 @@ form.form-course .status {
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-around;
+    padding: 10px;
 }
 
 .card-body {
     max-width: 280px;
-    margin-bottom: 20px;
     padding: 10px;
     box-sizing: border-box;
     border: 1px solid #ccc;
@@ -218,6 +218,10 @@ form.form-course .status {
     font-size: 18px;
     font-weight: bold;
     margin-bottom: 10px;
+}
+
+.card-title a{
+    color: #00B2FF;
 }
 
 /* Style the card text */

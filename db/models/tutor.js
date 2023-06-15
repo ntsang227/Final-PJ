@@ -12,7 +12,7 @@ const dataSchema = new mongoose.Schema({
     },
     birthday: {
         type: Date,
-        default: '1/1/1960',
+        default: '',
     },
     email: {
         required: true,
