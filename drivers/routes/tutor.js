@@ -7,28 +7,39 @@ const Course = require('../../db/models/course.js');
 const router = express.Router();
 
 //Yêu cầu chuyển hướng
-  router.get('/', checkMember ,function(req, res) {
-    req.session.destroy();
-    res.render('Tutor_Student/main/index.ejs', { username: req.session.username });
-  }); 
-  // Chuyển hướng đến trang home tutor 
-  router.get('/home', checkMember ,function(req, res) { 
-    res.render('Tutor_Student/main/index.ejs', { username: req.session.username });
-  }); 
-  
-  // //Chuyển hướng đến đăng kí thành viên
-  // router.get('/register', function (req, res) {
-  //   res.render('Tutor_Student/signup/index.ejs', { message: '' });
-  // });
-  //Chuyển hướng đến đăng kí thành viên
-  router.get('/register', function (req, res) {
-    res.render('Tutor_Student/signup/index.ejs', { message: '' });
-  });
-  
-  //Chuyển hướng đến login 
-  router.get('/login', function(req, res) {
-    res.render('Tutor_Student/login/index.ejs', { message: '' });
-  });
+router.get('/', checkMember, function (req, res) {
+  req.session.destroy();
+  res.render('Tutor_Student/main/index.ejs', { username: req.session.username });
+});
+// Chuyển hướng đến trang home tutor 
+
+router.get('/home', checkMember, async (req, res) => {
+  try {
+    const courses = await Course.find();
+    console.log(courses);
+    res.render('Tutor_Student/main/index.ejs',
+      {
+        courses,
+      });
+  }
+  catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+})
+
+// //Chuyển hướng đến đăng kí thành viên
+// router.get('/register', function (req, res) {
+//   res.render('Tutor_Student/signup/index.ejs', { message: '' });
+// });
+//Chuyển hướng đến đăng kí thành viên
+router.get('/register', function (req, res) {
+  res.render('Tutor_Student/signup/index.ejs', { message: '' });
+});
+
+//Chuyển hướng đến login 
+router.get('/login', function (req, res) {
+  res.render('Tutor_Student/login/index.ejs', { message: '' });
+});
 //Post đăng kí tài khoản
 router.post('/register', async (req, res) => { //NOSONAR
   const tutor = new Tutor({
@@ -38,13 +49,13 @@ router.post('/register', async (req, res) => { //NOSONAR
   })
   const email = req.body.email;
   const username = req.body.username;
-  const existingUsername = await Tutor.findOne({ username});
+  const existingUsername = await Tutor.findOne({ username });
   const existingEmail = await Tutor.findOne({ email });
   if (existingEmail) {
-    return res.render('Tutor_Student/signup',{ message: 'Email đã được đăng ký.' });
+    return res.render('Tutor_Student/signup', { message: 'Email đã được đăng ký.' });
   }
   if (existingUsername) {
-    return res.render('Tutor_Student/signup',{ message: 'Username đã được sử dụng.' });
+    return res.render('Tutor_Student/signup', { message: 'Username đã được sử dụng.' });
   }
   try {
     await tutor.save();
@@ -132,17 +143,17 @@ router.put('/save', checkMember, function(req, res) {
 });
 
 //Functions
-  // Function check member
-  function checkMember(req, res, next){
-    try {
+// Function check member
+function checkMember(req, res, next) {
+  try {
     if (req.session.loggedin) {
-        next();  
-    } else {  
-        res.redirect('/tutor/login');
+      next();
+    } else {
+      res.redirect('/tutor/login');
     }
   }
   catch (error) {
     res.status(500).json({ message: 'Lỗi' })
-    }
   }
+}
 module.exports = router; 

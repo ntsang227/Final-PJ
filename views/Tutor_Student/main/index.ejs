@@ -29,73 +29,30 @@
             </form><br><br>
             <h5 class="title-content">Khóa học mới nhất</h5>
             <div class="card card-wrapper">
-                <div class="card-body">
-                    <h5 class="card-title ">{{modelName}}</h5>
-                    <p class="card-text">Name Tutor: {{nameTutor}}</p>
-                    <p class="card-text">Status: {{status}}</p>
-                    <p class="card-text">Description: {{decs}}</p>
-                    <p class="card-text"><small class="text-muted">Posted on {{datePost}}</small></p>
-                    <button class="btn-apply">Apply</button>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title ">{{modelName}}</h5>
-                    <p class="card-text">Name Tutor: {{nameTutor}}</p>
-                    <p class="card-text">Status: {{status}}</p>
-                    <p class="card-text">Description: {{decs}}</p>
-                    <p class="card-text"><small class="text-muted">Posted on {{datePost}}</small></p>
-                    <button class="btn-apply">Apply</button>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title ">{{modelName}}</h5>
-                    <p class="card-text">Name Tutor: {{nameTutor}}</p>
-                    <p class="card-text">Status: {{status}}</p>
-                    <p class="card-text">Description: {{decs}}</p>
-                    <p class="card-text"><small class="text-muted">Posted on {{datePost}}</small></p>
-                    <button class="btn-apply">Apply</button>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title ">{{modelName}}</h5>
-                    <p class="card-text">Name Tutor: {{nameTutor}}</p>
-                    <p class="card-text">Status: {{status}}</p>
-                    <p class="card-text">Description: {{decs}}</p>
-                    <p class="card-text"><small class="text-muted">Posted on {{datePost}}</small></p>
-                    <button class="btn-apply">Apply</button>
-                </div>
-            </div>
-            <div class="card card-wrapper">
-                <div class="card-body">
-                    <h5 class="card-title ">{{modelName}}</h5>
-                    <p class="card-text">Name Tutor: {{nameTutor}}</p>
-                    <p class="card-text">Status: {{status}}</p>
-                    <p class="card-text">Description: {{decs}}</p>
-                    <p class="card-text"><small class="text-muted">Posted on {{datePost}}</small></p>
-                    <button class="btn-apply">Apply</button>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title ">{{modelName}}</h5>
-                    <p class="card-text">Name Tutor: {{nameTutor}}</p>
-                    <p class="card-text">Status: {{status}}</p>
-                    <p class="card-text">Description: {{decs}}</p>
-                    <p class="card-text"><small class="text-muted">Posted on {{datePost}}</small></p>
-                    <button class="btn-apply">Apply</button>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title ">{{modelName}}</h5>
-                    <p class="card-text">Name Tutor: {{nameTutor}}</p>
-                    <p class="card-text">Status: {{status}}</p>
-                    <p class="card-text">Description: {{decs}}</p>
-                    <p class="card-text"><small class="text-muted">Posted on {{datePost}}</small></p>
-                    <button class="btn-apply">Apply</button>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title ">{{modelName}}</h5>
-                    <p class="card-text">Name Tutor: {{nameTutor}}</p>
-                    <p class="card-text">Status: {{status}}</p>
-                    <p class="card-text">Description: {{decs}}</p>
-                    <p class="card-text"><small class="text-muted">Posted on {{datePost}}</small></p>
-                    <button class="btn-apply">Apply</button>
-                </div>
-
+                <% if (typeof courses !=='undefined' && Array.isArray(courses) && courses.length> 0) { %>
+                    <% for(var i=0; i< courses.length; i++){ %>
+                        <% if(i===8) break; %>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="#"><%= courses[i].name %></a>
+                                </h5>
+                                <p class="card-text">Tên gia sư: <%= courses[i].nametutor %></p>
+                                <p class="card-text">Trạng thái: <%= courses[i].status %></p>
+                                <p class="card-text">Mô tả: <%= courses[i].decs %></p>
+                                <p class="card-text"><small class="text-muted">Ngày đăng: <%= new
+                                            Date(courses[i].datePost).toLocaleString('vi-VN') %></small></p>
+                                <button class="btn-apply">Apply</button>
+                            </div>
+                            <% } %>
+                                <% } else { %>
+                                    <% if (typeof message !=='undefined' && message !='' ) { %>
+                                        <div class="alert alert-success" style="margin-top: 100px ;">
+                                            <%= message %>
+                                        </div>
+                                        <% } else { %>
+                                            <p>Không có khóa học nào!</p>
+                                            <% } %>
+                                                <% } %>
             </div>
         </div>
         </div>
