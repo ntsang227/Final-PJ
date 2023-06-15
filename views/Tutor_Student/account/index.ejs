@@ -62,14 +62,19 @@
                                 <hr class="mt-0 mb-4">
                                 <div class="row pt-1">
                                     <div class="col-6 mb-3">
-                                        <h6>Course</h6>
+                                        <h6>Course</h6>                                        
                                         <a href="#" class="course">
-                                            <p><%= course.name %></p>
-                                        </a>
-                                    </div>
+                                        <% if (course) { %>
+                                        <p><%= course.name %></p> 
+                                        <% } %>  
+                                        </a>                                    
+                                        </div>
                                     <div class="col-6 mb-3">
                                         <h6>Rate</h6>
+                                        <% if (course) { %>
                                         <p class="text-muted"><%= reviews.rate %></p>
+                                        <% } %>  
+
                                     </div>
                                 </div>
                                 <!-- <div class="d-flex justify-content-start">
@@ -92,40 +97,34 @@
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
-                                            <form>
+                                            <form >
                                                 <div class="modal-body">
-                                                    <div class="form-group">
-                                                        <label for="name_input">Name</label>
-                                                        <input type="text" class="form-control" id="name_input"
-                                                            value="Marie Horwitz">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="email_input">Email address</label>
-                                                        <input type="email" class="form-control" id="email_input"
-                                                            value="info@example.com">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="phone_input">Phone</label>
-                                                        <input type="text" class="form-control" id="phone_input"
-                                                            value="123 456 789">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="date_input">Date</label>
-                                                        <input type="text" class="form-control" id="date_input"
-                                                            value="22/07/2001">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="address_input">Address</label>
-                                                        <input type="text" class="form-control" id="address_input"
-                                                            value="Ho Chi Minh">
-                                                    </div>
+                                                  <div class="form-group">
+                                                    <label for="name_input">Name</label>
+                                                    <input type="text" class="form-control" id="name_input" value="<%= tutors.username %>" placeholder="Enter name">
+                                                  </div>
+                                                  <div class="form-group">
+                                                    <label for="email_input">Email address</label>
+                                                    <input type="email" class="form-control" id="email_input" value="<%= tutors.email %>" placeholder="Enter email">
+                                                  </div>
+                                                  <div class="form-group">
+                                                    <label for="phone_input">Phone</label>
+                                                    <input type="text" class="form-control" id="phone_input" value="<%= tutors.phonenumber %>" placeholder="Enter phone number">
+                                                  </div>
+                                                  <div class="form-group">
+                                                    <label for="date_input">Date</label>
+                                                    <input type="text" class="form-control" id="date_input"value="<%= formattedBirthday %>" placeholder="Enter date">
+                                                  </div>
+                                                  <div class="form-group">
+                                                    <label for="address_input">Address</label>
+                                                    <input type="text" class="form-control" id="address_input"value="<%= tutors.address %>" placeholder="Enter address">
+                                                  </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn-cancel"
-                                                        data-dismiss="modal">Cancel</button>
-                                                    <button type="submit" class="btn-save-profile">Save</button>
+                                                  <button type="button" class="btn-cancel" data-dismiss="modal">Cancel</button>
+                                                  <button type="button" class="btn-save-profile" onclick="saveProfile()">Save</button>
                                                 </div>
-                                            </form>
+                                              </form>
                                         </div>
                                     </div>
                                 </div>
@@ -186,4 +185,35 @@
         profileModal.classList.remove('show');
         profileModal.style.display = 'none';
     });
+    //////
+    $('.btn-edit-profile').click(function () {
+    $('#name_input').val('<%= tutors.username %>');
+    $('#email_input').val('<%= tutors.email %>');
+});
+
+/////
+function saveProfile() {
+  const name = document.getElementById('name_input').value;
+  const email = document.getElementById('email_input').value;
+  const phone = document.getElementById('phone_input').value;
+  const date = document.getElementById('date_input').value;
+  const address = document.getElementById('address_input').value;
+debugger
+  const data = { name: name, email: email, phonenumber: phone, birthday: date, address: address };
+  
+  // Gửi request PUT đến server để cập nhật thông tin người dùng
+  fetch('/tutor/save', {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log(data.message); // In thông báo thành công
+   
+  })
+  .catch(error => console.error(error));
+}
 </script>

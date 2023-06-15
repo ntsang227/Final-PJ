@@ -102,8 +102,35 @@ router.post('/register', async (req, res) => { //NOSONAR
       res.status(500).json({ message: err.message });
     }
   });
+///
+// Router
+router.put('/save', checkMember, function(req, res) {
+  const name = req.body.name;
+  const email = req.body.email;
+  const phone = req.body.phonenumber;
+  const birthday= new Date(req.body.birthday);
 
-  
+  const address = req.body.address;
+ 
+  // Tìm và cập nhật thông tin người dùng theo name và email nhập từ client
+  Tutor.findOneAndUpdate({ email: email }, {
+     $set: { phonenumber: phone, birthday: birthday, address: address } }, { new: true })
+    .then(tutor => {
+      if (!tutor) {
+        res.status(404).json({ message: 'User not found' });
+      } else {
+        console.log('tutor: ', tutor);
+        res.json({ message: 'User data updated successfully' });
+       
+      }
+    })
+    
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ message: 'Internal server error' });
+    });
+});
+
 //Functions
   // Function check member
   function checkMember(req, res, next){

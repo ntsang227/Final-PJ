@@ -12,7 +12,7 @@ const dataSchema = new mongoose.Schema({
     },
     birthday: {
         type: Date,
-        default: '1/1/1960',
+        default: '',
     },
     email: {
         required: true,
@@ -26,7 +26,7 @@ const dataSchema = new mongoose.Schema({
     password: {
         required: true,
         type: String,
-        default : '12345',
+        default : '',
     },    
     address: {
         type: String,
@@ -34,7 +34,7 @@ const dataSchema = new mongoose.Schema({
     },
     status : {
         type: String,
-        default : 'active',
+        default : '',
     }
 })
 const Tutor =  mongoose.model('tutors', dataSchema);
