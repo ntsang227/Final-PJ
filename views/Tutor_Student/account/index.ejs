@@ -29,10 +29,11 @@
                         <div class="col-md-4 gradient-custom text-center text-white"
                             style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
                             <img src="<%= tutors.avt %>" alt="Avatar" class="img-fluid my-5" id="avatar"
-                                style="width: 100px; height: 100px; border-radius: 50px;" />
-                            <h5><%= tutors.username %></h5>
-                            <input type="file" id="avatar-upload-input" style="display:none;">
-                            <a href="#"><i class="far fa-edit mb-5"></i></a>
+                            style="width: 100px; height: 100px; border-radius: 50px;" />
+                          <h5><%= tutors.username %></h5>
+                          <input type="file" id="avatar-upload-input" style="display:none;">
+                          <label for="avatar-upload-input"><i class="far fa-edit mb-5"></i></label>
+   
                         </div>
                         <div class="col-md-8">
                             <div class="card-body p-4">
@@ -192,7 +193,7 @@
     $('#email_input').val('<%= tutors.email %>');
 });
 
-/////
+//cập nhật profile
 function saveProfile() {
   const name = document.getElementById('name_input').value;
   const email = document.getElementById('email_input').value;
@@ -212,9 +213,32 @@ debugger
   })
   .then(response => response.json())
   .then(data => {
-    console.log(data.message); // In thông báo thành công
+    //console.log(data.message); // In thông báo thành công
    
   })
   .catch(error => console.error(error));
 }
+
+////
+document.getElementById('avatar-upload-input').addEventListener('change', (event) => {
+  const file = event.target.files[0];
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = () => {
+    const fileContent = reader.result;
+
+    // Gửi yêu cầu cập nhật đến máy chủ với đường dẫn đến tệp ảnh đã tải lên
+    const formData = new FormData();
+    formData.append('tutorId', '<%= tutors._id %>');
+    formData.append('file', file);
+    fetch('/tutor/avatar/update', {
+      method: 'POST',
+      body: formData
+    })
+    .then(res => {
+      if (res.ok) location.reload();
+    })
+    .catch(err => console.log(err));
+  };
+});
 </script>

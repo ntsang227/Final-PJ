@@ -4,6 +4,7 @@ const Admin = require('../../db/models/admins.js');
 const Tutor = require('../../db/models/tutor.js');
 const Review = require('../../db/models/reviews.js');
 const Course = require('../../db/models/course.js');
+const multer = require('multer');
 const router = express.Router();
 
 //Yêu cầu chuyển hướng
@@ -113,9 +114,8 @@ router.post('/register', async (req, res) => { //NOSONAR
       res.status(500).json({ message: err.message });
     }
   });
-///
-// Router
-router.put('/save', checkMember, function(req, res) {
+// Router cập nhật thông tin profile
+router.put('/save', checkMember,async function(req, res) {
   const name = req.body.name;
   const email = req.body.email;
   const phone = req.body.phonenumber;
@@ -130,18 +130,55 @@ router.put('/save', checkMember, function(req, res) {
       if (!tutor) {
         res.status(404).json({ message: 'User not found' });
       } else {
-        console.log('tutor: ', tutor);
-        res.json({ message: 'User data updated successfully' });
-       
+        res.json({ message: 'User data updated successfully' }); 
       }
-    })
-    
+    })  
     .catch(err => {
       console.error(err);
       res.status(500).json({ message: 'Internal server error' });
     });
 });
 
+
+
+///
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, '/../../public/avatar/'); // chỉ định đường dẫn tương đối tới thư mục 'public/avatar'
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+    }
+});
+
+const upload = multer({ storage });
+const fs = require('fs');
+
+router.post('/avatar/update', upload.single('file'), async (req, res) => {
+  try {
+    // Đọc nội dung file
+    const fileContent = fs.readFileSync(req.file.path);
+
+    // Tạo đường dẫn mới
+    const path = require('path');
+    const newPath = path.join(__dirname, '..', '..', 'public', 'avatar', req.file.filename);
+    
+    
+    // Ghi vào đường dẫn mới
+    fs.writeFileSync(newPath, fileContent);
+
+    // Xóa file tạm
+    fs.unlinkSync(req.file.path);  
+
+    // Lưu đường dẫn mới vào DB
+    const tutor = await Tutor.findOne({ _id: req.body.tutorId });
+    tutor.avt = '/avatar/' + req.file.filename; // Lưu đường dẫn tương đối của file
+    await tutor.save();
+    res.send('Avatar updated!');
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
 //Functions
 // Function check member
 function checkMember(req, res, next) {
