@@ -120,12 +120,9 @@ router.put('/save', checkMember, function(req, res) {
       if (!tutor) {
         res.status(404).json({ message: 'User not found' });
       } else {
-        console.log('tutor: ', tutor);
         res.json({ message: 'User data updated successfully' });
-       
       }
     })
-    
     .catch(err => {
       console.error(err);
       res.status(500).json({ message: 'Internal server error' });
