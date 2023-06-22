@@ -132,6 +132,44 @@ router.put('/save', checkMember, function(req, res) {
     });
 });
 
+// avatar
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, '/../../public/avatar/'); // chỉ định đường dẫn tương đối tới thư mục 'public/avatar'
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+    }
+});
+
+const upload = multer({ storage });
+const fs = require('fs');
+
+router.post('/avatar/update', upload.single('file'), async (req, res) => {
+  try {
+    // Đọc nội dung file
+    const fileContent = fs.readFileSync(req.file.path);
+
+    // Tạo đường dẫn mới
+    const path = require('path');
+    const newPath = path.join(__dirname, '..', '..', 'public', 'avatar', req.file.filename);
+    
+    
+    // Ghi vào đường dẫn mới
+    fs.writeFileSync(newPath, fileContent);
+
+    // Xóa file tạm
+    fs.unlinkSync(req.file.path);  
+
+    // Lưu đường dẫn mới vào DB
+    const tutor = await Tutor.findOne({ _id: req.body.tutorId });
+    tutor.avt = '/avatar/' + req.file.filename; // Lưu đường dẫn tương đối của file
+    await tutor.save();
+    res.send('Avatar updated!');
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
 //Functions
   // Function check member
   function checkMember(req, res, next){
