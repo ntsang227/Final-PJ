@@ -38,3 +38,22 @@
     "client": "npm run start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
+
+  <div class="col-sm harticle-item">
+        <img src="./images/news.jpg" alt="news img" width="350" height="200">
+        <h6 class="article-item">Tutor Anytime đã có mặt trên ứng dụng Ngân hàng số - Vietinbank iPay Mobile</h6>
+        <div class="article-desc">
+          Bệnh dịch xuất hiện ngày càng nhiều và khó lường; song song đó, các bệnh mạn tính đang có xu hướng trẻ hóa bởi
+          sự bận rộn của cuộc sống hối hả, rất ít thời gian chăm sóc bản thân.
+        </div>
+        <a href="#">Xem thêm...</a>
+      </div>
+      <div class="col-sm harticle-item">
+        <img src="./images/news.jpg" alt="news img" width="350" height="200">
+        <h6 class="article-item">Tutor Anytime đã có mặt trên ứng dụng Ngân hàng số - Vietinbank iPay Mobile.</h6>
+        <div class="article-desc">
+          Bệnh dịch xuất hiện ngày càng nhiều và khó lường; song song đó, các bệnh mạn tính đang có xu hướng trẻ hóa bởi
+          sự bận rộn của cuộc sống hối hả, rất ít thời gian chăm sóc bản thân.
+        </div>
+        <a href="#">Xem thêm...</a>
+      </div>

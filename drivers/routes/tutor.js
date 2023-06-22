@@ -8,39 +8,28 @@ const multer = require('multer');
 const router = express.Router();
 
 //Yêu cầu chuyển hướng
-router.get('/', checkMember, function (req, res) {
-  req.session.destroy();
-  res.render('Tutor_Student/main/index.ejs', { username: req.session.username });
-});
-// Chuyển hướng đến trang home tutor 
-
-router.get('/home', checkMember, async (req, res) => {
-  try {
-    const courses = await Course.find();
-    console.log(courses);
-    res.render('Tutor_Student/main/index.ejs',
-      {
-        courses,
-      });
-  }
-  catch (error) {
-    res.status(500).json({ message: error.message })
-  }
-})
-
-// //Chuyển hướng đến đăng kí thành viên
-// router.get('/register', function (req, res) {
-//   res.render('Tutor_Student/signup/index.ejs', { message: '' });
-// });
-//Chuyển hướng đến đăng kí thành viên
-router.get('/register', function (req, res) {
-  res.render('Tutor_Student/signup/index.ejs', { message: '' });
-});
-
-//Chuyển hướng đến login 
-router.get('/login', function (req, res) {
-  res.render('Tutor_Student/login/index.ejs', { message: '' });
-});
+  router.get('/', checkMember ,function(req, res) {
+    req.session.destroy();
+    res.render('User/main/index.ejs', { username: req.session.username });
+  }); 
+  // Chuyển hướng đến trang home tutor 
+  router.get('/home', checkMember ,function(req, res) { 
+    res.render('User/main/index.ejs', { username: req.session.username });
+  }); 
+  
+  // //Chuyển hướng đến đăng kí thành viên
+  // router.get('/register', function (req, res) {
+  //   res.render('User/signup/index.ejs', { message: '' });
+  // });
+  //Chuyển hướng đến đăng kí thành viên
+  router.get('/register', function (req, res) {
+    res.render('User/signup/index.ejs', { message: '' });
+  });
+  
+  //Chuyển hướng đến login 
+  router.get('/login', function(req, res) {
+    res.render('User/login/index.ejs', { message: '' });
+  });
 //Post đăng kí tài khoản
 router.post('/register', async (req, res) => { //NOSONAR
   const tutor = new Tutor({
@@ -50,13 +39,13 @@ router.post('/register', async (req, res) => { //NOSONAR
   })
   const email = req.body.email;
   const username = req.body.username;
-  const existingUsername = await Tutor.findOne({ username });
+  const existingUsername = await Tutor.findOne({ username});
   const existingEmail = await Tutor.findOne({ email });
   if (existingEmail) {
-    return res.render('Tutor_Student/signup', { message: 'Email đã được đăng ký.' });
+    return res.render('User/signup',{ message: 'Email đã được đăng ký.' });
   }
   if (existingUsername) {
-    return res.render('Tutor_Student/signup', { message: 'Username đã được sử dụng.' });
+    return res.render('User/signup',{ message: 'Username đã được sử dụng.' });
   }
   try {
     await tutor.save();
@@ -73,11 +62,11 @@ router.post('/register', async (req, res) => { //NOSONAR
     try {
       const tutor = await Tutor.findOne({ email: email});
       if (!tutor) {
-        res.render('Tutor_Student/login', { message: 'Tên đăng nhập hoặc mật khẩu không đúng.' });
+        res.render('User/login', { message: 'Tên đăng nhập hoặc mật khẩu không đúng.' });
       } else if (tutor.password !== password) {
-        res.render('Tutor_Student/login', { message: 'Tên đăng nhập hoặc mật khẩu không đúng.' });
+        res.render('User/login', { message: 'Tên đăng nhập hoặc mật khẩu không đúng.' });
       } else if (tutor.status !== 'active') {
-        res.render('Tutor_Student/login', { message: 'Tài khoản bị khóa' });
+        res.render('User/login', { message: 'Tài khoản bị khóa' });
       } else {
         
         req.session.loggedin = true;
@@ -87,7 +76,7 @@ router.post('/register', async (req, res) => { //NOSONAR
       }
     } catch (err) {
       console.error(err);
-      res.render('Tutor_Student/login', { message: 'Đã xảy ra lỗi khi đăng nhập.' });
+      res.render('User/login', { message: 'Đã xảy ra lỗi khi đăng nhập.' });
     }
   });
   router.get('/profile', checkMember, async function (req, res) { //NOSONAR
@@ -103,7 +92,7 @@ router.post('/register', async (req, res) => { //NOSONAR
       const options = { day: 'numeric', month: 'numeric', year: 'numeric' };
       const formattedBirthday = birthday.toLocaleDateString('vi-VN', options);
       //render 
-      res.render('Tutor_Student/account/index.ejs', {
+      res.render('User/account/index.ejs', {
         tutors,
         reviews,
         course,
@@ -114,8 +103,9 @@ router.post('/register', async (req, res) => { //NOSONAR
       res.status(500).json({ message: err.message });
     }
   });
-// Router cập nhật thông tin profile
-router.put('/save', checkMember,async function(req, res) {
+///
+// Router
+router.put('/save', checkMember, function(req, res) {
   const name = req.body.name;
   const email = req.body.email;
   const phone = req.body.phonenumber;
@@ -130,67 +120,30 @@ router.put('/save', checkMember,async function(req, res) {
       if (!tutor) {
         res.status(404).json({ message: 'User not found' });
       } else {
-        res.json({ message: 'User data updated successfully' }); 
+        console.log('tutor: ', tutor);
+        res.json({ message: 'User data updated successfully' });
+       
       }
-    })  
+    })
+    
     .catch(err => {
       console.error(err);
       res.status(500).json({ message: 'Internal server error' });
     });
 });
 
-
-
-///
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, '/../../public/avatar/'); // chỉ định đường dẫn tương đối tới thư mục 'public/avatar'
-  },
-  filename: (req, file, cb) => {
-    cb(null, file.originalname);
-    }
-});
-
-const upload = multer({ storage });
-const fs = require('fs');
-
-router.post('/avatar/update', upload.single('file'), async (req, res) => {
-  try {
-    // Đọc nội dung file
-    const fileContent = fs.readFileSync(req.file.path);
-
-    // Tạo đường dẫn mới
-    const path = require('path');
-    const newPath = path.join(__dirname, '..', '..', 'public', 'avatar', req.file.filename);
-    
-    
-    // Ghi vào đường dẫn mới
-    fs.writeFileSync(newPath, fileContent);
-
-    // Xóa file tạm
-    fs.unlinkSync(req.file.path);  
-
-    // Lưu đường dẫn mới vào DB
-    const tutor = await Tutor.findOne({ _id: req.body.tutorId });
-    tutor.avt = '/avatar/' + req.file.filename; // Lưu đường dẫn tương đối của file
-    await tutor.save();
-    res.send('Avatar updated!');
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
-});
 //Functions
-// Function check member
-function checkMember(req, res, next) {
-  try {
+  // Function check member
+  function checkMember(req, res, next){
+    try {
     if (req.session.loggedin) {
-      next();
-    } else {
-      res.redirect('/tutor/login');
+        next();  
+    } else {  
+        res.redirect('/tutor/login');
     }
   }
   catch (error) {
     res.status(500).json({ message: 'Lỗi' })
+    }
   }
-}
 module.exports = router; 
