@@ -34,9 +34,9 @@
                         <% if(i===8) break; %>
                             <div class="card-body">
                                 <h5 class="card-title">
-                                    <a href="#"><%= courses[i].name %></a>
+                                    <a href="/tutor/detail-courses/<%= courses[i]._id %>"><%= courses[i].name %></a>
                                 </h5>
-                                <p class="card-text">Tên gia sư: <%= courses[i].nametutor %></p>
+                                <p class="card-text">Tên gia sư: <a href="/tutor/detail-tutor"><%= courses[i].nametutor %></a></p>
                                 <p class="card-text">Trạng thái: <%= courses[i].status %></p>
                                 <p class="card-text">Mô tả: <%= courses[i].decs %></p>
                                 <p class="card-text"><small class="text-muted">Ngày đăng: <%= new
