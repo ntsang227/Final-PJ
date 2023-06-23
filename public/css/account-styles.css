@@ -81,3 +81,9 @@ a.course p:hover {
 i.far.fa-edit.mb-5 {
     font-size: 1.3em; /* Change this value to adjust the size */
   }
+a.update-email{
+    display: none;
+}
+div.update:hover a.update-email{
+    display: block;
+}

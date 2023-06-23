@@ -106,16 +106,16 @@ router.post('/register', async (req, res) => { //NOSONAR
 ///
 // Router
 router.put('/save', checkMember, function(req, res) {
-  const name = req.body.name;
+  const name = req.body.username;
   const email = req.body.email;
   const phone = req.body.phonenumber;
   const birthday= new Date(req.body.birthday);
 
   const address = req.body.address;
  
-  // Tìm và cập nhật thông tin người dùng theo name và email nhập từ client
+  // Tìm và cập nhật thông tin người dùng theo  email nhập từ client
   Tutor.findOneAndUpdate({ email: email }, {
-     $set: { phonenumber: phone, birthday: birthday, address: address } }, { new: true })
+     $set: { username: name, email: email, phonenumber: phone, birthday: birthday, address: address } }, { new: true })
     .then(tutor => {
       if (!tutor) {
         res.status(404).json({ message: 'User not found' });
