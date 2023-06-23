@@ -5,6 +5,7 @@ const Tutor = require('../../db/models/tutor.js');
 const Review = require('../../db/models/reviews.js');
 const Course = require('../../db/models/course.js');
 const multer = require('multer');
+const path = require('path');
 const router = express.Router();
 
 //Yêu cầu chuyển hướng
@@ -110,12 +111,11 @@ router.put('/save', checkMember, function(req, res) {
   const email = req.body.email;
   const phone = req.body.phonenumber;
   const birthday= new Date(req.body.birthday);
-
   const address = req.body.address;
  
   // Tìm và cập nhật thông tin người dùng theo  email nhập từ client
   Tutor.findOneAndUpdate({ email: email }, {
-     $set: { username: name, email: email, phonenumber: phone, birthday: birthday, address: address } }, { new: true })
+     $set: { username: name,email: email,phonenumber: phone, birthday: birthday, address: address } }, { new: true })
     .then(tutor => {
       if (!tutor) {
         res.status(404).json({ message: 'User not found' });
@@ -129,39 +129,25 @@ router.put('/save', checkMember, function(req, res) {
     });
 });
 
+
 // avatar
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, '/../../public/avatar/'); // chỉ định đường dẫn tương đối tới thư mục 'public/avatar'
+  destination: function (req, file, cb) {
+    cb(null, 'public/avatar'); // chỉ định đường dẫn tương đối tới thư mục 'public/avatar'
   },
-  filename: (req, file, cb) => {
-    cb(null, file.originalname);
-    }
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+  }
 });
 
-const upload = multer({ storage });
-const fs = require('fs');
+const upload = multer({ storage: storage });
 
 router.post('/avatar/update', upload.single('file'), async (req, res) => {
   try {
-    // Đọc nội dung file
-    const fileContent = fs.readFileSync(req.file.path);
-
-    // Tạo đường dẫn mới
-    const path = require('path');
-    const newPath = path.join(__dirname, '..', '..', 'public', 'avatar', req.file.filename);
-    
-    
-    // Ghi vào đường dẫn mới
-    fs.writeFileSync(newPath, fileContent);
-
-    // Xóa file tạm
-    fs.unlinkSync(req.file.path);  
-
     // Lưu đường dẫn mới vào DB
-    const tutor = await Tutor.findOne({ _id: req.body.tutorId });
-    tutor.avt = '/avatar/' + req.file.filename; // Lưu đường dẫn tương đối của file
-    await tutor.save();
+    const avatarPath = '/avatar/' + req.file.filename; // Lưu đường dẫn tương đối của file
+    const tutor = await Tutor.findOneAndUpdate({ _id: req.body.tutorId }, { avt: avatarPath });
+
     res.send('Avatar updated!');
   } catch (error) {
     res.status(500).send(error.message);

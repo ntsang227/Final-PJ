@@ -40,12 +40,12 @@
                                 <h6>Information</h6>
                                 <hr class="mt-0 mb-4">
                                 <div class="row pt-1">
-                                    <div class="col-6 mb-3 update">
+                                    <div class="col-6 mb-3">
                                         <h6>Email</h6>
                                         <p class="text-muted ">
                                             <%= tutors.email %>
                                     </p>
-                                    <a href="#" class="update-email">Cập nhật email</a>
+                                    <a href="" class="update-email">Cập nhật email</a>
                                     </div>
                                     <div class="col-6 mb-3">
                                         <h6>Phone</h6>
@@ -105,6 +105,11 @@
                                                   <div class="form-group">
                                                     <label for="name_input">Name</label>
                                                     <input type="text" class="form-control" id="name_input" value="<%= tutors.username %>" placeholder="Enter name">
+                                                  </div>
+                                                  <div class="form-group">
+                                                    <label for="email_input">Email address</label>
+                                                    <input type="email" class="form-control" id="email_input" value="<%= tutors.email %>" placeholder="Enter email">
+                                                    <input type="hidden" id="original_email_input" value="<%= tutors.email %>">
                                                   </div>
                                                   
                                                   <div class="form-group">
@@ -200,7 +205,7 @@ function saveProfile() {
   const date = document.getElementById('date_input').value;
   const address = document.getElementById('address_input').value;
 debugger
-  const data = { username: name, email: email, phonenumber: phone, birthday: date, address: address };
+  const data = { username: name, email:email, phonenumber: phone, birthday: date, address: address };
   
   // Gửi request PUT đến server để cập nhật thông tin người dùng
   fetch('/tutor/save', {
