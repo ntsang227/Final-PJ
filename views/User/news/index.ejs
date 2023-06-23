@@ -16,6 +16,7 @@
                     <p class="date" style="flex:1;">Ngày đăng: <%= new Date(news[i].createdAt).toLocaleString('vi-VN') %>
                     </p>
                     <p class="edit" style="flex:1; border-bottom: rgb(168, 168, 168) solid 1px;">
+                      <a href="/details/<%= news[i]._id %>">Xem thêm </a>|
                       <a href="/">Quay lại</a>
                   </p>
                     </div>
