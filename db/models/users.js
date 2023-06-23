@@ -1,40 +1,39 @@
 const mongoose = require('mongoose');
 
 const dataSchema = new mongoose.Schema({
-    name: {
+    username: {
         required: false,
         type: String,
-        defaul: 'No Name',
+        default: 'No Name',
     },
     avt: {
         type: String,
-        defaul: ''
+        default: ''
     },
     birthday: {
         type: Date,
-        defaul: '1/1/1990',
+        default: '',
     },
     email: {
         required: true,
         type: String,
         default : '',
     },
-    username: {
-        required: true,
+    phonenumber: {
         type: String,
-        default : 'user',
+        default : '',
     },
     password: {
         required: true,
         type: String,
-        default : '12345',
+        default : '',
     },    
     address: {
         type: String,
         default : '',
     },
-    job : { 
-        type : String,
+    status : {
+        type: String,
         default : '',
     }
 })

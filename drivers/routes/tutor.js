@@ -139,6 +139,7 @@ router.put('/save', checkMember, function(req, res) {
       res.status(500).json({ message: 'Internal server error' });
     });
 });
+
 //Đăng xuất
 router.get('/logout', checkMember, function (req, res) {
   try {
