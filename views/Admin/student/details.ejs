@@ -12,7 +12,7 @@
                         <div class="page-title">
                             <div style="background-color: #FFC0CB; display: flex; flex-direction: row; justify-content: space-evenly; height: 50px; margin-bottom: 3%;">
                                 <h1 class="title" style="flex:1; margin-left: 15px;">Thông tin chi tiết</h1>
-                                <form action="/news/search" method="post" style="flex: 1; margin-left: 40%; margin-top: 10px;">
+                                <form action="/user/search" method="post" style="flex: 1; margin-left: 40%; margin-top: 10px;">
                                     <input type="search" placeholder="Search..." style="padding-right: 30%; margin-right: 10px;">
                                     <input type="submit" value="Search">
                                 </form>
@@ -57,9 +57,8 @@
                             <% } else { %>
                                 <% if (typeof message !== 'undefined' && message != '') { %>
                                     <div class="alert alert-success" style="margin-top: 100px ;"><%= message %></div>
-                                <% } else { %>
+                                <% }
                                     <p>Không có thông tin để hiển thị </p>
-                                <% } %>
                             <% } %>
                     </div>
                 </section>
