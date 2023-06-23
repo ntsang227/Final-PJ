@@ -8,28 +8,39 @@ const multer = require('multer');
 const router = express.Router();
 
 //Yêu cầu chuyển hướng
-  router.get('/', checkMember ,function(req, res) {
-    req.session.destroy();
-    res.render('User/main/index.ejs', { username: req.session.username });
-  }); 
-  // Chuyển hướng đến trang home tutor 
-  router.get('/home', checkMember ,function(req, res) { 
-    res.render('User/main/index.ejs', { username: req.session.username });
-  }); 
-  
-  // //Chuyển hướng đến đăng kí thành viên
-  // router.get('/register', function (req, res) {
-  //   res.render('User/signup/index.ejs', { message: '' });
-  // });
-  //Chuyển hướng đến đăng kí thành viên
-  router.get('/register', function (req, res) {
-    res.render('User/signup/index.ejs', { message: '' });
-  });
-  
-  //Chuyển hướng đến login 
-  router.get('/login', function(req, res) {
-    res.render('User/login/index.ejs', { message: '' });
-  });
+router.get('/', checkMember, function (req, res) {
+  req.session.destroy();
+  res.render('User/main/index.ejs', { username: req.session.username });
+});
+// Chuyển hướng đến trang home tutor 
+
+router.get('/home', checkMember, async (req, res) => {
+  try {
+    const courses = await Course.find();
+    res.render('User/main/index.ejs',
+      {
+        courses,
+      });
+  }
+  catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+})
+router.get('/courses', checkMember, function (req, res) {
+  res.render('User/main/course.ejs', { email: req.session.email });
+});
+router.get('/detail-course', checkMember, function (req, res) {
+  res.render('User/main/detail-courses.ejs', { email: req.session.email });
+});
+//Chuyển hướng đến đăng kí thành viên
+router.get('/register', function (req, res) {
+  res.render('User/signup/index.ejs', { message: '' });
+});
+
+//Chuyển hướng đến login 
+router.get('/login', function (req, res) {
+  res.render('User/login/index.ejs', { message: '' });
+});
 //Post đăng kí tài khoản
 router.post('/register', async (req, res) => { //NOSONAR
   const tutor = new Tutor({
@@ -127,6 +138,16 @@ router.put('/save', checkMember, function(req, res) {
       console.error(err);
       res.status(500).json({ message: 'Internal server error' });
     });
+});
+//Đăng xuất
+router.get('/logout', checkMember, function (req, res) {
+  try {
+    req.session.destroy();
+    res.render('User/login/index', { message: '' });
+  }
+  catch (error) {
+    res.status(500).json({ message: 'Lỗi' })
+  }
 });
 
 // avatar
