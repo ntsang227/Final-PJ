@@ -79,7 +79,17 @@ router.get('/tutor/block/:id', checkAdmin, async function(req, res) {// NOSONAR
     const id = req.params.id;
     const status = "inactive";
     await Tutor.findByIdAndUpdate(id, { $set: { status } }, { new: true });
-    res.redirect('/admin/tutor/index.html');
+    //lấy lại danh sách
+    const tutors = await Tutor.find()
+    const name = tutors.username;
+    const reviews = await Review.find(name);
+    res.render('Admin/tutor/index', 
+    {
+      message: 'Đã khóa tài khoản' ,
+      username: req.session.username,
+      tutors,
+      reviews
+    });
   } catch (error) {
     res.status(500).json({ message: error.message })
   }
@@ -90,7 +100,17 @@ router.get('/tutor/unblock/:id', checkAdmin, async function(req, res) { // NOSON
     const id = req.params.id;
     const status = "active";
     await Tutor.findByIdAndUpdate(id, { $set: { status } }, { new: true });
-    res.redirect('/admin/tutor/index.html');
+    //lấy lại danh sách
+    const tutors = await Tutor.find()
+    const name = tutors.username;
+    const reviews = await Review.find(name);
+    res.render('Admin/tutor/index', 
+    {
+      message: 'Đã mở khóa tài khoản' ,
+      username: req.session.username,
+      tutors,
+      reviews
+    });
   } catch (error) {
     res.status(500).json({ message: error.message })
   }

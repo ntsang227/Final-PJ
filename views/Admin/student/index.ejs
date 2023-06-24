@@ -12,8 +12,8 @@
                         <div class="page-title">
                             <div
                                 style="background-color: #FFC0CB; display: flex; flex-direction: row; justify-content: space-evenly; height: 50px; margin-bottom: 3%;">
-                                <h1 class="title" style="flex:1; margin-left: 15px;">Khóa học</h1>
-                                <form action="/tutor/search" method="post"
+                                <h1 class="title" style="flex:1; margin-left: 15px;">Quản lí người dùng</h1>
+                                <form action="/user/search" method="post"
                                     style="flex: 1; margin-left: 40%; margin-top: 10px;">
                                     <input type="text" placeholder="Search..." id="query" name="query"
                                         style="padding-right: 30%; margin-right: 10px;">
@@ -30,7 +30,6 @@
                                     <th scope="col">Name</th>
                                     <th scope="col">ID</th>
                                     <th scope="col">Email</th>
-                                    <th scope="col">Rate</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Edit</th>
                                 </tr>
@@ -41,43 +40,27 @@
 
                                         <tr>
                                             <td>
-                                                <%= tutors[i].username %>
+                                                <%= students[i].username %>
                                             </td>
                                             <td>
-                                                <%= tutors[i]._id %>
+                                                <%= students[i]._id %>
                                             </td>
                                             <td>
-                                                <%= tutors[i].email %>
+                                                <%=students[i].email %>
                                             </td>
                                             <td>
-                                                <% var hasReview = false; %>
-                                                    <% for (var j=0; j < reviews.length; j++) { %>
-                                                        <% if (tutors[i].username === reviews[j].nametutor) { %>
-                                                            <p>
-                                                                    <% for (let k = 0; k < reviews[j].rate; k++) { %>
-                                                                        &#11088; <!-- &#9733; Hoặc &#11088; -->
-                                                                    <% } %>
-                                                            </p>
-                                                            <% hasReview = true; %>
-                                                                <% } %>
-                                                                    <% } %>
-                                                                        <% if (!hasReview) { %>
-                                                                            <p>No reviews</p>
-                                                                            <% } %>
-                                            </td>
-                                            <td>
-                                                <% if (tutors[i].status==='inactive' ) { %>
-                                                    Tài khoản đã khóa
+                                                <% if (students[i].status === 'active' ) { %>
+                                                    Đang hoạt động 
                                                     <% } else { %>
-                                                        Đang hoạt động
+                                                        Tài khoản đã khóa
                                                         <% } %>
                                             </td>
                                             <td>
-                                                <a href="/tutor/details.html/<%= tutors[i]._id %>">Chi tiết</a> |
-                                                <% if (tutors[i].status==="active" ) { %>
-                                                    <a href="/tutor/block/<%= tutors[i]._id %>">Khóa tài khoản</a>
+                                                <a href="/admin/student/details.html/<%= students[i]._id %>">Chi tiết</a> |
+                                                <% if (students[i].status==="active" ) { %>
+                                                    <a href="/admin/student/block/<%= students[i]._id %>">Khóa tài khoản</a>
                                                     <% } else { %>
-                                                        <a href="/tutor/unblock/<%= tutors[i]._id %>">Mở khóa tài
+                                                        <a href="/admin/student/unblock/<%= students[i]._id %>">Mở khóa tài
                                                             khoản</a>
                                                         <% } %>
                                             </td>
@@ -85,18 +68,17 @@
 
                                         <% } %>
                                             <% } else { %>
-                                                <% if (typeof message !=='undefined' && message !='' ) { %>
-                                                    <div class="alert alert-success" style="margin-top: 100px ;">
-                                                        <%= message %>
-                                                    </div>
-                                                    <% } else { %>
+                                                
                                                         <p>Không có thông tin để hiển thị </p>
                                                         <% } %>
-                                                            <% } %>
                             </tbody>
                         </table>
                     </div>
-
+                    <% if (typeof message !== 'undefined') { %>
+                        <div class="alert alert-success">
+                          <%= message %>
+                        </div>
+                      <% } %>
                 </section>
 
             </section>

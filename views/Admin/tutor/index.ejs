@@ -8,12 +8,13 @@
             <!-- START CONTENT -->
             <section id="main-content" class=" ">
                 <section class="wrapper main-wrapper row">
+                    
                     <div class='col-xs-12'>
                         <div class="page-title">
                             <div
                                 style="background-color: #FFC0CB; display: flex; flex-direction: row; justify-content: space-evenly; height: 50px; margin-bottom: 3%;">
-                                <h1 class="title" style="flex:1; margin-left: 15px;">Khóa học</h1>
-                                <form action="admin/tutor/search" method="post" style="flex: 4; margin-left: 40%; margin-top: 10px;">
+                                <h1 class="title" style="flex:2;  margin-left: 15px;">Quản lý gia sư</h1>
+                                <form action="admin/tutor/search" method="post" style="flex: 5; margin-left: 35%; margin-top: 10px; ">
                                     <select name="filter" id="filter" style="flex:1 ;margin-right: 10px;">
                                         <option value="">Tất cả</option>
                                         <option value="1-3">Từ 1 đến 3 sao</option>
@@ -29,6 +30,7 @@
                     </div>
                     <div class="container">
                         <table class="table">
+                            
                             <thead class="" style="background-color: #67CDF9; color: aliceblue;">
                                 <tr>
                                     <th scope="col">Name</th>
@@ -89,18 +91,16 @@
 
                                         <% } %>
                                             <% } else { %>
-                                                <% if (typeof message !=='undefined' && message !='' ) { %>
-                                                    <div class="alert alert-success" style="margin-top: 100px ;">
-                                                        <%= message %>
-                                                    </div>
-                                                    <% } else { %>
                                                         <p>Không có thông tin để hiển thị </p>
                                                         <% } %>
-                                                            <% } %>
                             </tbody>
                         </table>
                     </div>
-
+                    <% if (typeof message !== 'undefined') { %>
+                        <div class="alert alert-success">
+                          <%= message %>
+                        </div>
+                      <% } %>
                 </section>
 
             </section>
