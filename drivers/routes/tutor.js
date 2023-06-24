@@ -10,7 +10,7 @@ const router = express.Router();
 
 //Yêu cầu chuyển hướng
 router.get('/', checkMember, function (req, res) {
-  req.session.destroy();
+  req.session.loggedin_tutor = false;
   res.render('User/main/index.ejs', { email : req.session.email });
 });
 // Chuyển hướng đến trang home tutor 
@@ -169,7 +169,7 @@ router.put('/save', function(req, res) {
 //Đăng xuất
 router.get('/logout', checkMember, function (req, res) {
   try {
-    req.session.destroy();
+    req.session.loggedin_tutor = false;
     res.render('User/login/index', { message: '' });
   }
   catch (error) {

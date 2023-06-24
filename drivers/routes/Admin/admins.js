@@ -4,11 +4,11 @@ const router = express.Router();
 
 //Admin Login
   router.get('/', function(req, res) {
-      req.session.destroy();
+    req.session.loggedin = false;
       res.render('Admin/login/index', { message: 'Bạn cần đăng nhập để tiếp tục' });
     });
   router.get('/login', function(req, res) {
-    req.session.destroy();
+    req.session.loggedin = false;
     res.render('Admin/login/index', { message: 'Bạn cần đăng nhập để tiếp tục' });
   });
   
@@ -57,7 +57,7 @@ const router = express.Router();
   //Đăng xuất 
   router.get('/logout', checkAdmin,  function(req, res) {
     try {
-        req.session.destroy();
+      req.session.loggedin = false;
         res.render('Admin/login/index',{ message: 'Bạn đã đăng xuất khỏi server' });
     }
     catch (error) {

@@ -29,13 +29,28 @@ require('./db/mongodb/database.js');
 // middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(session({
-  secret: 'secret_key',
+
+// Đối tượng cấu hình session thứ nhất
+const sessionConfig1 = {
+  secret: 'secret_key_1',
   resave: false,
   saveUninitialized: true,
   cookie: { secure: false }
-}));
+};
 
+// Đối tượng cấu hình session thứ hai
+const sessionConfig2 = {
+  secret: 'secret_key_2',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false }
+};
+
+// Middleware sử dụng đối tượng cấu hình session thứ nhất
+app.use(session(sessionConfig1));
+
+// Middleware sử dụng đối tượng cấu hình session thứ hai
+app.use(session(sessionConfig2));
 // định nghĩa route
 const admins = require('./drivers/routes/Admin/admins.js');
 const news = require('./drivers/routes/Admin/news.js');
