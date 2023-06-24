@@ -21,6 +21,7 @@ app.use(methodOverride('_method'));
 
 app.set('view engine', 'ejs');
 
+
 app.use(express.static(path.join(__dirname, 'public')));
 // Kết nối đến database bằng cách import file database.js 
 require('./db/mongodb/database.js');
@@ -43,7 +44,6 @@ const tutorAdmin = require('./drivers/routes/Admin/tutor.js');
 const student = require('./drivers/routes/Admin/student.js');
 
 const tutor = require('./drivers/routes/tutor.js');
-//const user = require('./drivers/routes/users.js');
 
 const index = require('./drivers/routes/index.js');
 

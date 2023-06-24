@@ -37,18 +37,6 @@
             </div>
         </div>
         <!-- modal end -->
-        <script type="text/javascript">
-            $(document).ready(function(){
-               $.post(
-                    './admin/getUser',
-                    {
-
-                    },function(data){
-                      $('img.avatar').attr('src', 'upload/' + data.img);
-                      $('.name').html(data.fullname);
-                    }
-                )
-            });
-        </script>
+        
     </body>
 </html>
