@@ -4,6 +4,8 @@ const Admin = require('../../../db/models/admins.js');
 const News = require('../../../db/models/news.js');
 const router = express.Router();
 const multer = require('multer');
+const fs = require('fs');
+const path = require('path');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -133,19 +135,32 @@ const upload = multer({ storage: storage })
         });
     });
     // Sửa tin tức
-    router.put('/news/:id', checkAdmin ,async (req, res) => {
+
+    router.put('/news/:id', checkAdmin, upload.single('image'), async (req, res) => { //NOSONAR
         try {
+            const { name, content } = req.body;
             const id = req.params.id;
-            const updateNews = req.body;
-            updateNews.updatedAt = new Date();
             const news = await News.findById(id);
-            await News.findByIdAndUpdate(
-                id, updateNews
-            )
-            res.render('Admin/news/edit', {news , username: req.session.username , message: 'Sửa thành công'})
-        }
-        catch (error) {
-            res.status(500).json({ message: error.message })
+            const oldImagePath = news.image;
+            console.log(oldImagePath);
+            news.updatedAt = new Date();
+            news.name = name;
+            news.content = content;
+    
+            if (req.file) {
+                news.image = `/images/${req.file.filename}`;
+    
+                // Kiểm tra file cũ tồn tại trước khi xóa
+                if (fs.existsSync(oldImagePath)) {
+                    fs.unlinkSync(oldImagePath);
+                }
+            }
+    
+            await news.save();
+    
+            res.render('Admin/news/edit', { news, username: req.session.username, message: 'Sửa thành công' });
+        } catch (error) {
+            res.status(500).json({ message: error.message });
         }
     });
     //Tìm kiếm tin tức

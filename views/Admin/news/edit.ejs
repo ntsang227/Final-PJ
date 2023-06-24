@@ -14,19 +14,25 @@
           <div class="row">
             <div class="col-xs-12">
               <h2>Sửa Tin Tức</h2>
-              <form method="POST" action="/admin/news/<%= news._id %>?_method=PUT" style="background-color: #fff; border: 1px solid #ccc; padding: 20px; border-radius: 5px;">
-                <div class="form-group" style="margin-bottom: 20px;">
-                  <label for="name" style="font-weight: bold;">Tên tin tức muốn sửa:</label>
+              <form method="POST" action="/admin/news/<%= news._id %>?_method=PUT" enctype="multipart/form-data" class="form-style">
+                <div class="form-group">
+                  <label for="name">Tên tin tức muốn sửa:</label>
                   <input type="text" id="name" name="name" value="<%= news.name %>" class="form-control">
                 </div>
-      
-                <div class="form-group" style="margin-bottom: 20px;">
-                  <label for="content" style="font-weight: bold;">Nội dung mới:</label>
+              
+                <div class="form-group">
+                  <label for="content">Nội dung mới:</label>
                   <textarea id="content" name="content" class="form-control"><%= news.content %></textarea>
                 </div>
-      
-                <button type="submit" class="btn btn-primary" style="padding: 10px 30px; background-color: #007bff; color: #fff; border-radius: 5px; transition: all 0.3s ease;">Cập nhật</button>
+                
+                <div class="form-group">
+                  <label for="image">Hình ảnh mới:</label>
+                  <input type="file" name="image" id="image">
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Cập nhật</button>
               </form>
+              
               <br>
               <% if (typeof message !== 'undefined' && message != '') { %>
                 <div class="alert alert-success"><%= message %></div>

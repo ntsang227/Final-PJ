@@ -10,27 +10,45 @@
         <section class="wrapper main-wrapper row">
             <%- include('../course/search.ejs') %>
             <div class="container">
-               
-                <% if (typeof courses !== 'undefined' && Array.isArray(courses) && courses.length > 0) { %>
-                    <% for(var i=0; i< courses.length; i++){ %>
-                        <% if (courses[i].status !== 'Đã đóng' ) { %>
-                            <div class="card mb-3">
-                                <div class="card-body">
-                                    <h5 class="card-title">Tên : <%= courses[i].name %></h5>
-                                    <p class="card-text">Mã khóa học : <%= courses[i].key %></p>
-                                    <p class="card-text">Tên giáo viên : <%= courses[i].nametutor %></p>
-                                    <p class="card-text">Trạng thái: <%= courses[i].status %></p>
+                <table class="table">
+                    <thead class="" style="background-color: #67CDF9; color: aliceblue;">
+                        <tr>
+                            <th scope="col">Tên Khóa Học</th>
+                            <th scope="col">Mã Khóa Học</th>
+                            <th scope="col">Tên Giáo Viên</th>
+                            <th scope="col">Tên Học Viên</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (typeof courses !== 'undefined' && Array.isArray(courses) && courses.length > 0) { %>
+                            <% for(var i=0; i< courses.length; i++){ %>
+                                <% if (courses[i].status !== 'Đã đóng' ) { %>
+                                <tr>
+                                    <td>
+                                        <%= courses[i].name %>
+                                    </td>
+                                    <td>
+                                        <%= courses[i].key %>
+                                    </td>
+                                    <td>
+                                        <%= courses[i].nametutor %>
+                                    </td>
+                                    <td>
+                                        <%= courses[i].status %>
+                                    </td>
                                     <td>
                                         <a href="/admin/course/apply/<%= courses[i]._id %>">Duyệt khóa học </a>|
                                         <a href="/admin/course/details.html/<%= courses[i]._id %>">Chi tiết</a>
                                     </td>
-                                </div>
-                            </div>
-                        <% } %>
-                    <% } %>
-                    <% } else { %>
+                                </tr>
+                                <% } %>
+                            <% } %>
+                        <% } else { %>
                             <p>Không có khóa học cần phê duyệt</p>
-                    <% } %>
+                        <% } %>
+                    </tbody>
+                </table>
+                       
             </div>
             <% if (typeof message !== 'undefined' && message != '') { %>
                 <div class="alert alert-success" style="margin-top: 100px ;"><%= message %></div>
