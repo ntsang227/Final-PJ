@@ -16,13 +16,44 @@ const storage = multer.diskStorage({
 })
 
 const upload = multer({ storage: storage })
-
-
-//News - yêu cầu chuyển hướng
-// Chuyển hướng đến trang chủ 
-router.get('/course/', checkAdmin, async (req, res) => {
+//Go to apply course page 
+router.get('/course/apply-course.html', checkAdmin, async (req, res) => { //NOSONAR
     try {
+        const courses = await Course.find({ status: 'Đang mở' });
+        res.render('Admin/course/apply',
+            {
+                courses,
+                username: req.session.username,
+            });
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+})
+//apply course
+router.get('/course/apply/:id', checkAdmin, async (req, res) => { //NOSONAR
+    try {
+        const id = req.params.id;
+        const status = 'Đã đóng';
+        await Course.findByIdAndUpdate(
+            id, { status }
+        )
         const courses = await Course.find();
+        res.render('Admin/course/apply',
+            {
+                courses,
+                username: req.session.username,
+                message: 'Duyệt khóa thành công'
+            });
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+})
+// Chuyển hướng đến trang chủ 
+router.get('/course/', checkAdmin, async (req, res) => { //NOSONAR
+    try {
+        const courses = await Course.find({ status: 'Đã đóng' });
         //console.log(JSON.stringify(news)) 
         res.render('Admin/course/index.ejs',
             {

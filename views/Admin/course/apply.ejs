@@ -1,0 +1,44 @@
+<%- include('../layout/header.ejs') %>
+<!-- END TOPBAR -->
+<!-- START CONTAINER -->
+<div class="page-container row-fluid container-fluid">
+    <!-- SIDEBAR - START -->
+      <%- include('../layout/menu.ejs') %>
+    <!--  SIDEBAR - END -->
+    <!-- START CONTENT -->
+    <section id="main-content" class=" ">
+        <section class="wrapper main-wrapper row">
+            <%- include('../course/search.ejs') %>
+            <div class="container">
+               
+                <% if (typeof courses !== 'undefined' && Array.isArray(courses) && courses.length > 0) { %>
+                    <% for(var i=0; i< courses.length; i++){ %>
+                        <% if (courses[i].status !== 'Đã đóng' ) { %>
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">Tên : <%= courses[i].name %></h5>
+                                    <p class="card-text">Mã khóa học : <%= courses[i].key %></p>
+                                    <p class="card-text">Tên giáo viên : <%= courses[i].nametutor %></p>
+                                    <p class="card-text">Trạng thái: <%= courses[i].status %></p>
+                                    <td>
+                                        <a href="/admin/course/apply/<%= courses[i]._id %>">Duyệt khóa học </a>|
+                                        <a href="/admin/course/details.html/<%= courses[i]._id %>">Chi tiết</a>
+                                    </td>
+                                </div>
+                            </div>
+                        <% } %>
+                    <% } %>
+                    <% } else { %>
+                            <p>Không có khóa học cần phê duyệt</p>
+                    <% } %>
+            </div>
+            <% if (typeof message !== 'undefined' && message != '') { %>
+                <div class="alert alert-success" style="margin-top: 100px ;"><%= message %></div>
+            <% } %>
+        </section>
+        
+    </section>
+    <!-- END CONTENT -->
+    <div class="chatapi-windows ">
+    </div>
+<%- include('../layout/footer.ejs') %>

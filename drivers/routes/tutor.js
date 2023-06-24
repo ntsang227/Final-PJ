@@ -11,7 +11,7 @@ const router = express.Router();
 //Yêu cầu chuyển hướng
 router.get('/', checkMember, function (req, res) {
   req.session.destroy();
-  res.render('User/main/index.ejs', { username: req.session.username });
+  res.render('User/main/index.ejs', { email : req.session.email });
 });
 // Chuyển hướng đến trang home tutor 
 
@@ -81,9 +81,8 @@ router.post('/register', async (req, res) => { //NOSONAR
         res.render('User/login', { message: 'Tài khoản bị khóa' });
       } else {
         
-        req.session.loggedin = true;
+        req.session.loggedin_tutor = true;
         req.session.email = email;
-        req.session.username = tutor.username;
         res.redirect('/tutor/home');
       }
     } catch (err) {
@@ -179,7 +178,7 @@ router.post('/avatar/update', upload.single('file'), async (req, res) => {
   // Function check member
   function checkMember(req, res, next){
     try {
-    if (req.session.loggedin) {
+    if (req.session.loggedin_tutor) {
         next();  
     } else {  
         res.redirect('/tutor/login');
