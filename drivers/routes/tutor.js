@@ -91,7 +91,7 @@ router.post('/register', async (req, res) => { //NOSONAR
       res.render('User/login', { message: 'Đã xảy ra lỗi khi đăng nhập.' });
     }
   });
-  router.get('/profile', checkMember, async function (req, res) { //NOSONAR
+router.get('/profile', checkMember, async function (req, res) { //NOSONAR
     try {
       const emailtutor = req.session.email;
       //Tìm thông tin 
@@ -115,29 +115,56 @@ router.post('/register', async (req, res) => { //NOSONAR
       res.status(500).json({ message: err.message });
     }
   });
-///
-// Router
-router.put('/save', checkMember, function(req, res) {
+// update profile
+router.put('/save', function(req, res) {
   const name = req.body.username;
   const email = req.body.email;
+  const newEmail = req.body.newEmail;
   const phone = req.body.phonenumber;
   const birthday= new Date(req.body.birthday);
   const address = req.body.address;
  
-  // Tìm và cập nhật thông tin người dùng theo  email nhập từ client
-  Tutor.findOneAndUpdate({ email: email }, {
-     $set: { username: name,email: email,phonenumber: phone, birthday: birthday, address: address } }, { new: true })
-    .then(tutor => {
-      if (!tutor) {
-        res.status(404).json({ message: 'User not found' });
-      } else {
-        res.json({ message: 'User data updated successfully' });
-      }
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(500).json({ message: 'Internal server error' });
-    });
+  // Kiểm tra xem có email mới không
+  if (newEmail) {
+    // Tìm kiếm người dùng với địa chỉ email mới
+    Tutor.findOne({ email: newEmail })
+      .then(existingUser => {
+        if (existingUser) {
+          // Địa chỉ email mới đã được sử dụng bởi người dùng khác
+          res.status(400).json({ message: 'Email address is already in use' });
+        } else {
+          // Địa chỉ email mới chưa được sử dụng, cập nhật thông tin người dùng
+          Tutor.findOneAndUpdate({ email: email }, {
+            $set: {username: name,email: newEmail, phonenumber: phone, birthday: birthday, address: address } }, { new: true })
+            .then(tutor => {
+              if (!tutor) {
+                res.status(404).json({ message: 'User not found' });
+              } else {
+                res.json({ message: 'User data updated successfully' });
+              }
+            })
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+      });
+  } else {
+    // Không có email mới, cập nhật thông tin người dùng bình thường
+    Tutor.findOneAndUpdate({ email: email }, {
+      $set: { username: name, phonenumber: phone, birthday: birthday, address: address } }, { new: true })
+      .then(tutor => {
+        if (!tutor) {
+          res.status(404).json({ message: 'User not found' });
+        } else {
+          res.json({ message: 'User data updated successfully' });
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+      });
+  }
 });
 //Đăng xuất
 router.get('/logout', checkMember, function (req, res) {
@@ -149,12 +176,10 @@ router.get('/logout', checkMember, function (req, res) {
     res.status(500).json({ message: 'Lỗi' })
   }
 });
-
-
 // avatar
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'public/avatar'); // chỉ định đường dẫn tương đối tới thư mục 'public/avatar'
+    cb(null, 'public/avatar');
   },
   filename: function (req, file, cb) {
     cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
@@ -166,8 +191,30 @@ const upload = multer({ storage: storage });
 router.post('/avatar/update', upload.single('file'), async (req, res) => {
   try {
     // Lưu đường dẫn mới vào DB
-    const avatarPath = '/avatar/' + req.file.filename; // Lưu đường dẫn tương đối của file
-    const tutor = await Tutor.findOneAndUpdate({ _id: req.body.tutorId }, { avt: avatarPath });
+    const avatarPath = '/avatar/' + req.file.filename;
+    const tutor = await Tutor.findOne({ _id: req.body.tutorId });
+    const oldAvatarPath = tutor.avt;
+
+    // Xóa ảnh cũ nếu tồn tại
+   // Lưu đường dẫn tương đối của thư mục public vào một biến
+const publicDir = 'public';
+
+// Xóa ảnh cũ nếu tồn tại
+if (oldAvatarPath) {
+  const fs = require('fs');
+  const filePath = path.join(publicDir, oldAvatarPath);
+  if (fs.existsSync(filePath)) {
+    fs.unlink(filePath, function (err) {
+      if (err) throw err;
+      //console.log('Old avatar deleted!');
+    });
+  } else {
+   // console.log('Avatar file not found!');
+  }
+}
+
+    // Lưu ảnh mới vào DB
+    await Tutor.findOneAndUpdate({ _id: req.body.tutorId }, { avt: avatarPath });
 
     res.send('Avatar updated!');
   } catch (error) {

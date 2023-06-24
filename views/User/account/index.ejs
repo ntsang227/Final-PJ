@@ -108,8 +108,11 @@
                                                   </div>
                                                   <div class="form-group">
                                                     <label for="email_input">Email address</label>
-                                                    <input type="email" class="form-control" id="email_input" value="<%= tutors.email %>" placeholder="Enter email">
-                                                    <input type="hidden" id="original_email_input" value="<%= tutors.email %>">
+                                                    <input type="email" class="form-control" id="email_input" value="<%= tutors.email %>" placeholder="Enter email"> 
+                                                  </div>
+                                                  <div class="form-group">
+                                                    <label for="new_email_input">New email address</label>
+                                                    <input type="email" class="form-control" id="new_email_input" placeholder="Enter new email"> 
                                                   </div>
                                                   
                                                   <div class="form-group">
@@ -201,14 +204,17 @@
 function saveProfile() {
   const name = document.getElementById('name_input').value;
   const email = document.getElementById('email_input').value;
+  const newEmail = document.getElementById('new_email_input').value;
   const phone = document.getElementById('phone_input').value;
   const date = document.getElementById('date_input').value;
   const address = document.getElementById('address_input').value;
-debugger
-  const data = { username: name, email:email, phonenumber: phone, birthday: date, address: address };
   
+debugger
+  const data = { username: name, email: email,newEmail, phonenumber: phone, birthday: date, address: address };
+
   // Gửi request PUT đến server để cập nhật thông tin người dùng
   fetch('/tutor/save', {
+
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
@@ -224,7 +230,7 @@ debugger
   .catch(error => console.error(error));
 }
 
-////
+//avatar
 document.getElementById('avatar-upload-input').addEventListener('change', (event) => {
   const file = event.target.files[0];
   const reader = new FileReader();
