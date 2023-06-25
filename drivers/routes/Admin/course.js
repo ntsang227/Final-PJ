@@ -4,6 +4,7 @@ const Admin = require('../../../db/models/admins.js');
 const Course = require('../../../db/models/course.js');
 const router = express.Router();
 const multer = require('multer');
+const moment = require('moment');
 
 
 const storage = multer.diskStorage({
@@ -19,7 +20,18 @@ const upload = multer({ storage: storage })
 //Go to apply course page 
 router.get('/course/apply-course.html', checkAdmin, async (req, res) => { //NOSONAR
     try {
-        const courses = await Course.find({ status: 'Đang mở' });
+    // Lấy ngày hiện tại
+    const now = moment();
+    // Lấy ngày 7 ngày trước
+    const sevenDaysAgo = moment().subtract(7, 'days');
+    // Tìm kiếm các khóa học đang mở và được tạo trong vòng 7 ngày trước
+    const courses = await Course.find({
+    datePost: {
+        $gte: sevenDaysAgo.toDate(),
+        $lte: now.toDate()
+    }
+    });
+    // Nếu số giờ chênh lệch nhỏ hơn hoặc bằng 1, tức là khóa học được đăng trong khoảng 1 giờ trước đó
         res.render('Admin/course/apply',
             {
                 courses,
@@ -53,7 +65,7 @@ router.get('/course/apply/:id', checkAdmin, async (req, res) => { //NOSONAR
 // Chuyển hướng đến trang chủ 
 router.get('/course/', checkAdmin, async (req, res) => { //NOSONAR
     try {
-        const courses = await Course.find({ status: 'Đã đóng' });
+        const courses = await Course.find();
         //console.log(JSON.stringify(news)) 
         res.render('Admin/course/index.ejs',
             {

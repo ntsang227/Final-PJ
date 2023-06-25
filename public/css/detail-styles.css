@@ -79,4 +79,23 @@
     margin-bottom: 2px;
     margin-left: 5px;
   }
+  .notification-name {
+    font-size: 15px;
+    font-weight: bold;
+    color: #606060;
+    margin-bottom: 50px;
+  }
+  .notification {
+    margin-left: 50px;
+    padding: 5px ; 
+    box-sizing: border-box;
+  }
+  .notification span {
+   color : black;
+  }
+  .new-notification{
+    min-width: 500px;
+  }
+  
+  
   

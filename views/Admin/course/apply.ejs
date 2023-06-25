@@ -17,7 +17,8 @@
                             <th scope="col">Tên Khóa Học</th>
                             <th scope="col">Mã Khóa Học</th>
                             <th scope="col">Tên Giáo Viên</th>
-                            <th scope="col">Tên Học Viên</th>
+                            <th scope="col">ngày đăng</th>
+                            <th scope="col">Ghi chú</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -35,10 +36,11 @@
                                         <%= courses[i].nametutor %>
                                     </td>
                                     <td>
-                                        <%= courses[i].status %>
+                                        <%= courses[i].datePost.getDate() %>/<%= courses[i].datePost.getMonth() + 1 %>/<%= courses[i].datePost.getFullYear() %> lúc <%= courses[i].datePost.getHours() %>:<%= courses[i].datePost.getMinutes() %>:<%= courses[i].datePost.getSeconds() %>
+
+
                                     </td>
                                     <td>
-                                        <a href="/admin/course/apply/<%= courses[i]._id %>">Duyệt khóa học </a>|
                                         <a href="/admin/course/details.html/<%= courses[i]._id %>">Chi tiết</a>
                                     </td>
                                 </tr>

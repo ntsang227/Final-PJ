@@ -1,5 +1,7 @@
 const express = require('express');
 const Admin = require('../../../db/models/admins.js');
+const Course = require('../../../db/models/course.js');
+const Tutor = require('../../../db/models/tutor.js');
 const Notification = require('../../../db/models/notification.js');
 const router = express.Router();
 
@@ -13,7 +15,7 @@ const router = express.Router();
     res.render('Admin/login/index', { message: 'Bạn cần đăng nhập để tiếp tục' });
   });
   
-  router.post('/login', async function(req, res) {
+  router.post('/login', async function(req, res) { //NOSONAR 
         const username = req.body.username;
         const password = req.body.password;
         try {
@@ -36,7 +38,16 @@ const router = express.Router();
   router.get('/home',checkAdmin, async function(req, res) { //NOSONAR
       try {
           if (req.session.loggedin) {
-            res.render('Admin/main/index', { username: req.session.username });
+            const courses = await Course.find();
+            const tutor = await Tutor.find();
+            const notification = await Notification.find();
+            res.render('Admin/main/index', 
+            { 
+              notification,
+              courses,
+              tutor,
+              username: req.session.username,
+            });
           } else {
             res.redirect('/');
           }
@@ -65,7 +76,15 @@ const router = express.Router();
         res.status(500).json({ message: 'Lỗi' })
     }
   });
-
+  router.get('/noti/:id',checkAdmin, async function(req, res) { //NOSONAR
+    try {
+        res.redirect('/admin/course/apply-course.html')
+    }
+    catch (error) {
+        res.status(500).json({ message: 'Lỗi' })
+    }
+  });
+//Functions
   function checkAdmin(req, res, next){
     try {
     if (req.session.loggedin) {

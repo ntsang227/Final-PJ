@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const Tutor = require('../../db/models/tutor.js');
 const Review = require('../../db/models/reviews.js');
 const Course = require('../../db/models/course.js');
+const Notification = require('../../db/models/notification.js');
 const multer = require('multer');
 const path = require('path');
 const router = express.Router();
@@ -48,6 +49,11 @@ router.post('/register', async (req, res) => { //NOSONAR
     email: req.body.email,
     password: req.body.password
   })
+  const newNotification = new Notification({
+    name: 'Người dùng mới',
+    category: 'newUSer',
+    actionName: req.body.username
+  });
   const email = req.body.email;
   const username = req.body.username;
   const existingUsername = await Tutor.findOne({ username});
@@ -60,6 +66,7 @@ router.post('/register', async (req, res) => { //NOSONAR
   }
   try {
     await tutor.save();
+    await newNotification.save();
     res.redirect('/tutor/login');
   }
   catch (error) {
@@ -223,14 +230,20 @@ if (oldAvatarPath) {
 });
 //Tạo khóa học
 router.post('/new-courses',checkMember, async (req, res) => { //NOSONAR 
+  //add khóa học mới
   const { name, category, subject ,status , decs } = req.body;
   const nametutor = req.session.name_tutor;
-
   const key = Math.floor(Math.random() * 9000) + 1000;
   const course = await Course.findOne({key: key});
   if(course !== null){
     checkKey(key);
   }
+  //tạo thông báo
+  const newNotification = new Notification({
+    actionName: nametutor,
+    category: 'Courses',
+    categoryId: key,
+  });
   // Tạo một course mới
   const newCourse = new Course({
     name,
@@ -244,8 +257,9 @@ router.post('/new-courses',checkMember, async (req, res) => { //NOSONAR
 
   try {
     // Lưu course mới vào CSDL
+    await newNotification.save();
     await newCourse.save();
-    console.log(" ",key);
+    console.log("Tên khóa mới ",name,"Mã: ",key);
     // Gửi phản hồi về client
   } catch (error) {
     res.render('User/main/course',{ message: 'Tạo khóa học thất bại!',})

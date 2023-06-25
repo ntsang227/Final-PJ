@@ -23,7 +23,6 @@
                     <tbody>
                         <% if (typeof courses !== 'undefined' && Array.isArray(courses) && courses.length > 0) { %>
                             <% for(var i=0; i< courses.length; i++){ %>
-                                <% if (courses[i].status !== 'Đang mở' ) { %>
                                 <tr>
                                     <td>
                                         <%= courses[i].name %>
@@ -41,7 +40,6 @@
                                         <a href="/admin/course/details.html/<%= courses[i]._id %>">Chi tiết</a>
                                     </td>
                                 </tr>
-                                <% } %>
                             <% } %>
                         <% } else { %>
                             <p>Không có khóa học để hiển thị</p>

@@ -1,5 +1,5 @@
 
-  // đối tượng danh sách môn học
+// đối tượng danh sách môn học
 const subjectList = {
   primary: ['Toán học', 'Tiếng Miêng', 'Tiếng FiFai'],
   secondary: ['Toán học', 'Tiếng Miêng','Tiếng Anh', 'Vật Lý','Hóa Học'],
@@ -9,7 +9,7 @@ const subjectList = {
   'english-communication': ['Tiếng Anh giao tiếp']
   }
           
-  // hàm cập nhật danh sách môn học
+// hàm cập nhật danh sách môn học
   function updateSubjectList() {
     const selectedGrade = document.getElementById('grade-select').value;
     const subjectSelect = document.getElementById('subject-select');
@@ -19,7 +19,7 @@ const subjectList = {
       subjectSelect.remove(1);
     }
           
-              // thêm các option mới tương ứng với lớp học được chọn
+    // thêm các option mới tương ứng với lớp học được chọn
     if (subjectList[selectedGrade]) {
       for (let i = 0; i < subjectList[selectedGrade].length; i++) {
         const subject = subjectList[selectedGrade][i];
@@ -33,19 +33,18 @@ const subjectList = {
          subjectSelect.disabled = true;
       }
     }
-    function validate() {
-      var message = "Bạn có chắc muốn đăng ký lớp này không?";
-      if (confirm(message)) {
-        setTimeout(function() {
-          window.location.href = "/tutor/home";
-          showSuccessAlert()
-        }, 3000); // Thời gian chuyển hướng sau khi hiển thị thông báo thành công
-      } else {
+function validate() {
+  var message = "Bạn có chắc muốn đăng ký lớp này không?";
+  if (confirm(message)) {
+    setTimeout(function() {
+      window.location.href = "/tutor/home";
+      showSuccessAlert()
+    }, 3000); // Thời gian chuyển hướng sau khi hiển thị thông báo thành công
+  } else {
         // Nếu người dùng nhấn Cancel, không làm gì
-      }
-    }
-  
-    function showSuccessAlert() {
-      alert("Đăng ký lớp thành công!");
-    }
+  }
+}
+function showSuccessAlert() {
+  alert("Đăng ký lớp thành công!");
+}
                
