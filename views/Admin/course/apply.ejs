@@ -10,6 +10,7 @@
         <section class="wrapper main-wrapper row">
             <%- include('../course/search.ejs') %>
             <div class="container">
+                <% if (typeof courses !== 'undefined' && Array.isArray(courses) && courses.length > 0) { %>
                 <table class="table">
                     <thead class="" style="background-color: #67CDF9; color: aliceblue;">
                         <tr>
@@ -20,7 +21,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <% if (typeof courses !== 'undefined' && Array.isArray(courses) && courses.length > 0) { %>
+
                             <% for(var i=0; i< courses.length; i++){ %>
                                 <% if (courses[i].status !== 'Đã đóng' ) { %>
                                 <tr>
@@ -43,12 +44,11 @@
                                 </tr>
                                 <% } %>
                             <% } %>
-                        <% } else { %>
-                            <p>Không có khóa học cần phê duyệt</p>
-                        <% } %>
                     </tbody>
                 </table>
-                       
+                <% } else { %>
+                    <p>Không có khóa học cần phê duyệt</p>
+                <% } %>        
             </div>
             <% if (typeof message !== 'undefined' && message != '') { %>
                 <div class="alert alert-success" style="margin-top: 100px ;"><%= message %></div>
