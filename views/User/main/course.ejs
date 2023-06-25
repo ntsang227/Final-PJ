@@ -1,12 +1,12 @@
 <%- include('../layout/header.ejs') %>
     <%- include('../layout/menu.ejs') %>
         <div class="section">
-            <form class="form-course" action="/new-courses" method="POST">
+            <form class="form-course" action="/tutor/new-courses" method="POST">
                 <label for="name">Tiêu đề khóa học:</label>
                 <input type="text" id="name" name="name" required> <br />
 
                 <div class="dropdown">
-                    <select id="grade-select" onchange="updateSubjectList()">
+                    <select id="grade-select" name="category" onchange="updateSubjectList()">
                       <option value="primary">Dành cho Tiểu Học</option>
                       <option value="secondary">Dành cho THCS</option>
                       <option value="high-school">Dành cho THPT</option>
@@ -16,7 +16,7 @@
                     </select>
                   </div>
                   <div class="dropdown">
-                    <select id="subject-select" disabled>
+                    <select id="subject-select" name="subject" disabled>
                       <option value="">-- Select a subject --</option>
                     </select>
                   </div>
@@ -30,9 +30,12 @@
                 <label for="decs">Mô tả:</label>
                 <textarea id="decs" name="decs"></textarea> <br />
 
-                <button type="submit">Create Course</button> <br />
+                <button type="submit" onclick="validate()">Đăng kí lớp</button> <br />
             </form>
         </div>
+        <% if (typeof message !== 'undefined' && message != '') { %>
+          <div class="alert alert-success"><%= message %></div>
+        <% } %>
         </div>
         <%- include('../layout/footer.ejs') %>
             </body>

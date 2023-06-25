@@ -1,6 +1,5 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const Admin = require('../../db/models/admins.js');
 const Tutor = require('../../db/models/tutor.js');
 const Review = require('../../db/models/reviews.js');
 const Course = require('../../db/models/course.js');
@@ -80,7 +79,8 @@ router.post('/register', async (req, res) => { //NOSONAR
       } else if (tutor.status !== 'active') {
         res.render('User/login', { message: 'Tài khoản bị khóa' });
       } else {
-        
+        req.session.name_tutor = tutor.username;
+        console.log(req.session.name_tutor);
         req.session.loggedin_tutor = true;
         req.session.email = email;
         res.redirect('/tutor/home');
@@ -221,6 +221,39 @@ if (oldAvatarPath) {
     res.status(500).send(error.message);
   }
 });
+//Tạo khóa học
+router.post('/new-courses',checkMember, async (req, res) => { //NOSONAR 
+  const { name, category, subject ,status , decs } = req.body;
+  const nametutor = req.session.name_tutor;
+
+  const key = Math.floor(Math.random() * 9000) + 1000;
+  const course = await Course.findOne({key: key});
+  if(course !== null){
+    checkKey(key);
+  }
+  // Tạo một course mới
+  const newCourse = new Course({
+    name,
+    key,
+    nametutor,
+    category,
+    subject,
+    status,
+    decs
+  });
+
+  try {
+    // Lưu course mới vào CSDL
+    await newCourse.save();
+    console.log(" ",key);
+    // Gửi phản hồi về client
+  } catch (error) {
+    res.render('User/main/course',{ message: 'Tạo khóa học thất bại!',})
+    console.log(error);
+  }
+});
+
+
 //Functions
   // Function check member
   function checkMember(req, res, next){
@@ -235,4 +268,14 @@ if (oldAvatarPath) {
     res.status(500).json({ message: 'Lỗi' })
     }
   }
+  //RANDOM KEY
+  function checkKey(key) {
+    const newKey = Math.floor(Math.random() * 9000) + 1000;
+    if (newKey === key) {
+      return checkKey(key);
+    } else {
+      return newKey;
+    }
+  }
+  
 module.exports = router; 

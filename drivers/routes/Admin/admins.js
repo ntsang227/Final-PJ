@@ -1,5 +1,6 @@
 const express = require('express');
 const Admin = require('../../../db/models/admins.js');
+const Notification = require('../../../db/models/notification.js');
 const router = express.Router();
 
 //Admin Login
@@ -32,7 +33,7 @@ const router = express.Router();
         }
       });
       
-  router.get('/home',checkAdmin, async function(req, res) {
+  router.get('/home',checkAdmin, async function(req, res) { //NOSONAR
       try {
           if (req.session.loggedin) {
             res.render('Admin/main/index', { username: req.session.username });
