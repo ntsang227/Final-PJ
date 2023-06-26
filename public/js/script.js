@@ -1,12 +1,12 @@
 
 // đối tượng danh sách môn học
 const subjectList = {
-  primary: ['Toán học', 'Tiếng Miêng', 'Tiếng FiFai'],
-  secondary: ['Toán học', 'Tiếng Miêng','Tiếng Anh', 'Vật Lý','Hóa Học'],
-  'high-school': ['Toán học', 'Ngữ Văn','Tiếng Anh', 'Vật Lý','Hóa Học', 'Sinh Học','Lịch Sử', 'Địa Lý'],
-  'training-high-school': ['Toán học', 'Ngữ Văn','Tiếng Anh', 'Vật Lý','Hóa Học', 'Sinh Học','Lịch Sử', 'Địa Lý','GDCD'],
-  'english-cerificate': ['Tiếng Anh cơ bản', 'Tiếng Anh nâng cao'],
-  'english-communication': ['Tiếng Anh giao tiếp']
+  primary: ['Tiếng Anh', 'Toán', 'Tiếng Việt'],
+  secondary: ['Tiếng Anh', 'Toán', 'Vật Lý','Hóa Học', 'Sinh Học', 'Ngữ Văn'],
+  'high-school': ['Tiếng Anh', 'Toán', 'Vật Lý','Hóa Học', 'Sinh Học', 'Ngữ Văn'],
+  'training-high-school': ['Khối A', 'Khối B','Khối C', 'Khối D'],
+  'english-cerificate': ['Chứng chỉ IELTS', 'Chứng chỉ TOEIC', 'Chứng chỉ TOEFL', 'Chứng chỉ SAT'],
+  'english-communication': ['Mất gốc', 'Căn bản', 'Nâng cao']
   }
           
 // hàm cập nhật danh sách môn học

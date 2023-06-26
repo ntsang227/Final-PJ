@@ -307,7 +307,7 @@ button.btn-apply:hover {
     -webkit-appearance: none;
 }
 
-.course p.text {
+textarea, .course p.text {
     width: 100%;
     height: 150px;
     padding: 8px;

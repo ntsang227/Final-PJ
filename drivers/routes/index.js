@@ -43,14 +43,7 @@ router.get('/contact', async (req, res) => { //NOSONAR
       console.log(err);
   }
 });
-//go to about page 
-router.get('/about', async (req, res) => { //NOSONAR 
-  try {
-      res.render('User/service/about');
-  } catch (err) {
-      console.log(err);
-  }
-});
+
 //get news details :id
 router.get('/details/:id', async (req, res) => { //NOSONAR 
     req.session.destroy();

@@ -64,7 +64,7 @@
                 </section>
             </div>
             <% if(notification.length > 0) { %>
-                <div class="col-xs-12 d-flex flex-column new-notification">
+                <div class="col-xs-12 ">
                     <section class="box flex-fill">
                     <header class="panel_header">
                         <a href="/notification">
@@ -77,11 +77,12 @@
                         <a class="box_close fa fa-times"></a>
                         </div>
                     </header>
-                    <div class="content-body flex-fill d-flex flex-column">
+                    <div class="content-body flex-fill new-notification">
                         <div class="row flex-fill">
                             <% for(var i=0; i< notification.length; i++){ %>
                                 <% if(notification[i].category === 'Course'){ %>
                                     <a class="notification" href="/admin/noti/<%= notification[i]._id %>">
+                                        <span>hhhhhh</span>
                                         <span class="notification-name"><%= notification[i].actionName %> đã đăng kí <%= notification[i].name %></span>
                                     </a>
                                     <br>

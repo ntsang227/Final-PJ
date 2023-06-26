@@ -82,7 +82,7 @@
   .notification-name {
     font-size: 15px;
     font-weight: bold;
-    color: #606060;
+    color: #606060; 
     margin-bottom: 50px;
   }
   .notification {
@@ -93,8 +93,8 @@
   .notification span {
    color : black;
   }
-  .new-notification{
-    min-width: 500px;
+  div.new-notification{
+    min-height: 150px;
   }
   
   

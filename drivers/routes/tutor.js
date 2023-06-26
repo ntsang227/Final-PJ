@@ -33,6 +33,19 @@ router.get('/courses', checkMember, function (req, res) {
 router.get('/detail-course', checkMember, function (req, res) {
   res.render('User/main/detail-courses.ejs', { email: req.session.email });
 });
+router.get('/detail-courses/:id',checkMember, async function(req, res) {
+  try {
+      const id = req.params.id;
+      const courses = await Course.findById(id);
+          res.render('User/main/detail-courses', 
+          {
+              courses ,
+              });
+  }
+  catch (error) {
+      res.redirect('/courses/');
+  }
+}); 
 //Chuyển hướng đến đăng kí thành viên
 router.get('/register', function (req, res) {
   res.render('User/signup/index.ejs', { message: '' });

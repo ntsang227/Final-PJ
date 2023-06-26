@@ -27,7 +27,7 @@
     font-weight: 500;
     font-size: 20px;
     line-height: 60px;
-    color: rgba(0, 0, 0, 0.8);
+    color: #000000cc;
     text-transform: uppercase;
 }
 
@@ -64,10 +64,6 @@ button:hover{
 .h4 h4 {
     padding: 30px;
 }
-.row{
-    display: flex;
-    justify-content: space-around;
-}
 .hservice-item{
     padding: 30px;
     background: #FFFFFF;
@@ -81,11 +77,23 @@ button:hover{
 .text-center{
     text-align: center;
 }
+.news{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-left: 50px;
+}
 .harticle-item{
     margin-top: 30px;
+    max-width: 350px;
 }
 .article-item{
     margin-top: 30px;
+}
+.article-desc{
+    overflow: hidden;
+    max-height: 150px;
 }
 .footer{
     background: #414141;

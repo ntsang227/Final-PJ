@@ -152,15 +152,6 @@
         $('i.far.fa-edit').click(function () { // Target the i tag with the classes 'far' and 'fa-edit'
             $('#avatar-upload-input').click(); // Trigger a click event on the input element
         });
-
-        $('#avatar-upload-input').change(function (event) { // Listen for changes to the input element
-            var inputFile = event.target.files[0]; // Get the selected file object
-            var reader = new FileReader(); // Create a new FileReader instance
-            reader.onload = function (event) {
-                $('#avatar').attr('src', event.target.result); // Set the avatar image source to the uploaded image
-            };
-            reader.readAsDataURL(inputFile); // Read the contents of the selected file as a data URL
-        });
     });
     var profileModal = document.getElementById('profileModal');
     var editProfileBtn = document.querySelector('.btn-edit-profile');
