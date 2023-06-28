@@ -306,7 +306,7 @@ router.post('/search',checkMember, async (req, res) => { //NOSONAR
         {subject: new RegExp('.*' + subject + '.*', 'i')}
       ]
       });
-    } else {
+    } else if (grade){
       courses = await Course.find({
         status: new RegExp('.*' + status + '.*', 'i'),
         category: new RegExp('.*' + grade + '.*', 'i'),
@@ -314,6 +314,8 @@ router.post('/search',checkMember, async (req, res) => { //NOSONAR
         {subject: new RegExp('.*' + subject + '.*', 'i')}
       ]
       });
+    } else {
+      courses = await Course.find();
     }
       console.log(courses);
       res.render('User/main/index',
