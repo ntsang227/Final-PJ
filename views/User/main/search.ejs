@@ -1,0 +1,29 @@
+<form class="form-search" action="/tutor/search" method="post">
+    <div class="dropdown">
+        <select id="grade-select" name="grade" onchange="updateSubjectList()">
+          <option value="">-- Select a subject --</option>
+          <option value="primary">Dành cho Tiểu Học</option>
+          <option value="secondary">Dành cho THCS</option>
+          <option value="high-school">Dành cho THPT</option>
+          <option value="training-high-school">Luyện thi THPT QG</option>
+          <option value="english-cerificate">Luyện thi Chứng Chỉ Tiếng Anh</option>
+          <option value="english-communication">Tiếng Anh giao tiếp</option>
+        </select>
+      </div>
+      <div class="dropdown">
+        <select id="subject-select" name="subject" disabled>
+          <option value="">-- Select a subject --</option>
+        </select>
+      </div>
+      
+    <input id="query" name="query" type="search" placeholder="Search..."
+        style="padding: 10px; margin-right: 10px; border: solid 1px #cccc;border-radius: 5px; padding-right: 15%;">
+    <input class="btn-search" type="submit" value="Tìm kiếm">
+    <select class="status" name="status" id="status">
+        <optgroup label="Trạng thái">
+            <option value="">Chọn</option>
+            <option value="active">Đang mở</option>
+            <option value="inactive">Đã tắt</option>
+        </optgroup>
+    </select>
+</form><br><br>

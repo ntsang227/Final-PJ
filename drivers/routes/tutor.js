@@ -100,7 +100,7 @@ router.post('/register', async (req, res) => { //NOSONAR
         res.render('User/login', { message: 'Tài khoản bị khóa' });
       } else {
         req.session.name_tutor = tutor.username;
-        console.log(req.session.name_tutor);
+        console.log("Session created : ", req.session.name_tutor);
         req.session.loggedin_tutor = true;
         req.session.email = email;
         res.redirect('/tutor/home');
@@ -279,8 +279,51 @@ router.post('/new-courses',checkMember, async (req, res) => { //NOSONAR
     console.log(error);
   }
 });
-
-
+//search 
+router.post('/search',checkMember, async (req, res) => { //NOSONAR
+  let {status , grade , subject } = req.body;
+  let query = req.body.query.trim();
+  let courses; 
+  console.log({status , grade, subject, query });
+  try {
+    if (query) {
+      courses = await Course.find({
+        status: new RegExp('.*' + status + '.*', 'i'),
+        category: new RegExp('.*' + grade + '.*', 'i'),
+        subject: new RegExp('.*' + subject + '.*', 'i'),
+        $or: [
+          {name: new RegExp('.*' + query + '.*', 'i')},
+          {decs: new RegExp('.*' + query + '.*', 'i')},
+          {key: new RegExp('.*' + query + '.*', 'i')},
+          {nametutor: new RegExp('.*' + query + '.*', 'i')}
+        ]
+      });
+    } else if(status){
+      courses = await Course.find({
+        status: new RegExp('.*' + status + '.*', 'i'),
+        $or: [
+        {category: new RegExp('.*' + grade + '.*', 'i')},
+        {subject: new RegExp('.*' + subject + '.*', 'i')}
+      ]
+      });
+    } else {
+      courses = await Course.find({
+        status: new RegExp('.*' + status + '.*', 'i'),
+        category: new RegExp('.*' + grade + '.*', 'i'),
+        $or: [
+        {subject: new RegExp('.*' + subject + '.*', 'i')}
+      ]
+      });
+    }
+      console.log(courses);
+      res.render('User/main/index',
+          {
+              courses,
+          });
+  } catch (err) {
+      res.status(500).json({ message: error.message })
+  }
+});
 //Functions
   // Function check member
   function checkMember(req, res, next){

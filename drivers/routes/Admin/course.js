@@ -31,7 +31,6 @@ router.get('/course/apply-course.html', checkAdmin, async (req, res) => { //NOSO
         $lte: now.toDate()
     }
     });
-    // Nếu số giờ chênh lệch nhỏ hơn hoặc bằng 1, tức là khóa học được đăng trong khoảng 1 giờ trước đó
         res.render('Admin/course/apply',
             {
                 courses,
