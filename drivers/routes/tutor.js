@@ -17,7 +17,7 @@ router.get('/', checkMember, function (req, res) {
 
 router.get('/home', checkMember, async (req, res) => {
   try {
-    const courses = await Course.find();
+    const courses = await Course.find({status: 'active'});
     res.render('User/main/index.ejs',
       {
         courses,
@@ -281,14 +281,15 @@ router.post('/new-courses',checkMember, async (req, res) => { //NOSONAR
 });
 //search 
 router.post('/search',checkMember, async (req, res) => { //NOSONAR
-  let {status , grade , subject } = req.body;
+  let {grade , subject } = req.body;
   let query = req.body.query.trim();
   let courses; 
+  const status = 'active';
   console.log({status , grade, subject, query });
   try {
     if (query) {
       courses = await Course.find({
-        status: new RegExp('.*' + status + '.*', 'i'),
+        status,
         category: new RegExp('.*' + grade + '.*', 'i'),
         subject: new RegExp('.*' + subject + '.*', 'i'),
         $or: [
@@ -298,24 +299,19 @@ router.post('/search',checkMember, async (req, res) => { //NOSONAR
           {nametutor: new RegExp('.*' + query + '.*', 'i')}
         ]
       });
-    } else if(status){
+    }  else if (grade){
       courses = await Course.find({
-        status: new RegExp('.*' + status + '.*', 'i'),
-        $or: [
-        {category: new RegExp('.*' + grade + '.*', 'i')},
-        {subject: new RegExp('.*' + subject + '.*', 'i')}
-      ]
-      });
-    } else if (grade){
-      courses = await Course.find({
-        status: new RegExp('.*' + status + '.*', 'i'),
+        status,
         category: new RegExp('.*' + grade + '.*', 'i'),
         $or: [
         {subject: new RegExp('.*' + subject + '.*', 'i')}
       ]
       });
     } else {
-      courses = await Course.find();
+      courses = await Course.find({
+          status
+        }
+      );
     }
       console.log(courses);
       res.render('User/main/index',

@@ -13,7 +13,12 @@
                                         <a href="/tutor/detail-courses/<%= courses[i]._id %>"><%= courses[i].name %></a>
                                     </h5>
                                     <p class="card-text">Tên gia sư: <a href="/tutor/detail-tutor"><%= courses[i].nametutor %></a></p>
-                                    <p class="card-text">Trạng thái: <%= courses[i].status %></p>
+                                    <% if (courses[i].status === 'active') { %>
+                                        <p class="card-text">Trạng thái: Đang mở</p>
+                                      <% } else { %>
+                                        <p class="card-text">Trạng thái: Đã đóng</p>
+                                      <% } %>
+                                      
                                     <p class="card-text">Mô tả: <%= courses[i].decs %></p>
                                     <p class="card-text"><small class="text-muted">Ngày đăng: <%= new
                                                 Date(courses[i].datePost).toLocaleString('vi-VN') %></small></p>
