@@ -12,21 +12,23 @@
 <body>
     <main>
         <form action="/tutor/register" method="post">
-            <p> Register </p>
-            <p class="text">Create a new account</p>
-            <input type="text" name="username" id="username" placeholder="Username">
+            <p> Đăng ký </p>
+            <p class="text">Tạo tài khoản mới</p>
+            <input type="text" name="name" id="name" placeholder="Họ & Tên">
+            <input type="text" name="username" id="username" placeholder="Tên đăng nhập">
             <input type="email" name="email" id="email" placeholder="Email">
-            <input type="password" name="password" id="password" placeholder="Password">
+            <input type="password" name="password" id="password" placeholder="Mật khẩu">
+            <input type="password" name="password" id="password" placeholder="Nhập lại mật khẩu">
             <% if (message !=='' ) { %>
                 <div style="font-size: 14px; text-align: center; padding-top: 20px; color: #ff3737; font-weight: bold;">
                     <%= message %>
                 </div>
                 <% } %>
             <div class="check-term">
-                <input class="checkbox" type="checkbox" checked="checked">
-                <p class="text-su check-term-p">By signing in, you agree to our <a href="#">Terms & Conditions</a></p>
+                <input class="checkbox" type="checkbox">
+                <p class="text-su check-term-p">Vui lòng chấp nhận <a href="#">Điều khoản & điều kiện</a> của chúng tôi</p>
             </div>
-            <input type="submit" value="Register" class="button">
+            <input type="submit" value="Đăng ký" class="button">
     </main>
 </body>
 

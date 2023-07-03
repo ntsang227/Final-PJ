@@ -40,6 +40,9 @@ a {
     margin: auto;
     width: 40%;
 }
+p.text-su.check-term-p{
+    margin-top: 5px;
+}
 
 p a {
     text-decoration: none;

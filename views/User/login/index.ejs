@@ -12,18 +12,18 @@
 <body>
     <main>
         <form action="/tutor/login" method="post">
-            <p> Welcome Back! </p>
-            <p class="text">Login to your account</p>
+            <p> Chào mừng bạn! </p>
+            <p class="text">Đăng nhập vào tài khoản của bạn</p>
             <% if (message !=='' ) { %>
                 <div style="font-size: 14px; text-align: center; padding-top: 20px;margin-bottom: 20px; color: #ff3737; font-weight: bold;">
                     <%= message %>
                 </div>
                 <% } %>
-            <input type="email" name="email" id="email" placeholder="Email">
-            <input type="password" name="password" id="password" placeholder="Password">
-            <a href="#" class="fg-pword"> Forgot Password ?</a>
-            <input type="submit" value="Login" class="button">
-            <p class="text-su">Do you have an account ? <a href="/tutor/register">Signup</a></p>
+            <input name="login" id="login" placeholder="Email hoặc username">
+            <input type="password" name="password" id="password" placeholder="Mật khẩu">
+            <a href="#" class="fg-pword"> Quên mật khẩu ?</a>
+            <input type="submit" value="Đăng nhập" class="button">
+            <p class="text-su">Bạn chưa có tài khoản ? <a href="/tutor/register">Đăng ký</a></p>
         </form>
     </main>
 </body>

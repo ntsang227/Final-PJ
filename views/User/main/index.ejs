@@ -1,7 +1,33 @@
 <%- include('../layout/header.ejs') %>
     <%- include('../layout/menu.ejs') %>
         <div class="section">
-            <%- include('./search.ejs') %>
+            <form class="form-search" action="#" method="post">
+                <div class="dropdown">
+                    <select id="grade-select" onchange="updateSubjectList()">
+                      <option value="primary">Dành cho Tiểu Học</option>
+                      <option value="secondary">Dành cho THCS</option>
+                      <option value="high-school">Dành cho THPT</option>
+                      <option value="training-high-school">Luyện thi THPT QG</option>
+                      <option value="english-cerificate">Luyện thi Chứng Chỉ Tiếng Anh</option>
+                      <option value="english-communication">Tiếng Anh giao tiếp</option>
+                    </select>
+                  </div>
+                  <div class="dropdown">
+                    <select id="subject-select" disabled>
+                      <option value="">-- Select a subject --</option>
+                    </select>
+                  </div>
+                  
+                <input id="query" name="query" type="search" placeholder="Search..."
+                    style="padding: 10px; margin-right: 10px; border: solid 1px #cccc;border-radius: 5px; padding-right: 15%;">
+                <input class="btn-search" type="submit" value="Tìm kiếm">
+                <select class="status" name="status" id="status">
+                    <optgroup label="Trạng thái">
+                        <option value="active">Đang mở</option>
+                        <option value="inactive">Đã tắt</option>
+                    </optgroup>
+                </select>
+            </form><br><br>
             <h5 class="title-content">Khóa học mới nhất</h5>
             <div class="card card-wrapper">
                 <% if (typeof courses !=='undefined' && Array.isArray(courses) && courses.length> 0) { %>
@@ -12,14 +38,9 @@
                                     <h5 class="card-title">
                                         <a href="/tutor/detail-courses/<%= courses[i]._id %>"><%= courses[i].name %></a>
                                     </h5>
-                                    <p class="card-text">Tên gia sư: <a href="/tutor/detail-tutor"><%= courses[i].nametutor %></a></p>
-                                    <% if (courses[i].status === 'active') { %>
-                                        <p class="card-text">Trạng thái: Đang mở</p>
-                                      <% } else { %>
-                                        <p class="card-text">Trạng thái: Đã đóng</p>
-                                      <% } %>
-                                      
-                                    <p class="card-text">Mô tả: <%= courses[i].decs %></p>
+                                    <p class="card-text">Tên gia sư: <a href="/tutor/profiles"><%= courses[i].nametutor %></a></p>
+                                    <p class="card-text">Trạng thái: <%= courses[i].status %></p>
+                                    <p class="card-text card-decs">Mô tả: <%= courses[i].decs %></p>
                                     <p class="card-text"><small class="text-muted">Ngày đăng: <%= new
                                                 Date(courses[i].datePost).toLocaleString('vi-VN') %></small></p>
                                     <button class="btn-apply">Apply</button>
