@@ -90,6 +90,7 @@ router.post('/register', async (req, res) => { //NOSONAR
 router.post('/login', async function (req, res) { //NOSONAR 
   const username = req.body.login;
   const email = req.body.login;
+  const password = req.body.password;
   try {
     const tutor = await Tutor.findOne({ $or: [{ email: email }, { username: username }] });
     if (!tutor) {
