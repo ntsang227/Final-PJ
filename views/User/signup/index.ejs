@@ -18,17 +18,61 @@
             <input type="text" name="username" id="username" placeholder="Tên đăng nhập">
             <input type="email" name="email" id="email" placeholder="Email">
             <input type="password" name="password" id="password" placeholder="Mật khẩu">
-            <input type="password" name="password" id="password" placeholder="Nhập lại mật khẩu">
+            <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Nhập lại mật khẩu">
+
+            <div id="errorMessage"
+                style="font-size: 14px; text-align: center; padding-top: 20px; color: #ff3737; font-weight: bold;">
+            </div>
+
             <% if (message !=='' ) { %>
                 <div style="font-size: 14px; text-align: center; padding-top: 20px; color: #ff3737; font-weight: bold;">
                     <%= message %>
                 </div>
                 <% } %>
-            <div class="check-term">
-                <input class="checkbox" type="checkbox">
-                <p class="text-su check-term-p">Vui lòng chấp nhận <a href="#">Điều khoản & điều kiện</a> của chúng tôi</p>
-            </div>
-            <input type="submit" value="Đăng ký" class="button">
+                    <div class="check-term">
+                        <input class="checkbox" type="checkbox" id="termsCheckbox">
+                        <p class="text-su check-term-p">Vui lòng chấp nhận <a href="#">Điều khoản & điều kiện</a> của
+                            chúng tôi</p>
+                    </div>
+                    <input type="submit" value="Đăng ký" class="button" id="submitButton">
+        </form>
+
+        <script>
+            // check mật khẩu
+            var passwordInput = document.getElementById("password");
+            var confirmPasswordInput = document.getElementById("confirmPassword");
+            var errorMessage = document.getElementById("errorMessage");
+
+            confirmPasswordInput.addEventListener("input", function () {
+
+                var password = passwordInput.value;
+                var confirmPassword = confirmPasswordInput.value;
+
+                if (password.length < 8) {
+                    errorMessage.textContent = "Mật khẩu cần ít nhất 8 ký tự!";
+                } else if (!(/[A-Z]/.test(password))) {
+                    errorMessage.textContent = "Mật khẩu cần chứa ít nhất một chữ in hoa!";
+                } else if (password !== confirmPassword) {
+                    errorMessage.textContent = "Mật khẩu không trùng khớp!";
+                } else {
+                    errorMessage.textContent = "Mật khẩu trùng khớp và thoả mãn các yêu cầu bảo mật!";
+                }
+            });
+            // check checkbox đã checked hay chưa
+            var termsCheckbox = document.getElementById("termsCheckbox");
+            var submitButton = document.getElementById("submitButton");
+
+            termsCheckbox.addEventListener("change", function () {
+                submitButton.disabled = !termsCheckbox.checked;
+            });
+
+            submitButton.addEventListener("click", function (event) {
+                if (!termsCheckbox.checked) {
+                    event.preventDefault();
+                    errorMessage.textContent = "Bạn phải chấp nhận Điều khoản & điều kiện!";
+                }
+            });
+        </script>
     </main>
 </body>
 
