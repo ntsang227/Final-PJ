@@ -253,13 +253,12 @@ form.form-course .status {
 .card-text {
     font-size: 14px;
     margin-bottom: 5px;
-    white-space: pre-wrap;
     overflow-wrap: break-word;
     max-height: 100px;
     overflow: hidden; 
 
 }
-p.card-decs{
+p.card-text.card-decs{
     min-height: 100px;
 }
 .card-wrapper p a,
