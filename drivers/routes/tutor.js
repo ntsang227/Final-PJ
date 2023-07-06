@@ -294,7 +294,7 @@ router.post('/apply', async (req, res) => {
   try {
     const courseId = req.body.courseId;
     const courseName = req.body.courseName;
-    const emailtutor = req.body.emailtutor; // Thêm thông tin về người đăng bài
+    const emailtutor = req.session.email;
     const tutorName = req.body.tutorName;
     const tutor = await Tutor.findOne({ email: emailtutor });
     const name = tutor.username;
@@ -312,14 +312,13 @@ router.post('/apply', async (req, res) => {
         updatedAt: Date.now()
       });
       await apply.save();
-      res.redirect('/tutor/applys'); // Chuyển hướng đến trang danh sách yêu cầu đăng ký
+      res.render('User/main/notification.ejs', { apply });
     }
   } catch (err) {
     console.log(err);
     res.status(500).send('Đã xảy ra lỗi khi lưu yêu cầu đăng ký!');
   }
 });
-
 // hiển thị trên trang web notification
 router.get('/applys', async (req, res) => {
   try {
