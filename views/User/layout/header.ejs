@@ -30,6 +30,7 @@
     <!-- MDB -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="/css/home-styles.css">
+    <link rel="stylesheet" href="/css/notifications.css">
     <title>Tutor Anytime</title>
     <link rel="shortcut icon" type="image/png" href="/images/logo.ico" />
 </head>
@@ -85,12 +86,36 @@
                         <a class="nav-link dropdowna" href="#">Lịch trình</a>
 
                     </li>
+                    <li class="nav-item" >
+                        <link rel="stylesheet" href="/css/notifications.css">
+                        <button class="btn-tb" >
+                            <svg height="24" width="24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M20 17h2v2H2v-2h2v-7a8 8 0 1 1 16 0v7zm-2 0v-7a6 6 0 1 0-12 0v7h12zm-9 4h6v2H9v-2z" fill="currentColor"></path>
+                            </svg>
+                        </button>
+                    </li>
+                    
                     <li class="nav-item">
                         <a class="nav-link" href="/tutor/profile">
                             <button>My Account</button>
                         </a>
                     </li>
+                    
                 </ul>
             </div>
         </div>
     </nav>
+    <script>
+
+         // Lấy thẻ button
+const button = document.querySelector('.btn-tb');
+// Thêm lớp 'red-dot' khi nhận được yêu cầu
+function addRedDot() {
+  button.classList.add('red-dot');
+}
+// Xóa lớp 'red-dot' khi yêu cầu đã được xử lý
+function removeRedDot() {
+  button.classList.remove('red-dot');
+}
+    </script>

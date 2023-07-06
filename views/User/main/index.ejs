@@ -43,7 +43,18 @@
                                     <p class="card-text">Mô tả: <%= courses[i].decs %></p>
                                     <p class="card-text"><small class="text-muted">Ngày đăng: <%= new
                                                 Date(courses[i].datePost).toLocaleString('vi-VN') %></small></p>
-                                    <button class="btn-apply">Apply</button>
+                                                
+                                        <button class="btn-apply" data-course-id="<%= courses[i]._id %>">Apply</button>
+                                       
+                                            <a class="buttons" href="/tutor/applys">Thông báo</a>
+                                         
+                                        <link rel="stylesheet" href="/css/notifications.css">
+                                        <button class="btn-tb" >
+                                            <svg height="24" width="24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M0 0h24v24H0z" fill="none"></path>
+                                                <path d="M20 17h2v2H2v-2h2v-7a8 8 0 1 1 16 0v7zm-2 0v-7a6 6 0 1 0-12 0v7h12zm-9 4h6v2H9v-2z" fill="currentColor"></path>
+                                            </svg>
+                                        </button>
                                 </div>
                         <% } %>
                             <% } %>
@@ -59,7 +70,46 @@
             </div>
         </div>
         </div>
-        
+        <script>
+         
+/////
+$(document).ready(function() {
+  // Thêm sự kiện click vào nút Apply
+  $('.btn-apply').on('click', function() {
+    var courseId = $(this).data('course-id');
+    var courseName = $(this).closest('.card-body').find('.card-title a').text();
+    var tutorName = $(this).closest('.card-body').find('.card-text a').text();
+    // Hiển thị thông báo muốn đăng ký
+    var r = confirm('Bạn muốn đăng ký khoá học này?');
+    if (r == true) {
+      // Hiển thị thông báo đang gửi yêu cầu
+     
+      // Gửi thông báo đăng ký đến server bằng AJAX
+      $.ajax({
+        url: '/tutor/apply',
+        type: 'POST',
+        data: { courseId: courseId,
+                tutorName: tutorName,
+                courseName: courseName,
+                emailtutor: emailtutor 
+            },
+        success: function(data) {
+          if (data.alreadyApplied) {
+            alert('Bạn đã đăng ký khoá học này rồi!');
+          } else {
+            alert('Yêu cầu đăng ký đã được gửi đến giáo viên!');
+          }
+        },
+        error: function() {
+          alert('Đã xảy ra lỗi khi gửi yêu cầu đăng ký!');
+        }
+      });
+    }
+  });
+});
+
+
+        </script>
         <%- include('../layout/footer.ejs') %>
             </body>
 

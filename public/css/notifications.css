@@ -1,0 +1,35 @@
+.btn-tb {
+    background:#00B2FF;
+    border: none;
+    padding: 10px 9px;
+    border-radius: 10px;
+    height:40px;
+    width: 40px;
+    margin-top: 20px;
+  }
+  
+  .btn-tb:hover {
+    background: rgba(170, 170, 170, 0.062);
+    transition: 0.5s;
+  }
+  
+  .btn-tb svg {
+    color: #fff;
+    display: block;
+    margin: auto;
+    
+  }
+  .red-dot {
+    position: relative;
+  }
+  
+  .red-dot::after {
+    content: '';
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: red;
+  }

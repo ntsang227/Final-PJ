@@ -4,6 +4,7 @@ const Tutor = require('../../db/models/tutor.js');
 const Review = require('../../db/models/reviews.js');
 const Course = require('../../db/models/course.js');
 const Notification = require('../../db/models/notification.js');
+const Apply = require('../../db/models/apply.js');
 const multer = require('multer');
 const path = require('path');
 const router = express.Router();
@@ -280,6 +281,79 @@ router.post('/new-courses',checkMember, async (req, res) => { //NOSONAR
   }
 });
 
+//apply
+router.post('/apply', async (req, res) => {
+  try {
+    const courseId = req.body.courseId;
+    const courseName = req.body.courseName;
+    const emailtutor = req.body.emailtutor; // Thêm thông tin về người đăng bài
+    const tutorName = req.body.tutorName;
+    const tutor = await Tutor.findOne({ email: emailtutor });
+    const name = tutor.username;
+
+    const existingApply = await Apply.findOne({ courseId: courseId, nameuser: name });
+    if (existingApply) {
+      res.send({ alreadyApplied: true });
+    } else {
+      const apply = new Apply({
+        name: courseName,
+        nametutor: tutorName,
+        nameuser: name,
+        courseId: courseId,
+        datePost: Date.now(),
+        updatedAt: Date.now()
+      });
+      await apply.save();
+      res.redirect('/tutor/applys'); // Chuyển hướng đến trang danh sách yêu cầu đăng ký
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).send('Đã xảy ra lỗi khi lưu yêu cầu đăng ký!');
+  }
+});
+
+// hiển thị trên trang web notification
+router.get('/applys', async (req, res) => {
+  try {
+    const emailtutor = req.session.email;
+    const tutor = await Tutor.findOne({ email: emailtutor });
+    const name = tutor.username;
+    const apply = await Apply.find({ nametutor: name }); // Chỉ hiển thị danh sách yêu cầu đăng ký của người đăng bài
+    res.render('User/main/notification.ejs', { apply });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send('Đã xảy ra lỗi khi lấy danh sách yêu cầu đăng ký!');
+  }
+});
+////
+router.post('/accept', async (req, res) => {
+  try {
+    const applyId = req.body.applyId;
+    const apply = await Apply.findById(applyId);
+    const courseId = apply.courseId;
+    const nameuser = apply.nameuser;
+
+    await Course.findByIdAndUpdate(courseId, {$push: {nameuser: nameuser}});
+    //await Course.findByIdAndUpdate(courseId, { nameuser: nameuser });
+    await Apply.findByIdAndDelete(applyId);
+
+    res.redirect('/tutor/home');
+  } catch (err) {
+    console.log(err);
+    res.status(500).send('Đã xảy ra lỗi khi cập nhật khóa học!');
+  }
+});
+///
+router.post('/ancel', async (req, res) => {
+  try {
+    const applyId = req.body.applyId;
+    await Apply.findByIdAndDelete(applyId);
+    res.redirect('/tutor/home');
+  } catch (err) {
+    console.log(err);
+    res.status(500).send('Đã xảy ra lỗi khi xóa yêu cầu đăng ký!');
+  }
+});
 
 //Functions
   // Function check member
