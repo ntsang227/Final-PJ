@@ -1,0 +1,160 @@
+<%- include('../layout/header.ejs') %>
+    <div class="d-calendar">
+        <div class="calendar">
+            <div class="header">
+                <button id="prev-btn">&lt;</button>
+                <h4 id="month-year"></h4>
+                <button id="next-btn">&gt;</button>
+            </div>
+            <div class="days">
+                <div class="day">Sun</div>
+                <div class="day">Mon</div>
+                <div class="day">Tue</div>
+                <div class="day">Wed</div>
+                <div class="day">Thu</div>
+                <div class="day">Fri</div>
+                <div class="day">Sat</div>
+            </div>
+            <div class="dates" id="dates"></div>
+        </div>
+        <!-- Modal -->
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h4 id="event-date"></h4>
+                <input type="text" id="event-input" placeholder="Thêm sự kiện">
+                <button id="add-event-btn">Add</button>
+                <ul id="event-list"></ul>
+            </div>
+        </div>
+        <div class="event">
+            <h5>Event list</h5>
+        </div>
+    </div>
+    <%- include('../layout/footer.ejs') %>
+        <script>
+            // Lấy các phần tử DOM
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const monthYear = document.getElementById('month-year');
+            const dates = document.getElementById('dates');
+
+            const modal = document.getElementById('modal');
+            const eventDate = document.getElementById('event-date');
+            const eventInput = document.getElementById('event-input');
+            const addEventBtn = document.getElementById('add-event-btn');
+            const eventList = document.getElementById('event-list');
+
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+            const currentDate = new Date();
+            let currentMonth = currentDate.getMonth();
+            let currentYear = currentDate.getFullYear();
+
+            function renderCalendar() {
+                // Xóa các ngày cũ
+                dates.innerHTML = '';
+
+                const firstDay = new Date(currentYear, currentMonth, 1);
+
+                const lastDay = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+                // In ra tháng và năm
+                monthYear.innerText = `${months[currentMonth]} ${currentYear}`;
+
+                // Tính toán số ngày trống ở đầu tháng
+                const blanks = firstDay.getDay();
+
+                // Thêm các ô trống vào cuối tháng trước
+                for (let i = 0; i < blanks; i++) {
+                    const blankDate = document.createElement('div');
+                    blankDate.classList.add('date');
+                    dates.appendChild(blankDate);
+                }
+
+                // Thêm các ngày trong tháng
+                for (let i = 1; i <= lastDay; i++) {
+                    const date = document.createElement('div');
+                    date.classList.add('date');
+                    date.innerText = i;
+                    dates.appendChild(date);
+
+                    // Thêm sự kiện khi nhấp chuột vào dates
+                    date.addEventListener('click', () => {
+                        showEventModal(i);
+                    });
+                }
+            }
+
+            prevBtn.addEventListener('click', () => {
+                currentMonth--;
+                if (currentMonth < 0) {
+                    currentMonth = 11;
+                    currentYear--;
+                }
+                renderCalendar();
+            });
+
+            nextBtn.addEventListener('click', () => {
+                currentMonth++;
+                if (currentMonth > 11) {
+                    currentMonth = 0;
+                    currentYear++;
+                }
+                renderCalendar();
+            });
+
+            function showEventModal(date) {
+                eventDate.innerText = `${date} ${months[currentMonth]} ${currentYear}`;
+                modal.style.display = 'block';
+            }
+
+            function closeEventModal() {
+                modal.style.display = 'none';
+            }
+
+            const events = {};
+
+
+            // Thêm sự kiện khi nhấp chuột vào mỗi ngày
+            function addEventToDate(date) {
+                const dateKey = `${date}-${currentMonth + 1}-${currentYear}`;
+
+                if (!events[dateKey]) {
+                    events[dateKey] = [];
+                }
+
+                const eventItem = document.createElement('li');
+                eventItem.innerText = `${eventInput.value}`;
+                eventList.appendChild(eventItem);
+
+                events[dateKey].push(eventInput.value);
+                eventInput.value = '';
+            }
+
+            addEventBtn.addEventListener('click', () => {
+                const date = eventDate.innerText.split(' ')[1];
+                addEventToDate(date);
+            });
+
+
+            // Đóng modal khi nhấp chuột vào biểu tượng đóng
+            document.getElementsByClassName('close')[0].addEventListener('click', () => {
+                closeEventModal();
+            });
+
+            // Đóng modal khi nhấp chuột bên ngoài modal
+            window.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    closeEventModal();
+                }
+            });
+
+
+            // Render lịch khi trang web được tải
+            renderCalendar();
+
+        </script>
+        </body>
+
+        </html>
