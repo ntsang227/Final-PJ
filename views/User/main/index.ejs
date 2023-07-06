@@ -83,7 +83,7 @@ $(document).ready(function() {
     var r = confirm('Bạn muốn đăng ký khoá học này?');
     if (r == true) {
       // Hiển thị thông báo đang gửi yêu cầu
-     
+      alert('Yêu cầu đăng ký đã được gửi ');
       // Gửi thông báo đăng ký đến server bằng AJAX
       $.ajax({
         url: '/tutor/apply',
@@ -91,13 +91,12 @@ $(document).ready(function() {
         data: { courseId: courseId,
                 tutorName: tutorName,
                 courseName: courseName,
-                emailtutor: emailtutor 
             },
         success: function(data) {
           if (data.alreadyApplied) {
             alert('Bạn đã đăng ký khoá học này rồi!');
           } else {
-            alert('Yêu cầu đăng ký đã được gửi đến giáo viên!');
+            
           }
         },
         error: function() {
