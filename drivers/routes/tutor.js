@@ -288,6 +288,7 @@ router.post('/new-courses', checkMember, async (req, res) => { //NOSONAR
     console.log(error);
   }
 });
+///
 
 //apply
 router.post('/apply', async (req, res) => {
@@ -299,6 +300,11 @@ router.post('/apply', async (req, res) => {
     const tutor = await Tutor.findOne({ email: emailtutor });
     const name = tutor.username;
 
+    if (tutorName === name) {
+      
+      res.status(500).send('Bạn không thể tự đăng ký khoá học của mình');
+      return;
+    }
     const existingApply = await Apply.findOne({ courseId: courseId, nameuser: name });
     if (existingApply) {
       res.send({ alreadyApplied: true });
