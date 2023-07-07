@@ -44,7 +44,7 @@
                                     <p class="card-text"><small class="text-muted">Ngày đăng: <%= new
                                                 Date(courses[i].datePost).toLocaleString('vi-VN') %></small></p>      
                                         <button class="btn-apply" data-course-id="<%= courses[i]._id %>">Apply</button>
-                                     
+                                        
                                 </div>
                         <% } %>
                             <% } %>
@@ -62,7 +62,7 @@
         </div>
         <script>
          
-// click apply
+// apply
 $(document).ready(function() {
   // Thêm sự kiện click vào nút Apply
   $('.btn-apply').on('click', function() {
@@ -99,7 +99,6 @@ $(document).ready(function() {
   });
 });
 // thông báo
-
   document.querySelector('.btn-tb').addEventListener('click', () => {
   location.href = '/tutor/applys'
 })

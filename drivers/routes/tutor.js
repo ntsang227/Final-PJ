@@ -330,9 +330,13 @@ router.get('/applys', async (req, res) => {
   try {
     const emailtutor = req.session.email;
     const tutor = await Tutor.findOne({ email: emailtutor });
-    const name = tutor.username;
-    const apply = await Apply.find({ nametutor: name }); // Chỉ hiển thị danh sách yêu cầu đăng ký của người đăng bài
-    res.render('User/main/notification.ejs', { apply });
+    if (tutor) {
+      const name = tutor.username;
+      const apply = await Apply.find({ nametutor: name }); // Chỉ hiển thị danh sách yêu cầu đăng ký của người đăng bài
+      res.render('User/main/notification.ejs', { apply });
+    } else {
+      res.status(404).send('Không tìm thấy tài khoản tutor!');
+    }
   } catch (err) {
     console.log(err);
     res.status(500).send('Đã xảy ra lỗi khi lấy danh sách yêu cầu đăng ký!');
