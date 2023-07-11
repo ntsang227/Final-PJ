@@ -34,7 +34,7 @@ const dataSchema = new mongoose.Schema({
     },
     status : {
         type: String,
-        default : '',
+        default : 'active',
     }
 })
 const Tutor =  mongoose.model('tutors', dataSchema);

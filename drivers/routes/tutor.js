@@ -8,6 +8,8 @@ const Apply = require('../../db/models/apply.js');
 const multer = require('multer');
 const path = require('path');
 const router = express.Router();
+const bcrypt = require('bcrypt');
+const saltRounds = 10
 
 //Yêu cầu chuyển hướng
 router.get('/', checkMember, function (req, res) {
@@ -58,10 +60,12 @@ router.get('/login', function (req, res) {
 });
 //Post đăng kí tài khoản
 router.post('/register', async (req, res) => { //NOSONAR
+  const password = req.body.password;
+  const hashedPassword = generateHash(password);
   const tutor = new Tutor({
     username: req.body.username,
     email: req.body.email,
-    password: req.body.password
+    password: hashedPassword
   })
   const newNotification = new Notification({
     name: 'Người dùng mới',
@@ -94,12 +98,16 @@ router.post('/login', async function (req, res) { //NOSONAR
   const password = req.body.password;
   try {
     const tutor = await Tutor.findOne({ $or: [{ email: email }, { username: username }] });
+    const isMatch = bcrypt.compareSync(password, tutor.password);
+    console.log(isMatch);
+    console.log(password);
+    console.log(tutor.password);
     if (!tutor) {
-      res.render('User/login', { message: 'Tên đăng nhập hoặc mật khẩu không đúng.' });
-    } else if (tutor.password !== password) {
-      res.render('User/login', { message: 'Tên đăng nhập hoặc mật khẩu không đúng.' });
+      res.render('User/login', { message: 'Tên đăng nhập hoặc mật khẩu không đúng!' });
+    } else if (!isMatch) {
+      res.render('User/login', { message: 'Mật khẩu không đúng!' });
     } else if (tutor.status !== 'active') {
-      res.render('User/login', { message: 'Tài khoản bị khóa' });
+      res.render('User/login', { message: 'Tài khoản bị khóa!' });
     } else {
       req.session.name_tutor = tutor.username;
       console.log(req.session.name_tutor);
@@ -395,5 +403,10 @@ function checkKey(key) {
     return newKey;
   }
 }
+// Hàm để tạo ra một hash từ password
+function generateHash(password) {
+  return bcrypt.hashSync(password, saltRounds);
+}
+
 
 module.exports = router; 
