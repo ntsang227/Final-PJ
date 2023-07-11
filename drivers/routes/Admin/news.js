@@ -45,7 +45,7 @@ const upload = multer({ storage: storage })
         }
     });
     // Chuyển hướng đến add 
-    router.get('/news/add',checkAdmin, async function(req, res) {
+    router.get('/news/add',checkAdmin, async function(req, res) { //NOSONAR
         try {
             const news = await News.find();
                 res.render('Admin/news/add', 
@@ -93,7 +93,7 @@ const upload = multer({ storage: storage })
                 //     });
                 // });
             //cách mới post được hình
-    router.post('/news/add', upload.single('image'), function (req, res) {
+    router.post('/news/add',checkAdmin, upload.single('image'), function (req, res) {
         const { name, content } = req.body;
         const newNews = new News({
             name,
@@ -124,14 +124,14 @@ const upload = multer({ storage: storage })
         .then(data => {
             if (!data) {
             console.log('Không tìm thấy bản tin');
-            return res.redirect('/news');
+            return res.redirect('/admin/news');
             }
-            return res.redirect('/news');
+            return res.redirect('/admin/news');
         })
         .catch(err => {
             console.log('Error deleting item from database:', err);
             console.log('Lỗi khi xoá bản tin');
-            return res.redirect('/news');
+            return res.redirect('/admin/news');
         });
     });
     // Sửa tin tức
@@ -164,8 +164,8 @@ const upload = multer({ storage: storage })
         }
     });
     //Tìm kiếm tin tức
-    router.post('/news/search' ,checkAdmin,  async (req, res) => {
-        const query = req.body.query;
+    router.get('/news/search' ,checkAdmin,  async (req, res) => { //NOSONAR
+        const query = req.query.query;
         try {
             const news = await News.find({
                 $or: [
@@ -182,8 +182,6 @@ const upload = multer({ storage: storage })
             res.status(500).json({ message: error.message })
         }
       });
-
-
 //Functions
     // CheckAdmin function
     function checkAdmin(req, res, next){

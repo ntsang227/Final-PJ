@@ -7,9 +7,12 @@ const router = express.Router();
 
 //Admin Login
   router.get('/', function(req, res) {
-    req.session.loggedin = false;
+    if(req.session.loggedin){
+      res.redirect("/admin/home");
+    }else{
       res.render('Admin/login/index', { message: 'Bạn cần đăng nhập để tiếp tục' });
-    });
+    }
+  });
   router.get('/login', function(req, res) {
     req.session.loggedin = false;
     res.render('Admin/login/index', { message: 'Bạn cần đăng nhập để tiếp tục' });

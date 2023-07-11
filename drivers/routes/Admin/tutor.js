@@ -116,51 +116,40 @@ router.get('/tutor/unblock/:id', checkAdmin, async function(req, res) { // NOSON
   }
 })
 //Tìm kiếm gia sư 
-router.post('/tutor/search' ,checkAdmin,  async (req, res) => {  // NOSONAR
+router.get('/tutor/search' ,checkAdmin,  async (req, res) => {  // NOSONAR
   try {
-    const query = req.body.query;
-    const filter = req.body.filter;
-
+    const query = req.query.query;
+    const filter = req.query.filter;
+    let tutors;
+    let reviews;
     console.log("Nội dung tìm kiếm: ",query, "với tùy chọn là " ,filter );
-
     if (!filter && query) {
-      const tutors = await Tutor.find({
+      tutors = await Tutor.find({
         $or: [
           { username: new RegExp('.*' + query + '.*', 'i') },
           { email: new RegExp('.*' + query + '.*', 'i') }
         ]
       });
         const name = tutors.username;
-        const reviews = await Review.find(name);
-      res.render('Admin/tutor/index.ejs', 
-          {
-              reviews,
-              tutors ,
-              username: req.session.username,
-              });
+        reviews = await Review.find(name);
     }else if (filter && !query) {
-      const tutors = await Tutor.find(
+      tutors = await Tutor.find(
           { status: filter },
       );
         const name = tutors.username;
-        const reviews = await Review.find(name);
-        res.render('Admin/tutor/index.ejs', 
-              {
-                  reviews,
-                  tutors ,
-                  username: req.session.username,
-                  });
-    }if (!filter && !query){
-      const tutors = await Tutor.find();
+        reviews = await Review.find(name);
+    }else{
+      tutors = await Tutor.find();
       const name = tutors.username;
-      const reviews = await Review.find(name);
-      res.render('Admin/tutor/index.ejs', 
+      reviews = await Review.find(name); 
+    }
+    //console.log("Kết quả tìm kiếm: ",tutors );
+    res.render('Admin/tutor/index.ejs', 
             {
                 reviews,
                 tutors ,
                 username: req.session.username,
                 });
-    }
   } catch (err) {
       res.status(500).json({ message: err.message })
   }
