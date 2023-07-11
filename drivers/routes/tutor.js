@@ -36,6 +36,9 @@ router.get('/courses', checkMember, function (req, res) {
 router.get('/detail-course', checkMember, function (req, res) {
   res.render('User/main/detail-courses.ejs', { email: req.session.email });
 });
+router.get('/calendar', checkMember, function (req, res) {
+  res.render('User/main/calendar.ejs', { email: req.session.email });
+});
 router.get('/detail-courses/:id', checkMember, async function (req, res) {
   try {
     const id = req.params.id;
@@ -104,7 +107,7 @@ router.post('/login', async function (req, res) { //NOSONAR
     console.log(tutor.password);
     if (!tutor) {
       res.render('User/login', { message: 'Tên đăng nhập hoặc mật khẩu không đúng!' });
-    } else if (!isMatch) {
+    } else if (isMatch == "false") {
       res.render('User/login', { message: 'Mật khẩu không đúng!' });
     } else if (tutor.status !== 'active') {
       res.render('User/login', { message: 'Tài khoản bị khóa!' });
