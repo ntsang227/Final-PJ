@@ -60,7 +60,7 @@ form {
     margin-top: 100px;
     padding-top: 80px;
     width: 85%;
-    border-radius: 1rem;
+    border-radius: 10px;
     background-color: white;
 
 }
@@ -70,7 +70,7 @@ input {
     border-radius: 100px;
     margin: auto;
     margin-top: 15px;
-    height: 25px;
+    height: 35px;
     width: 45%;
     color: #1560BD;
     font-size: 18px;
@@ -89,7 +89,7 @@ input {
     border-radius: 100px;
     background-color: #1560BD;
     color: white;
-    font-size: 24px;
+    font-size: 22px;
     font-weight: bold;
     cursor: pointer;
     transition: .4s;
