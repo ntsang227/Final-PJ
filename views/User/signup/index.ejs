@@ -43,24 +43,38 @@
             var confirmPasswordInput = document.getElementById("confirmPassword");
             var errorMessage = document.getElementById("errorMessage");
 
+            var termsCheckbox = document.getElementById("termsCheckbox");
+            var submitButton = document.getElementById("submitButton");
+
+            passwordInput.addEventListener("input", function () {
+
+                var password = passwordInput.value;
+                var confirmPassword = confirmPasswordInput.value;
+
+                if (password.length >= 8 && /[A-Z]/.test(password)) {
+                    errorMessage.textContent = "Mật khẩu thoả mãn các yêu cầu bảo mật!";
+                    submitButton.disabled = false;
+                } else {
+                    errorMessage.textContent = "Vui lòng kiểm tra lại mật khẩu!";
+                    submitButton.disabled = true;
+                }
+
+
+            });
+
             confirmPasswordInput.addEventListener("input", function () {
 
                 var password = passwordInput.value;
                 var confirmPassword = confirmPasswordInput.value;
 
-                if (password.length < 8) {
-                    errorMessage.textContent = "Mật khẩu cần ít nhất 8 ký tự!";
-                } else if (!(/[A-Z]/.test(password))) {
-                    errorMessage.textContent = "Mật khẩu cần chứa ít nhất một chữ in hoa!";
-                } else if (password !== confirmPassword) {
-                    errorMessage.textContent = "Mật khẩu không trùng khớp!";
+                if (password !== confirmPassword) {
+                    errorMessage.textContent = "Mật khẩu không trùng khớp!"
                 } else {
-                    errorMessage.textContent = "Mật khẩu trùng khớp và thoả mãn các yêu cầu bảo mật!";
+                    errorMessage.textContent = "";
                 }
             });
+
             // check checkbox đã checked hay chưa
-            var termsCheckbox = document.getElementById("termsCheckbox");
-            var submitButton = document.getElementById("submitButton");
 
             termsCheckbox.addEventListener("change", function () {
                 submitButton.disabled = !termsCheckbox.checked;
