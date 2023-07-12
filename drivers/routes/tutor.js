@@ -66,6 +66,7 @@ router.post('/register', async (req, res) => { //NOSONAR
   const password = req.body.password;
   const hashedPassword = generateHash(password);
   const tutor = new Tutor({
+    name: req.body.name,
     username: req.body.username,
     email: req.body.email,
     password: hashedPassword
@@ -154,7 +155,7 @@ router.get('/profile', checkMember, async function (req, res) { //NOSONAR
 });
 // update profile
 router.put('/save', function (req, res) {
-  const name = req.body.username;
+  const name = req.body.name;
   const email = req.body.email;
   const newEmail = req.body.newEmail;
   const phone = req.body.phonenumber;
@@ -172,7 +173,7 @@ router.put('/save', function (req, res) {
         } else {
           // Địa chỉ email mới chưa được sử dụng, cập nhật thông tin người dùng
           Tutor.findOneAndUpdate({ email: email }, {
-            $set: { username: name, email: newEmail, phonenumber: phone, birthday: birthday, address: address }
+            $set: { name: name, email: newEmail, phonenumber: phone, birthday: birthday, address: address }
           }, { new: true })
             .then(tutor => {
               if (!tutor) {
@@ -190,7 +191,7 @@ router.put('/save', function (req, res) {
   } else {
     // Không có email mới, cập nhật thông tin người dùng bình thường
     Tutor.findOneAndUpdate({ email: email }, {
-      $set: { username: name, phonenumber: phone, birthday: birthday, address: address }
+      $set: { name: name, phonenumber: phone, birthday: birthday, address: address }
     }, { new: true })
       .then(tutor => {
         if (!tutor) {
@@ -310,7 +311,7 @@ router.post('/apply', async (req, res) => {
     const tutorName = req.body.tutorName;
     const tutor = await Tutor.findOne({ email: emailtutor });
     const name = tutor.username;
-
+    
     if (tutorName === name) {
       
       res.status(500).send('Bạn không thể tự đăng ký khoá học của mình');

@@ -114,7 +114,7 @@
                                                 <div class="modal-body">
                                                   <div class="form-group">
                                                     <label for="name_input">Name</label>
-                                                    <input type="text" class="form-control" id="name_input" value="<%= tutors.username %>" placeholder="Enter name">
+                                                    <input type="text" class="form-control" id="name_input" value="<%= tutors.name %>" placeholder="Enter name">
                                                   </div>
                                                   <div class="form-group">
                                                     <label for="email_input">Email address</label>
@@ -199,7 +199,7 @@
     });
     //////
     $('.btn-edit-profile').click(function () {
-        $('#name_input').val('<%= tutors.username %>');
+        $('#name_input').val('<%= tutors.name %>');
         $('#email_input').val('<%= tutors.email %>');
     });
 
