@@ -115,6 +115,23 @@ router.get('/tutor/unblock/:id', checkAdmin, async function(req, res) { // NOSON
     res.status(500).json({ message: error.message })
   }
 })
+//Xóa Người dùng
+router.get('/tutor/delete/:id', function (req, res) {
+  Tutor.findOneAndDelete({ _id: req.params.id })
+  .then(data => {
+      if (!data) {
+      console.log('Lỗi khi thao tác xóa');
+      return res.redirect('/admin/tutor/index.html');
+      }
+      console.log('Xóa thành công người dùng có id:', req.params.id);
+      return res.redirect('/admin/tutor/index.html');
+  })
+  .catch(err => {
+      console.log('Error deleting item from database:', err);
+      console.log('Lỗi khi xoá bản tin');
+      return res.redirect('/admin/news');
+  });
+});
 //Tìm kiếm gia sư 
 router.get('/tutor/search' ,checkAdmin,  async (req, res) => {  // NOSONAR
   try {
