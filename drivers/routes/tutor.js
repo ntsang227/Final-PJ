@@ -73,7 +73,7 @@ router.post('/register', async (req, res) => { //NOSONAR
   })
   const newNotification = new Notification({
     name: 'Người dùng mới',
-    category: 'newUSer',
+    category: 'newUser',
     actionName: req.body.username
   });
   const email = req.body.email;

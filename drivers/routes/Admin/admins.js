@@ -56,7 +56,7 @@ const router = express.Router();
           }
       }
       catch (error) {
-          res.status(500).json({ message: 'Lỗi' })
+          res.status(500).json({ message: 'Có lỗi xảy ra vui lòng thử lại sau!' })
       }
     });
   //yêu cầu trang chủ admin

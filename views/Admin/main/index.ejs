@@ -68,7 +68,9 @@
                     <section class="box flex-fill">
                     <header class="panel_header">
                         <a href="/notification">
-                            <h2 class="title pull-left">Notification <span class="notification-count"><%= notification.length %></span></h2>
+                            <button type="button" class="btn btn-primary" style="margin: 20px;">
+                                Thông báo <span class="badge badge-light" style="background-color: red;"><%= notification.length %></span>
+                              </button>
                         </a>
                         
                         <div class="actions panel_actions pull-right">
@@ -78,11 +80,10 @@
                         </div>
                     </header>
                     <div class="content-body flex-fill new-notification">
-                        <div class="row flex-fill">
+                        <div >
                             <% for(var i=0; i< notification.length; i++){ %>
-                                <% if(notification[i].category === 'Course'){ %>
+                                <% if(notification[i].category === 'Courses'){ %>
                                     <a class="notification" href="/admin/noti/<%= notification[i]._id %>">
-                                        <span>hhhhhh</span>
                                         <span class="notification-name"><%= notification[i].actionName %> đã đăng kí <%= notification[i].name %></span>
                                     </a>
                                     <br>
@@ -96,8 +97,7 @@
                             <% } %>
                             
                         </div>
-                     </div>
-                     
+                     </div> 
                     </section>
                 </div>
             <% } %>
