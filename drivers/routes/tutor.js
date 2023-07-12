@@ -353,6 +353,9 @@ router.get('/applys', async (req, res) => {
     res.status(500).send('Đã xảy ra lỗi khi lấy danh sách yêu cầu đăng ký!');
   }
 });
+
+
+
 //đồng ý apply
 router.post('/accept', async (req, res) => {
   try {
