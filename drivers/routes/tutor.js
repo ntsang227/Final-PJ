@@ -107,7 +107,7 @@ router.post('/login', async function (req, res) { //NOSONAR
     console.log(tutor.password);
     if (!tutor) {
       res.render('User/login', { message: 'Tên đăng nhập hoặc mật khẩu không đúng!' });
-    } else if (isMatch == "false") {
+    } else if (!isMatch) {
       res.render('User/login', { message: 'Mật khẩu không đúng!' });
     } else if (tutor.status !== 'active') {
       res.render('User/login', { message: 'Tài khoản bị khóa!' });
