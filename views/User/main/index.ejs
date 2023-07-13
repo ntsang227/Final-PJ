@@ -95,12 +95,7 @@ $(document).ready(function() {
             if (data.alreadyApplied) {
               alert('Bạn đã đăng ký khoá học này rồi!');
             } else {
-              
-              $('.btn-tb').addClass('activee');
-              // Thêm sự kiện click vào nút thứ hai
-              $('.btn-tb').on('click', function() {
-                $(this).removeClass('activee');
-              });
+             
             }
           },
           error: function() {
@@ -109,7 +104,9 @@ $(document).ready(function() {
         });
       }
     });
+    
   });
+  
   
 // thông báo
   document.querySelector('.btn-tb').addEventListener('click', () => {
