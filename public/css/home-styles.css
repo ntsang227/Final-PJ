@@ -141,6 +141,7 @@ button:hover {
 
 .menu-sidebar {
     flex: 2;
+    min-width: 270px;
 }
 
 .menu-sidebar h5 {
@@ -176,18 +177,16 @@ button:hover {
 form.form-search {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     margin-right: 3%;
     height: auto;
     margin-top: 15px;
     justify-content: space-around;
 
 }
+.dropdown #grade-select, .dropdown #subject-select{
+    margin-bottom: 10px;
 
-.status {
-    margin-left: 10px;
-    border: #cccc solid 1px;
-    border-radius: 10px;
-    font-size: 14px;
 }
 
 form.form-course .status {
@@ -255,7 +254,7 @@ form.form-course .status {
     margin-bottom: 5px;
     overflow-wrap: break-word;
     max-height: 100px;
-    overflow: hidden; 
+    overflow: hidden;
 
 }
 p.card-text.card-decs{
@@ -448,4 +447,11 @@ div.d-calendar {
     height: 40px;
     line-height: 40px;
     width: 70px;
+}
+.section-tutor{
+    display: flex;
+    align-items: center;
+    max-width: 750px;
+    margin: auto;
+    margin-top: 3%;
 }
