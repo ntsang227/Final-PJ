@@ -59,14 +59,13 @@
                                                         <% } %>
                                             </td>
                                             <td>
-                                                <a href="/admin/tutor/details.html/<%= tutors[i]._id %>">Chi tiết</a> |
+                                                <button type="button" class="btn btn-primary btn-sm" onclick="urlAction('/admin/tutor/details.html/<%= tutors[i]._id %>')">Chi tiết</button>
                                                 <% if (tutors[i].status==="active" ) { %>
-                                                    <a href="/admin/tutor/block/<%= tutors[i]._id %>">Khóa tài khoản</a>
-                                                    <% } else { %>
-                                                        <a href="/admin/tutor/unblock/<%= tutors[i]._id %>">Mở khóa tài
-                                                            khoản</a>
-                                                        <% } %>
-                                            </td>
+                                                    <button type="button" class="btn btn-warning btn-sm" onclick="confirmAction('/admin/tutor/block/<%= tutors[i]._id %>')">Khóa tài khoản</button>
+                                                <% } else { %>
+                                                    <button type="button" class="btn btn-success btn-sm" onclick="confirmAction('/admin/tutor/unblock/<%= tutors[i]._id %>')">Mở khóa tài khoản</button>
+                                                <% } %>
+                                              </td>                                              
                                         </tr>
 
                                         <% } %>
@@ -78,11 +77,6 @@
                             </tbody>
                         </table>
                     </div>
-                    <% if (typeof message !== 'undefined') { %>
-                        <div class="alert alert-success">
-                          <%= message %>
-                        </div>
-                      <% } %>
                 </section>
 
             </section>
