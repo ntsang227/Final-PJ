@@ -17,7 +17,6 @@ router.get('/', checkMember, function (req, res) {
   res.render('User/main/index.ejs', { email: req.session.email });
 });
 // Chuyển hướng đến trang home tutor 
-
 router.get('/home', checkMember, async (req, res) => {
   try {
     const courses = await Course.find({ status: 'active' });
@@ -103,7 +102,6 @@ router.post('/login', async function (req, res) { //NOSONAR
   try {
     const tutor = await Tutor.findOne({ $or: [{ email: email }, { username: username }] });
     const isMatch = bcrypt.compareSync(password, tutor.password);
-    console.log(isMatch);
     console.log(password);
     console.log(tutor.password);
     if (!tutor) {
@@ -116,7 +114,8 @@ router.post('/login', async function (req, res) { //NOSONAR
       req.session.name_tutor = tutor.username;
       console.log(req.session.name_tutor);
       req.session.loggedin_tutor = true;
-      req.session.email = email;
+      req.session.email = tutor.email;
+      console.log(req.session.email);
       res.redirect('/tutor/home');
     }
   } catch (err) {
@@ -229,7 +228,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-router.post('/avatar/update', upload.single('file'), async (req, res) => {
+router.post('/avatar/update', upload.single('file'), async (req, res) => { //NOSONAR
   try {
     // Lưu đường dẫn mới vào DB
     const avatarPath = '/avatar/' + req.file.filename;
@@ -303,17 +302,18 @@ router.post('/new-courses', checkMember, async (req, res) => { //NOSONAR
 ///
 
 //apply
-router.post('/apply', async (req, res) => {
+router.post('/apply', async (req, res) => { //NOSONAR 
   try {
     const courseId = req.body.courseId;
     const courseName = req.body.courseName;
     const emailtutor = req.session.email;
     const tutorName = req.body.tutorName;
+    console.log(req.session.email);
+    console.log(emailtutor);
     const tutor = await Tutor.findOne({ email: emailtutor });
+    console.log(tutor);
     const name = tutor.username;
-    
     if (tutorName === name) {
-      
       res.status(500).send('Bạn không thể tự đăng ký khoá học của mình');
       return;
     }
