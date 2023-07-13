@@ -26,9 +26,9 @@
   height: 10px;
   background: red;
   border-radius: 50%;
-  position: absolute; /* Thay đổi thành absolute */
-  top: -5px; /* Điều chỉnh giá trị top để định vị điểm đỏ */
-  right: -5px; /* Điều chỉnh giá trị right để định vị điểm đỏ */
+  position: absolute;  
+  top: -5px;   
+  right: -5px;  
 }
 
 .btn-activee {
@@ -39,4 +39,14 @@
   height: 40px;
   width: 40px;
   margin-top: 20px;
+}
+.has-new-data::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background-color: red;
+  border-radius: 50%;
+  position: absolute;
+  top: 5px;
+  right: 5px;
 }
