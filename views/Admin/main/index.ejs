@@ -22,8 +22,8 @@
                 <section class="box nobox marginBottom0">
                     <div class="content-body">
                         <div class="row">
-                            <div class="col-md-3 col-sm-6 col-xs-12">
-                                <div class="r4_counter db_box">
+                            <div class="col-md-3 col-sm-6 col-xs-12" >
+                                <div class="r4_counter db_box index" onclick="urlAction('/admin/tutor/reviews.html')" >
                                     <i class='pull-left fa fa-thumbs-up icon-md icon-rounded icon-primary'></i>
                                     <div class="stats">
                                         <h4><strong>0</strong></h4>
@@ -31,8 +31,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-3 col-sm-6 col-xs-12">
-                                <div class="r4_counter db_box">
+                            <div class="col-md-3 col-sm-6 col-xs-12 ">
+                                <div class="r4_counter db_box index" onclick="urlAction('/admin/course')">
                                     <i class='pull-left fa fa-book icon-md icon-rounded icon-success'></i>
                                     <div class="stats">
                                         <h4><strong><%= courses.length %></strong></h4>
@@ -40,8 +40,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-3 col-sm-6 col-xs-12">
-                                <div class="r4_counter db_box">
+                            <div class="col-md-3 col-sm-6 col-xs-12" >
+                                <div class="r4_counter db_box index">
                                     <i class='pull-left fa fa-dollar icon-md icon-rounded icon-purple'></i>
                                     <div class="stats">
                                         <h4><strong>0₫</strong></h4>
@@ -49,8 +49,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-3 col-sm-6 col-xs-12">
-                                <div class="r4_counter db_box">
+                            <div class="col-md-3 col-sm-6 col-xs-12 ">
+                                <div class="r4_counter db_box index" onclick="urlAction('/admin/tutor/index.html')">
                                     <i class='pull-left fa fa-users icon-md icon-rounded icon-warning'></i>
                                     <div class="stats">
                                         <h4><strong><%= tutor.length %></strong></h4>
@@ -83,16 +83,14 @@
                         <div >
                             <% for(var i=0; i< notification.length; i++){ %>
                                 <% if(notification[i].category === 'Courses'){ %>
-                                    <a class="notification" href="/admin/noti/<%= notification[i]._id %>">
-                                        <span class="notification-name"><%= notification[i].actionName %> đã đăng kí <%= notification[i].name %></span>
-                                    </a>
-                                    <br>
+                                    <div class="alert alert-secondary index" role="alert" onclick="urlAction('/admin/noti/<%= notification[i]._id %>')">
+                                        <%= notification[i].actionName %> đã đăng kí <%= notification[i].name %>
+                                      </div>                              
                                 <% } %>
                                 <% if(notification[i].category === 'newUser'){ %>
-                                    <a class="notification" href="/admin/tutor/index.html">
-                                        <span class="notification-name"><%= notification[i].name %> tên là <%= notification[i].actionName %></span>
-                                    </a>
-                                    <br>
+                                    <div class="alert alert-secondary index" role="alert" onclick="urlAction('/admin/tutor/index.html')">
+                                        <%= notification[i].name %> tên là <%= notification[i].actionName %>
+                                      </div>
                                 <% } %>
                             <% } %>
                             
