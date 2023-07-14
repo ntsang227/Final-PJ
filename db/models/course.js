@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 const courseSchema = new Schema({
   name: { type: String, required: true },
   nametutor: { type: String,  default: '' },
-  nameuser: { type: [String], default: ''},
+  nameuser: { type: String, default: ''},
   category: { type: String, required: true },
   subject: { type: String, required: true },
   key: { type: String, required: true },

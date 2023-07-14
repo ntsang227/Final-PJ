@@ -241,14 +241,6 @@ document.getElementById('avatar-upload-input').addEventListener('change', (event
   reader.onload = () => {
     const fileContent = reader.result;
 
-    ////
-    document.getElementById('avatar-upload-input').addEventListener('change', (event) => {
-        const file = event.target.files[0];
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => {
-            const fileContent = reader.result;
-
             // Gửi yêu cầu cập nhật đến máy chủ với đường dẫn đến tệp ảnh đã tải lên
             const formData = new FormData();
             formData.append('tutorId', '<%= tutors._id %>');
@@ -263,6 +255,4 @@ document.getElementById('avatar-upload-input').addEventListener('change', (event
                 .catch(err => console.log(err));
         };
     });
-}
-});
 </script>
