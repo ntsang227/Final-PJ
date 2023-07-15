@@ -1,0 +1,40 @@
+<%- include('../layout/header.ejs') %>
+    <!-- END TOPBAR -->
+    <!-- START CONTAINER -->
+    <div class="page-container row-fluid container-fluid">
+        <!-- SIDEBAR - START -->
+        <%- include('../layout/menu.ejs') %>
+            <!--  SIDEBAR - END -->
+            <!-- START CONTENT -->
+            <section id="main-content" class=" ">
+                <section class="wrapper main-wrapper row">
+                    <%- include('../news/search.ejs') %>
+                    <div class="container">
+                      <h1>Danh sách giao dịch</h1>
+                      <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th>Email</th>
+                            <th>Số tiền</th>
+                            <th>Thời gian</th>
+                            <th>Trạng thái</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <% transactions.forEach(transaction => { %>
+                          <tr>
+                            <td><%= transaction.email %></td>
+                            <td><%= transaction.amount %></td>
+                            <td><%= transaction.time %></td>
+                            <td><%= transaction.status %></td>
+                          </tr>
+                          <% }) %>
+                        </tbody>
+                      </table>
+                    </div>
+                </section>
+            </section>
+            <!-- END CONTENT -->
+            <div class="chatapi-windows ">
+            </div>
+            <%- include('../layout/footer.ejs') %></div>

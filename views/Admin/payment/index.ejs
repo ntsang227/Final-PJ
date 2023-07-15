@@ -10,31 +10,36 @@
                 <section class="wrapper main-wrapper row">
                     <%- include('../news/search.ejs') %>
                     <div class="container">
-                        <h1>Danh sách giao dịch</h1>
-                            <% if (transactions.length > 0) { %>
-                            <table>
-                                <thead>
+                        <h1>Thống Kê Doanh Thu</h1>
+                        <% if (transactions.length > 0) { %>
+                            <div class="alert alert-info" role="alert">
+                                <h5>Tổng doanh thu: <%= sumAmount %> VND</h5>
+                            </div>
+                          <!-- Thêm dòng này để hiển thị tổng doanh thu -->
+                          <table class="table table-striped">
+                            <thead>
+                              <tr>
+                                <th>STT</th>
+                                <th>Ngày</th>
+                                <th>Tổng số tiền</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <% transactions.forEach((transaction, index) => { %>
                                 <tr>
-                                    <th>Email</th>
-                                    <th>Số tiền</th>
-                                    <th>Thời gian</th>
+                                  <td><%= index + 1 %></td> <!-- Hiển thị STT -->
+                                  <td><%= transaction.date %></td> <!-- Hiển thị ngày -->
+                                  <td><%= transaction.total %>₫</td> <!-- Hiển thị tổng số tiền -->
                                 </tr>
-                                </thead>
-                                <tbody>
-                                <% transactions.forEach(transaction => { %>
-                                <tr>
-                                    <td><%= transaction.email %></td>
-                                    <td><%= transaction.amount %></td>
-                                    <td><%= transaction.time.toISOString() %></td>
-                                </tr>
-                                <% }) %>
-                                </tbody>
-                            </table>
-                            <% } else { %>
-                            <p>Không tìm thấy giao dịch nào.</p>
-                            <% } %>
-                    </div>
-
+                              <% }) %>
+                            </tbody>
+                          </table>
+                          
+                        <% } else { %>
+                          <p>Không tìm thấy giao dịch nào.</p>
+                        <% } %>
+                      </div>
+                      
                 </section>
             </section>
             <!-- END CONTENT -->

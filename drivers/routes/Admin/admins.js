@@ -4,7 +4,7 @@ const Course = require('../../../db/models/course.js');
 const Tutor = require('../../../db/models/tutor.js');
 const Notification = require('../../../db/models/notification.js');
 const router = express.Router();
-
+const stripe = require('stripe')('sk_test_51NTGMgAD16dsBsnGCco498WE2Kanpe4eCq5kloqGgAXrv8GVleFig26MHcjpBesu0dtd6ODpiJBxAI0exhi7C8vh00bo8rgU5m');
 //Admin Login
   router.get('/', function(req, res) {
     if(req.session.loggedin){
@@ -44,12 +44,26 @@ const router = express.Router();
             const courses = await Course.find();
             const tutor = await Tutor.find();
             const notification = await Notification.find();
+            // Gọi API của Stripe để lấy thông tin giao dịch
+            const charges = await stripe.charges.list();
+
+            // Chỉ lấy các thông tin email, số tiền, và thời gian giao dịch từ danh sách giao dịch
+            const transactions = charges.data.map(charge => {
+              return {
+                email: charge.receipt_email,
+                amount: charge.amount * 231 , // Chia cho 100 để chuyển từ "cent" sang "VND"
+                time: new Date(charge.created * 1000), // Do Stripe trả về timestamp tính bằng giây, nên nhân cho 1000 để chuyển sang millisecond để có thể render đúng định dạng thời gian
+              };
+            });
+            // Tính tổng số tiền giao dịch
+            const sumAmount = transactions.reduce((total, transaction) => total + transaction.amount, 0);
             res.render('Admin/main/index', 
             { 
               notification,
               courses,
               tutor,
               username: req.session.username,
+              sumAmount,
             });
           } else {
             res.redirect('/');
