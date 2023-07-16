@@ -8,7 +8,7 @@
             <!-- START CONTENT -->
             <section id="main-content" class=" ">
                 <section class="wrapper main-wrapper row">
-                    <%- include('../news/search.ejs') %>
+                    <%- include('../payment/search.ejs') %>
                     <div class="container">
                       <h1>Danh sách giao dịch</h1>
                       <table class="table table-striped">
@@ -26,7 +26,14 @@
                             <td><%= transaction.email %></td>
                             <td><%= transaction.amount %></td>
                             <td><%= transaction.time %></td>
-                            <td><%= transaction.status %></td>
+                            <td>
+                              <% if (transaction.status === 'succeeded') { %>
+                                Thành công
+                              <% } else { %>
+                                Thất bại
+                              <% } %>
+                            </td>
+                            
                           </tr>
                           <% }) %>
                         </tbody>
