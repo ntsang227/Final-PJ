@@ -1,6 +1,7 @@
 const express = require('express');
 const Admin = require('../../../db/models/admins.js');
 const Course = require('../../../db/models/course.js');
+const Reviews = require('../../../db/models/reviews.js');
 const Tutor = require('../../../db/models/tutor.js');
 const Notification = require('../../../db/models/notification.js');
 const router = express.Router();
@@ -42,6 +43,7 @@ const stripe = require('stripe')('sk_test_51NTGMgAD16dsBsnGCco498WE2Kanpe4eCq5kl
       try {
           if (req.session.loggedin) {
             const courses = await Course.find();
+            const reviews = await Reviews.find();
             const tutor = await Tutor.find();
             const notification = await Notification.find();
             // Gọi API của Stripe để lấy thông tin giao dịch
@@ -64,6 +66,7 @@ const stripe = require('stripe')('sk_test_51NTGMgAD16dsBsnGCco498WE2Kanpe4eCq5kl
               tutor,
               username: req.session.username,
               sumAmount,
+              reviews
             });
           } else {
             res.redirect('/');

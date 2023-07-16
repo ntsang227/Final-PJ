@@ -1,23 +1,23 @@
 <form class="form-search" action="/tutor/search" method="post">
+  <div class="dropdown">
+      <select id="grade-select" name="grade" onchange="updateSubjectList()">
+        <option value="">-- Chọn --</option>
+        <option value="primary">Dành cho Tiểu Học</option>
+        <option value="secondary">Dành cho THCS</option>
+        <option value="high-school">Dành cho THPT</option>
+        <option value="training-high-school">Luyện thi THPT QG</option>
+        <option value="english-cerificate">Luyện thi Chứng Chỉ Tiếng Anh</option>
+        <option value="english-communication">Tiếng Anh giao tiếp</option>
+      </select>
+    </div>
     <div class="dropdown">
-        <select id="grade-select" name="grade" onchange="updateSubjectList()">
-          <option value="">-- Chọn --</option>
-          <option value="primary">Dành cho Tiểu Học</option>
-          <option value="secondary">Dành cho THCS</option>
-          <option value="high-school">Dành cho THPT</option>
-          <option value="training-high-school">Luyện thi THPT QG</option>
-          <option value="english-cerificate">Luyện thi Chứng Chỉ Tiếng Anh</option>
-          <option value="english-communication">Tiếng Anh giao tiếp</option>
-        </select>
-      </div>
-      <div class="dropdown">
-        <select id="subject-select" name="subject" disabled>
-          <option value="">-- Chọn môn học --</option>
-        </select>
-      </div>
-      
-    <input id="query" name="query" type="search" placeholder="Tìm kiếm..."
-        style="padding: 8px; margin-right: 10px; border: solid 1px #cccc;border-radius: 4px; padding-right: 15%; height: 45px;">
-    <input class="btn-search" type="submit" value="Tìm kiếm">
+      <select id="subject-select" name="subject" disabled>
+        <option value="">-- Chọn môn học --</option>
+      </select>
+    </div>
+    
+  <input id="query" name="query" type="search" placeholder="Tìm kiếm..."
+      style="padding: 10px; margin-right: 10px; border: solid 1px #cccc;border-radius: 5px; padding-right: 15%;">
+  <input class="btn-search" type="submit" value="Tìm kiếm">
 
 </form><br><br>

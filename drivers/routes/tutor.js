@@ -482,7 +482,49 @@ router.post('/ancel', async (req, res) => {
     res.status(500).send('Đã xảy ra lỗi khi xóa yêu cầu đăng ký!');
   }
 });
-
+//search 
+router.post('/search',checkMember, async (req, res) => { //NOSONAR
+  let {grade , subject } = req.body;
+  let query = req.body.query.trim();
+  let courses; 
+  const status = 'active';
+  console.log({status , grade, subject, query });
+  try {
+    if (query) {
+      courses = await Course.find({
+        status,
+        category: new RegExp('.*' + grade + '.*', 'i'),
+        subject: new RegExp('.*' + subject + '.*', 'i'),
+        $or: [
+          {name: new RegExp('.*' + query + '.*', 'i')},
+          {decs: new RegExp('.*' + query + '.*', 'i')},
+          {key: new RegExp('.*' + query + '.*', 'i')},
+          {nametutor: new RegExp('.*' + query + '.*', 'i')}
+        ]
+      });
+    }  else if (grade){
+      courses = await Course.find({
+        status,
+        category: new RegExp('.*' + grade + '.*', 'i'),
+        $or: [
+        {subject: new RegExp('.*' + subject + '.*', 'i')}
+      ]
+      });
+    } else {
+      courses = await Course.find({
+          status
+        }
+      );
+    }
+      console.log(courses);
+      res.render('User/main/index',
+          {
+              courses,
+          });
+  } catch (err) {
+      res.status(500).json({ message: error.message })
+  }
+});
 //Functions
 // Function check member
 function checkMember(req, res, next) {
