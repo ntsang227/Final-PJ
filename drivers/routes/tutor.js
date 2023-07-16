@@ -180,6 +180,12 @@ router.post('/verify', async (req, res) => {
       }); 
       await newNotification.save();
 
+      // Delete session
+      delete req.session.name_input;
+      delete req.session.username_input;
+      delete req.session.email_input;
+      delete req.session.password_input;
+
       res.redirect('/tutor/login');
 
     } catch (error) {

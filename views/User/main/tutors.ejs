@@ -1,12 +1,38 @@
 <%- include('../layout/header.ejs') %>
 
-    <div class="section-tutor ">
-        <h5 class="text-content">Danh sách gia sư:</h5>
+    <div class="section tutors">
+        <h5 class="title-content">Danh sách gia sư: </h5>
         <div class="card card-wrapper">
-            <div class="card-body">
-                <img src="" alt="avt">
-                <p class="card-text"></p>
-            </div>
+            <% if (typeof tutors !=='undefined' && Array.isArray(tutors) && tutors.length> 0) { %>
+                <% for(var i=0; i< tutors.length; i++){ %>
+                    <% if (tutors[i].status !=='Đã đóng' ) { %>
+                            <div class="card-body">
+                                <img src="<%= tutors[i].avt %>" alt="Avatar" id="avatar"
+                                    style="width: 150px; height: 180px; margin: 0 auto;" />
+                                <h6 class="card-title" style="margin-top: 10px;">
+                                    <a href="/tutor/detail-tutors/<%= tutors[i]._id %>">
+                                        <%= tutors[i].name %>
+                                    </a>
+                                </h6>
+                                <p class="card-text">Đánh giá: <a href="/tutor/detail-tutor">
+                                        <%= tutors[i].rate %>
+                                    </a></p>
+                            
+                                <button class="btn-apply" data-course-id="<%= tutors[i]._id %>">Chi tiết</button>
+
+
+                            </div>
+                            <% } %>
+                                <% } %>
+                                    <% } else { %>
+                                        <% if (typeof message !=='undefined' && message !='' ) { %>
+                                            <div class="alert alert-success" style="margin-top: 100px ;">
+                                                <%= message %>
+                                            </div>
+                                            <% } else { %>
+                                                <p>Không có khóa học nào!</p>
+                                                <% } %>
+                                                    <% } %>
         </div>
     </div>
 

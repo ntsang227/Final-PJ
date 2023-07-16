@@ -455,3 +455,22 @@ div.d-calendar {
     margin: auto;
     margin-top: 3%;
 }
+
+
+.tutors{
+    margin: 3%;
+}
+.tutors .card-body{
+    display: flex;
+    flex-direction: column;
+}
+.tutors .card-body img{
+
+}
+.tutors .card-body h6{
+    margin-top: 10px;
+}
+.tutors .card-body .card-text{
+}
+.tutors .card-body button{
+}
