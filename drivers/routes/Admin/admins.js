@@ -22,8 +22,9 @@ const stripe = require('stripe')('sk_test_51NTGMgAD16dsBsnGCco498WE2Kanpe4eCq5kl
   router.post('/login', async function(req, res) { //NOSONAR 
         const username = req.body.username;
         const password = req.body.password;
+        console.log(username, password);
         try {
-          const admin = await Admin.findOne({ username: username });
+          const admin = await Admin.findOne({ $or: [{ username: username }] });
           if (!admin) {
             res.render('Admin/login', { message: 'Tên đăng nhập hoặc mật khẩu không đúng.' });
           } else if (admin.password !== password) {
@@ -33,6 +34,7 @@ const stripe = require('stripe')('sk_test_51NTGMgAD16dsBsnGCco498WE2Kanpe4eCq5kl
             req.session.username = username;
             res.redirect('/admin/home');
           }
+          console.log(admin);
         } catch (err) {
           console.error(err);
           res.render('Admin/login', { message: 'Đã xảy ra lỗi khi đăng nhập.' });

@@ -7,6 +7,7 @@ const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
 
+
 const cloudinary = require('../../../db/Cloudinary/cloudinary.js');
 const storage = require('../../../drivers/Upload/multer-storage.js');
 
@@ -142,7 +143,6 @@ const upload = multer({ storage: storage });
         });
     });
     // Sửa tin tức
-
     router.put('/news/:id', checkAdmin, upload.single('image'), async (req, res) => { //NOSONAR
         try {
             const { name, content } = req.body;
@@ -155,14 +155,16 @@ const upload = multer({ storage: storage });
             news.content = content;
     
             if (req.file) {
-                news.image = `/images/${req.file.filename}`;
+                const result = await cloudinary.uploader.upload(req.file.path);
+                news.image = result.secure_url;
     
-                // Kiểm tra file cũ tồn tại trước khi xóa
-                if (fs.existsSync(oldImagePath)) {
-                    fs.unlinkSync(oldImagePath);
+                // Kiểm tra file cũ tồn tại trên Cloudinary trước khi xóa
+                if (oldImagePath && oldImagePath.includes('cloudinary')) {
+                    const publicId = cloudinary.url(oldImagePath).split('/')[4].split('.')[0];
+                    await cloudinary.uploader.destroy(publicId);
                 }
+                console.log(result.secure_url);
             }
-    
             await news.save();
     
             res.render('Admin/news/edit', { news, username: req.session.username, message: 'Sửa thành công' });
@@ -170,6 +172,8 @@ const upload = multer({ storage: storage });
             res.status(500).json({ message: error.message });
         }
     });
+    
+
     //Tìm kiếm tin tức
     router.get('/news/search' ,checkAdmin,  async (req, res) => { //NOSONAR
         const query = req.query.query;

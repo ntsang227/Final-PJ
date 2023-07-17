@@ -13,4 +13,3 @@ function formatTime(dateString) {
       return postDate.toLocaleDateString();
     }
   }
-  

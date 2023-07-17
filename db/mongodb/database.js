@@ -4,7 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 //đường dẫn mongoDb
 const mongoString = 'mongodb://localhost:27017/Final_Project';
-
+//const mongoString = 'mongodb+srv://vvkhanh2910:BFVDtAmglhbs5OKs@cluster0.bl9gmml.mongodb.net/?retryWrites=true&w=majority';
 mongoose.connect(mongoString, { useNewUrlParser: true });
 const database = mongoose.connection;
 
