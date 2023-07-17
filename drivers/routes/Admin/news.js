@@ -7,16 +7,10 @@ const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'public/images')
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname)
-  }
-})
+const cloudinary = require('../../../db/Cloudinary/cloudinary.js');
+const storage = require('../../../drivers/Upload/multer-storage.js');
 
-const upload = multer({ storage: storage })
+const upload = multer({ storage: storage });
 
 
 //News - yêu cầu chuyển hướng
@@ -93,21 +87,34 @@ const upload = multer({ storage: storage })
                 //     });
                 // });
             //cách mới post được hình
-    router.post('/news/add',checkAdmin, upload.single('image'), function (req, res) {
+    router.post('/news/add', checkAdmin, upload.single('image'), async function (req, res) { //NOSONAR
         const { name, content } = req.body;
-        const newNews = new News({
+
+        try {
+            // Upload ảnh lên Cloudinary
+            const result = await cloudinary.uploader.upload(req.file.path);
+            const imageUrl = result.secure_url;
+
+            // Tạo một bài viết mới với thông tin ảnh từ Cloudinary
+            const newNews = new News({
             name,
             content,
-            image: `/images/${req.file.filename}`
-        });
-        newNews.save()
-        res.render('Admin/news/add',
-            {
-                message: 'Thêm thành công',
-                username: req.session.username 
+            image: imageUrl
             });
+            await newNews.save();
 
-    });
+            res.render('Admin/news/add', {
+            message: 'Thêm thành công',
+            username: req.session.username
+            });
+        } catch (error) {
+            console.error(error);
+            res.render('Admin/news/add', {
+            message: 'Lỗi khi thêm bài viết',
+            username: req.session.username
+            });
+        }
+        });
     // edit theo id news 
     router.get('/news/edit/:id',checkAdmin , async (req, res) => {
         try {
