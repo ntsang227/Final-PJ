@@ -9,31 +9,32 @@
             <section id="main-content" class=" ">
                 <section class="wrapper main-wrapper row">
                     <div class="container">
+                        <div class="card mb-3">
                         <% if (typeof news !=='undefined' && news) { %>
                                 <div class="container" style="display: flex; flex-direction: row;">
-                                    <img class="img" src="<%= news.image %>" alt="Images" style="flex: 1; max-height: 160px; max-width: 150px; margin-right: 30px;">
+                                    <div class="col-md-4 float-right" style="margin-top: 30px;">
+                                        <img class="img img-thumbnail" src="<%= news.image %>" alt="Images" style="flex: 1; max-width: 100%; height: auto; ">
+                                        <br>
+                                        <div class="d-flex justify-content-center">
+                                            <button type="button" class="btn btn-warning btn-sm" style="margin-top: 30px; margin-right: 10px; width: 40%" onclick="urlAction('/admin/news/edit/<%= news._id %>')">Sửa tin tức</button> 
+                                            <button type="button" class="btn btn-danger btn-sm" style="margin-top: 30px; width: 40%" onclick="urlAction('/admin/news/delete/<%= news._id %>')">Xóa tin tức</button>
+                                        </div>
+                                    </div>
+                                    
                                     <div class="content" style="flex:4; display: flex; flex-direction: column;">
-                                        <h5 class="name" style="flex:1; margin-top: 30px; font-size: 30px ">Tên : <%= news.name %>
-                                        </h5>
+                                        <h1 class="name" style="flex:1; margin-top: 30px; "><%= news.name %>
+                                        </h1>
                                         <p class="text" style="flex:auto; overflow:hidden; max-width: 100%; ">Nội dung: <%= news.content %>
                                         </p>
-                                        <p class="date" style="flex:1;">Ngày tạo: <%= new Date(news.createdAt).toLocaleString('vi-VN') %>
-                                        </p>
-                                        <p class="date" style="flex:1 ; ">Cập nhật lần cuối: <%= new Date(news.updatedAt).toLocaleString('vi-VN') %>
-                                        </p>
-                                        <p class="edit" style="flex:1; border-bottom: rgb(168, 168, 168) solid 1px;">
-                                            <a href="/admin/news/edit/<%= news._id %>">Sửa</a>|
-                                            <a href="/admin/news/delete/<%= news._id %>" onclick="return confirm('Bạn chắc chắn muốn xóa tin tức này?')">Xóa</a>
-
+                                        <p class="date" style="flex:1;">Ngày đăng: <%= new Date(news.createdAt).toLocaleString('vi-VN') %> | Cập nhật lần cuối: <%= new Date(news.updatedAt).toLocaleString('vi-VN') %>
                                         </p>
                                     </div>
                                 </div>
-                                <br>
                                     <% } else { %>
                                         <p>No news found</p>
                                         <% } %>
                     </div>
-
+                </div>
 
                 </section>
             </section>
