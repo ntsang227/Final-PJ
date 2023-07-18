@@ -19,34 +19,3 @@
   display: block;
   margin: auto;
 }
-
-.activee:after {
-  content: '';
-  width: 10px;
-  height: 10px;
-  background: red;
-  border-radius: 50%;
-  position: absolute;  
-  top: -5px;   
-  right: -5px;  
-}
-
-.btn-activee {
-  background: #00B2FF;
-  border: none;
-  padding: 10px 9px;
-  border-radius: 10px;
-  height: 40px;
-  width: 40px;
-  margin-top: 20px;
-}
-.has-new-data::before {
-  content: "";
-  width: 8px;
-  height: 8px;
-  background-color: red;
-  border-radius: 50%;
-  position: absolute;
-  top: 5px;
-  right: 5px;
-}

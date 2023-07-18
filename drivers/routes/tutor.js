@@ -19,11 +19,19 @@ router.get('/', checkMember, function (req, res) {
 // Chuyển hướng đến trang home tutor 
 router.get('/home', checkMember, async (req, res) => {
   try {
-    const courses = await Course.find({ status: 'active' });
-    res.render('User/main/index.ejs',
+    const emailtutor = req.session.email;
+    const tutor = await Tutor.findOne({ email: emailtutor });
+    if (tutor) {
+      const name = tutor.username;
+      const apply = await Apply.find({ nametutor: name }); // Chỉ hiển thị danh sách yêu cầu đăng ký của người đăng bài
+      const courses = await Course.find({ status: 'active' });
+      res.render('User/main/index.ejs',
       {
-        courses,
+        courses,apply
       });
+    } else {
+      res.status(404).send('Không tìm thấy tài khoản tutor!');
+    }
   }
   catch (error) {
     res.status(500).json({ message: error.message })
@@ -302,36 +310,30 @@ router.post('/new-courses', checkMember, async (req, res) => { //NOSONAR
 ///
 
 //apply
-router.post('/apply', async (req, res) => { //NOSONAR 
+router.post('/apply', async (req, res) => {
   try {
     const courseId = req.body.courseId;
-    const courseName = req.body.courseName;
-    const emailtutor = req.session.email;
     const tutorName = req.body.tutorName;
-    console.log(req.session.email);
-    console.log(emailtutor);
-    const tutor = await Tutor.findOne({ email: emailtutor });
-    console.log(tutor);
-    const name = tutor.username;
-    if (tutorName === name) {
-      res.status(500).send('Bạn không thể tự đăng ký khoá học của mình');
+    const username = req.session.name_tutor;
+
+    const course = await Course.findById(courseId);
+    if (!course) {
+      res.status(404).send('Khóa học không tồn tại');
       return;
     }
-    const existingApply = await Apply.findOne({ courseId: courseId, nameuser: name });
-    if (existingApply) {
-      res.send({ alreadyApplied: true });
-    } else {
-      const apply = new Apply({
-        name: courseName,
-        nametutor: tutorName,
-        nameuser: name,
-        courseId: courseId,
-        datePost: Date.now(),
-        updatedAt: Date.now()
-      });
-      await apply.save();
-      res.render('User/main/notification.ejs', { apply });
+    // Kiểm tra nếu username đã đăng ký khóa học này, gửi trả về thông báo tương ứng
+    if (course.nameuser.includes(username)) {
+      res.send({ alreadyApplied: true, username: username });
+      return;
     }
+    // Kiểm tra nếu tutorName bằng username, không lưu yêu cầu đăng ký vào MongoDB
+    if (tutorName === username) {
+      res.send({ alreadyApplied: false, username: username });
+      return;
+    }
+    course.nameuser = course.nameuser  + username;
+await course.save();
+    res.render('User/main/notification.ejs', { course });
   } catch (err) {
     console.log(err);
     res.status(500).send('Đã xảy ra lỗi khi lưu yêu cầu đăng ký!');
@@ -340,35 +342,22 @@ router.post('/apply', async (req, res) => { //NOSONAR
 // hiển thị trên trang web notification
 router.get('/applys', async (req, res) => {
   try {
-    const emailtutor = req.session.email;
-    const tutor = await Tutor.findOne({ email: emailtutor });
-    if (tutor) {
-      const name = tutor.username;
-      const apply = await Apply.find({ nametutor: name }); // Chỉ hiển thị danh sách yêu cầu đăng ký của người đăng bài
-      res.render('User/main/notification.ejs', { apply });
-    } else {
-      res.status(404).send('Không tìm thấy tài khoản tutor!');
+    const tutorName = req.session.name_tutor;
+    const courses = await Course.find({ nametutor: tutorName });
+    if (!courses) {
+      res.status(404).send('Không tìm thấy khóa học nào');
+      return;
     }
+    const filteredCourses = courses.filter(course => course.nametutor === tutorName);
+    res.render('User/main/notification.ejs', { course: filteredCourses });
   } catch (err) {
     console.log(err);
     res.status(500).send('Đã xảy ra lỗi khi lấy danh sách yêu cầu đăng ký!');
   }
 });
-
-
-
 //đồng ý apply
 router.post('/accept', async (req, res) => {
   try {
-    const applyId = req.body.applyId;
-    const apply = await Apply.findById(applyId);
-    const courseId = apply.courseId;
-    const nameuser = apply.nameuser;
-
-    await Course.findByIdAndUpdate(courseId, {$push: {nameuser: nameuser}});
-    //await Course.findByIdAndUpdate(courseId, { nameuser: nameuser });
-    await Apply.findByIdAndDelete(applyId);
-
     res.redirect('/tutor/home');
   } catch (err) {
     console.log(err);
@@ -378,15 +367,20 @@ router.post('/accept', async (req, res) => {
 // huy apply
 router.post('/ancel', async (req, res) => {
   try {
-    const applyId = req.body.applyId;
-    await Apply.findByIdAndDelete(applyId);
+    const courseId = req.body.courseId;
+    const course = await Course.findById(courseId);
+    if (!course) {
+      res.status(404).send('Khóa học không tồn tại');
+      return;
+    }
+    course.nameuser = ''; // remove the user's name from the course
+    await course.save();
     res.redirect('/tutor/home');
   } catch (err) {
     console.log(err);
     res.status(500).send('Đã xảy ra lỗi khi xóa yêu cầu đăng ký!');
   }
 });
-
 //Functions
 // Function check member
 function checkMember(req, res, next) {

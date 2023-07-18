@@ -8,6 +8,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const methodOverride = require('method-override');
+const socketio = require('socket.io');
 
 const app = express();
 app.use(bodyParser.json());
@@ -51,6 +52,8 @@ app.use(session(sessionConfig1));
 
 // Middleware sử dụng đối tượng cấu hình session thứ hai
 app.use(session(sessionConfig2));
+
+
 // định nghĩa route
 const admins = require('./drivers/routes/Admin/admins.js');
 const news = require('./drivers/routes/Admin/news.js');
