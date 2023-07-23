@@ -463,9 +463,10 @@ div.d-calendar {
 .tutors .card-body{
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
-.tutors .card-body img{
-
+.tutors .card{
+    border: none !important;
 }
 .tutors .card-body h6{
     margin-top: 10px;
@@ -473,4 +474,4 @@ div.d-calendar {
 .tutors .card-body .card-text{
 }
 .tutors .card-body button{
-}
+} 

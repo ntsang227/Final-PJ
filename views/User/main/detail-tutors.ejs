@@ -1,0 +1,40 @@
+<%- include('../layout/header.ejs') %>
+    <%- include('../layout/menu.ejs') %>
+        <div class="section">
+            <div class="course">
+                <% if (typeof tutors !=='undefined' && tutors) { %>
+                    <img src="<%= tutors.avt %>" alt="Avatar" id="avatar"
+                        style="width: 150px; height: 180px; margin: 0 auto;" />
+                    <h5>
+                        <%= tutors.name %>
+                    </h5>
+                    <p class="">Email:
+                            <%= tutors.email %>
+                        </p>
+                    <p class="">Trạng thái: <%= tutors.status %>
+                    </p>
+                    <% if (reviews) { %>
+                        <p class="text-muted">Đánh giá: <%= reviews.rate %>
+                        </p>
+                        <% } %>
+                            <p class="">Khóa học:
+                                <a href="#" class="">
+                                    <% if (courses) { %>
+                                        <p>
+                                            <%= courses.name %>
+                                        </p>
+                                        <% } %>
+                                </a>
+                            </p>
+
+                            <button class="btn-apply">Liên hệ</button>
+                            <% } else { %>
+                                <p>không tìm thấy tài khoản tutor!</p>
+                                <% } %>
+            </div>
+        </div>
+        </div>
+        <%- include('../layout/footer.ejs') %>
+            </body>
+
+            </html>

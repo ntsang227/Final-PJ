@@ -19,6 +19,7 @@ router.get('/', checkMember, function (req, res) {
   req.session.loggedin_tutor = false;
   res.render('User/main/index.ejs', { email: req.session.email });
 });
+
 // Chuyển hướng đến trang home tutor 
 
 router.get('/home', checkMember, async (req, res) => {
@@ -32,7 +33,8 @@ router.get('/home', checkMember, async (req, res) => {
   catch (error) {
     res.status(500).json({ message: error.message })
   }
-})
+});
+
 router.get('/courses', checkMember, function (req, res) {
   res.render('User/main/course.ejs', { email: req.session.email });
 });
@@ -42,8 +44,40 @@ router.get('/detail-course', checkMember, function (req, res) {
 router.get('/calendar', checkMember, function (req, res) {
   res.render('User/main/calendar.ejs', { email: req.session.email });
 });
-router.get('/tutors', checkMember, function (req, res) {
-  res.render('User/main/tutors.ejs', { email: req.session.email });
+router.get('/tutors', checkMember, async (req, res) => {
+  try {
+    const tutors = await Tutor.find({ status: 'active' });
+    res.render('User/main/tutors.ejs',
+      {
+        tutors,
+      });
+  }
+  catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+});
+router.get('/detail-tutors/:id', checkMember, async function (req, res) {
+  try {
+    const id = req.params.id;
+    const tutors = await Tutor.findById(id);
+    if(tutors){
+      const nametutor = tutors.username;
+      const reviews = await Review.findOne({ nametutor : nametutor});
+      const courses = await Course.findOne({ nametutor : nametutor});
+
+      res.render('User/main/detail-tutors',
+      {
+        tutors,
+        reviews,
+        courses,
+      });
+    } else{
+      res.status(404).send('Không tìm thấy tài khoản tutor!');
+    }
+  }
+  catch (error) {
+    res.redirect('/tutors/');
+  }
 });
 router.get('/detail-courses/:id', checkMember, async function (req, res) {
   try {
