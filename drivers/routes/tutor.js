@@ -12,7 +12,11 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const nodemailer = require('nodemailer');
 const { OAuth2Client } = require('google-auth-library');
+const cloudinary = require('../../db/Cloudinary/cloudinary.js');
+const storage = require('../../drivers/Upload/multer-storage.js');
 
+
+const upload = multer({ storage: storage });
 
 //Yêu cầu chuyển hướng
 router.get('/', checkMember, function (req, res) {
@@ -354,46 +358,30 @@ router.get('/logout', checkMember, function (req, res) {
   }
 });
 // avatar
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'public/avatar');
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-  }
-});
 
-const upload = multer({ storage: storage });
 
-router.post('/avatar/update', upload.single('file'), async (req, res) => {
+router.post('/avatar/update', upload.single('file'), async (req, res) => { //NOSONAR
   try {
-    // Lưu đường dẫn mới vào DB
-    const avatarPath = '/avatar/' + req.file.filename;
+    // Tải lên ảnh lên Cloudinary
+    const result = await cloudinary.uploader.upload(req.file.path);
+
+    // Lưu URL mới vào DB
+    const avatarUrl = result.secure_url;
     const tutor = await Tutor.findOne({ _id: req.body.tutorId });
-    const oldAvatarPath = tutor.avt;
+    const oldAvatarUrl = tutor.avt;
 
     // Xóa ảnh cũ nếu tồn tại
-    // Lưu đường dẫn tương đối của thư mục public vào một biến
-    const publicDir = 'public';
-
-    // Xóa ảnh cũ nếu tồn tại
-    if (oldAvatarPath) {
-      const fs = require('fs');
-      const filePath = path.join(publicDir, oldAvatarPath);
-      if (fs.existsSync(filePath)) {
-        fs.unlink(filePath, function (err) {
-          if (err) throw err;
-          //console.log('Old avatar deleted!');
-        });
-      } else {
-        // console.log('Avatar file not found!');
-      }
+    if (oldAvatarUrl) {
+      await cloudinary.uploader.destroy(oldAvatarUrl);
     }
 
-    // Lưu ảnh mới vào DB
-    await Tutor.findOneAndUpdate({ _id: req.body.tutorId }, { avt: avatarPath });
+    // Lưu URL mới vào DB
+    await Tutor.updateOne({ _id: req.body.tutorId }, { avt: avatarUrl });
 
-    res.send('Avatar updated!');
+    // Xóa file tạm thời trên server
+    fs.unlinkSync(req.file.path);
+
+    res.redirect('/tutor/profile');
   } catch (error) {
     res.status(500).send(error.message);
   }
