@@ -381,7 +381,7 @@ router.post('/avatar/update', upload.single('file'), async (req, res) => { //NOS
     // Xóa file tạm thời trên server
     fs.unlinkSync(req.file.path);
 
-    res.redirect('/tutor/profile');
+    res.send('OK!');
   } catch (error) {
     res.status(500).send(error.message);
   }

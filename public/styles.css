@@ -100,3 +100,31 @@ button:hover{
     color: white !important;
     margin-top: 50px;
 }
+div.container{
+    margin-top: 30px;
+}
+div.container div.services{
+    display: flex;
+    flex-direction: column;
+}
+
+div.services .item-1{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 30px;
+    border-bottom: solid 1px #cccc;
+}
+
+div.services:last-of-type{
+    border-bottom: none;
+}
+
+div.services .item-1 .item-content h5{
+    color: #00B2FF;
+    text-shadow: 1px 1px 1px #cccc;
+}
+
+div.services .item-1 .item-content .service-desc{
+    max-width: 700px;
+}
