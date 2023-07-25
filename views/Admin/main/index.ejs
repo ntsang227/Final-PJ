@@ -84,12 +84,46 @@
                             <% for(var i=0; i< notification.length; i++){ %>
                                 <% if(notification[i].category === 'Courses'){ %>
                                     <div class="alert alert-secondary index" role="alert" onclick="urlAction('/admin/noti/<%= notification[i]._id %>')">
-                                        <%= notification[i].actionName %> đã đăng kí <%= notification[i].name %>
+                                        <%= notification[i].actionName %> đã đăng kí <%= notification[i].name %> 
+                                        <span style="float: right;">
+                                            <% var createdAt = new Date(notification[i].createdAt); %> <!-- Lấy thời gian tạo -->
+                                            <% var currentTime = new Date(); %> <!-- Lấy thời gian hiện tại -->
+                                            <% var timeDiff = Math.abs(currentTime - createdAt); %> <!-- Tính khoảng thời gian giữa hai thời điểm -->
+                                            <% var diffMinutes = Math.floor(timeDiff / (1000 * 60)); %> <!-- Đổi ra phút -->
+                                            <% if(diffMinutes > 60){ %> <!-- Nếu hơn 60 phút -->
+                                                <% var diffHours = Math.floor(diffMinutes / 60); %> <!-- Đổi ra giờ -->
+                                                <% if(diffHours > 24){ %> <!-- Nếu hơn 24 giờ -->
+                                                    <% var diffDays = Math.floor(diffHours / 24); %> <!-- Đổi ra ngày -->
+                                                    <i style="color: black"><%= diffDays %> ngày trước</i>
+                                                <% } else { %>
+                                                    <i style="color: black"><%= diffHours %> giờ trước</i>
+                                                <% } %>
+                                            <% } else { %>
+                                                <i style="color: black"><%= diffMinutes %> phút trước </i>
+                                            <% } %>
+                                        </span>
                                       </div>                              
                                 <% } %>
                                 <% if(notification[i].category === 'newUser'){ %>
-                                    <div class="alert alert-secondary index" role="alert" onclick="urlAction('/admin/tutor/index.html')">
+                                    <div class="alert alert-secondary index" role="alert" onclick="urlAction('/admin/notif/<%= notification[i]._id %>')">
                                         <%= notification[i].name %> tên là <%= notification[i].actionName %>
+                                        <span style="float: right; font-size:13px">
+                                            <% var createdAt = new Date(notification[i].createdAt); %> <!-- Lấy thời gian tạo -->
+                                            <% var currentTime = new Date(); %> <!-- Lấy thời gian hiện tại -->
+                                            <% var timeDiff = Math.abs(currentTime - createdAt); %> <!-- Tính khoảng thời gian giữa hai thời điểm -->
+                                            <% var diffMinutes = Math.floor(timeDiff / (1000 * 60)); %> <!-- Đổi ra phút -->
+                                            <% if(diffMinutes > 60){ %> <!-- Nếu hơn 60 phút -->
+                                                <% var diffHours = Math.floor(diffMinutes / 60); %> <!-- Đổi ra giờ -->
+                                                <% if(diffHours > 24){ %> <!-- Nếu hơn 24 giờ -->
+                                                    <% var diffDays = Math.floor(diffHours / 24); %> <!-- Đổi ra ngày -->
+                                                    <i style="color: black"><%= diffDays %> ngày trước</i>
+                                                <% } else { %>
+                                                    <i style="color: black"><%= diffHours %> giờ trước</i>
+                                                <% } %>
+                                            <% } else { %>
+                                                <i style="color: black"><%= diffMinutes %> phút trước </i>
+                                            <% } %>
+                                        </span>
                                       </div>
                                 <% } %>
                             <% } %>

@@ -34,7 +34,7 @@ const stripe = require('stripe')('sk_test_51NTGMgAD16dsBsnGCco498WE2Kanpe4eCq5kl
             req.session.username = username;
             res.redirect('/admin/home');
           }
-          console.log(admin);
+          //console.log(admin);
         } catch (err) {
           console.error(err);
           res.render('Admin/login', { message: 'Đã xảy ra lỗi khi đăng nhập.' });
@@ -47,10 +47,9 @@ const stripe = require('stripe')('sk_test_51NTGMgAD16dsBsnGCco498WE2Kanpe4eCq5kl
             const courses = await Course.find();
             const reviews = await Reviews.find();
             const tutor = await Tutor.find();
-            const notification = await Notification.find();
+            const notification = await Notification.find({status: 'Chưa xem',});
             // Gọi API của Stripe để lấy thông tin giao dịch
             const charges = await stripe.charges.list();
-
             // Chỉ lấy các thông tin email, số tiền, và thời gian giao dịch từ danh sách giao dịch
             const transactions = charges.data.map(charge => {
               return {
@@ -98,9 +97,23 @@ const stripe = require('stripe')('sk_test_51NTGMgAD16dsBsnGCco498WE2Kanpe4eCq5kl
         res.status(500).json({ message: 'Lỗi' })
     }
   });
+  //Chuyển hướng đến chi tiết thông báo
   router.get('/noti/:id',checkAdmin, async function(req, res) { //NOSONAR
     try {
-        res.redirect('/admin/course/apply-course.html')
+      const id = req.params.id;
+      const notification = await Notification.findByIdAndUpdate(id, { status: 'Đã xem' }, { new: true });
+      res.redirect('/admin/course/apply-course.html')
+    }
+    catch (error) {
+        res.status(500).json({ message: 'Lỗi' })
+    }
+  });
+  //Chuyển hướng đến chi tiết thông báo new user
+  router.get('/notif/:id',checkAdmin, async function(req, res) { //NOSONAR
+    try {
+      const id = req.params.id;
+      const notification = await Notification.findByIdAndUpdate(id, { status: 'Đã xem' }, { new: true });
+      res.redirect('/admin/tutor/index.html')
     }
     catch (error) {
         res.status(500).json({ message: 'Lỗi' })
@@ -119,5 +132,5 @@ catch (error) {
     res.status(500).json({ message: 'Lỗi' })
     }
 }
-  
+
 module.exports = router;
