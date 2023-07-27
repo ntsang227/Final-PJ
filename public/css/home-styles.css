@@ -481,3 +481,26 @@ div.detail-tutor{
     padding: 30px;
 >>>>>>> 89e5afd8cc6bcef5126c2c1d27ca2053a2764348
 }
+
+
+.tutors{
+    margin: 3%;
+}
+.tutors .card-body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.tutors .card{
+    border: none !important;
+}
+.tutors .card-body h6{
+    margin-top: 10px;
+}
+div.detail-tutor{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    border: solid 1px #cccc;
+    padding: 30px;
+}

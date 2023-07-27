@@ -1,15 +1,48 @@
 <%- include('../layout/headerv2.ejs') %>
+<h1>Thanh toán</h1>
+
+<!-- Form thanh toán -->
+<form action="/pay" method="POST">
+  <input type="text" name="stripeToken" id="stripeToken" hidden>
+
+  <div id="card-element">
+    <!-- Stripe Elements sẽ được render vào đây -->
+  </div>
+
+  <label for="email">Email:</label>
+  <input type="email" name="email" id="email">
+
+  <button type="submit">Thanh toán</button>
+</form>
+
+<script>
+  // Tạo một đối tượng Stripe Elements
+  const stripe = Stripe('pk_test_51NTGMgAD16dsBsnGlXKRXyVAGDO3LjzvW1oL6w3uPryK5OS2t52KOv45rWxlI3YkfcCbZ1x5XEvEfznLvpdgcNDF00cBVAmUy4');
+  const elements = stripe.elements();
+
+  // Tạo một thanh phần input cho thông tin thẻ
+  const cardElement = elements.create('card');
+  cardElement.mount('#card-element');
+
+  // Bắt sự kiện submit form để lấy token và gửi đi
+  const form = document.querySelector('form');
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const { paymentMethod, error } = await stripe.createPaymentMethod({
+      type: 'card',
+      card: cardElement
+    });
+
+    if (error) {
+      alert(error.message);
+    } else {
+      document.getElementById('stripeToken').value = paymentMethod.id;
+      form.submit();
+    }
+  });
+</script>
   
-  <section id="main-content" class=" ">
-    <section class="wrapper main-wrapper row">
-        <div class="container">
-            <p>Đây là trang về chúng tôi</p>
-        </div>
-
-
-    </section>
-</section>
-
 <%- include('../layout/footer.ejs') %>
 </body>
 

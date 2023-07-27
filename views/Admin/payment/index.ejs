@@ -1,0 +1,48 @@
+<%- include('../layout/header.ejs') %>
+    <!-- END TOPBAR -->
+    <!-- START CONTAINER -->
+    <div class="page-container row-fluid container-fluid">
+        <!-- SIDEBAR - START -->
+        <%- include('../layout/menu.ejs') %>
+            <!--  SIDEBAR - END -->
+            <!-- START CONTENT -->
+            <section id="main-content" class=" ">
+                <section class="wrapper main-wrapper row">
+                    <%- include('../payment/search.ejs') %>
+                    <div class="container">
+                        <h1>Thống Kê Doanh Thu</h1>
+                        <% if (transactions.length > 0) { %>
+                            <div class="alert alert-info" role="alert">
+                                <h5>Tổng doanh thu: <%= sumAmount %> VND</h5>
+                            </div>
+                          <!-- Thêm dòng này để hiển thị tổng doanh thu -->
+                          <table class="table table-striped">
+                            <thead>
+                              <tr>
+                                <th>STT</th>
+                                <th>Ngày</th>
+                                <th>Tổng số tiền</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <% transactions.forEach((transaction, index) => { %>
+                                <tr>
+                                  <td><%= index + 1 %></td> <!-- Hiển thị STT -->
+                                  <td><%= transaction.date %></td> <!-- Hiển thị ngày -->
+                                  <td><%= transaction.total %>₫</td> <!-- Hiển thị tổng số tiền -->
+                                </tr>
+                              <% }) %>
+                            </tbody>
+                          </table>
+                          
+                        <% } else { %>
+                          <p>Không tìm thấy giao dịch nào.</p>
+                        <% } %>
+                      </div>
+                      
+                </section>
+            </section>
+            <!-- END CONTENT -->
+            <div class="chatapi-windows ">
+            </div>
+            <%- include('../layout/footer.ejs') %>

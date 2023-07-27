@@ -7,16 +7,11 @@ const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'public/images')
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname)
-  }
-})
 
-const upload = multer({ storage: storage })
+const cloudinary = require('../../../db/Cloudinary/cloudinary.js');
+const storage = require('../../../drivers/Upload/multer-storage.js');
+
+const upload = multer({ storage: storage });
 
 
 //News - yêu cầu chuyển hướng
@@ -93,34 +88,34 @@ const upload = multer({ storage: storage })
                 //     });
                 // });
             //cách mới post được hình
-            router.post('/news/add', checkAdmin, upload.single('image'), async function (req, res) { //NOSONAR
-                const { name, content } = req.body;
-        
-                try {
-                    // Upload ảnh lên Cloudinary
-                    const result = await cloudinary.uploader.upload(req.file.path);
-                    const imageUrl = result.secure_url;
-        
-                    // Tạo một bài viết mới với thông tin ảnh từ Cloudinary
-                    const newNews = new News({
-                    name,
-                    content,
-                    image: imageUrl
-                    });
-                    await newNews.save();
-        
-                    res.render('Admin/news/add', {
-                    message: 'Tạo tin tức thành công!',
-                    username: req.session.username
-                    });
-                } catch (error) {
-                    console.error(error);
-                    res.render('Admin/news/add', {
-                    message: 'Có lỗi xảy ra khi thêm bài viết!',
-                    username: req.session.username
-                    });
-                }
-                });
+    router.post('/news/add', checkAdmin, upload.single('image'), async function (req, res) { //NOSONAR
+        const { name, content } = req.body;
+
+        try {
+            // Upload ảnh lên Cloudinary
+            const result = await cloudinary.uploader.upload(req.file.path);
+            const imageUrl = result.secure_url;
+
+            // Tạo một bài viết mới với thông tin ảnh từ Cloudinary
+            const newNews = new News({
+            name,
+            content,
+            image: imageUrl
+            });
+            await newNews.save();
+
+            res.render('Admin/news/add', {
+            message: 'Tạo tin tức thành công!',
+            username: req.session.username
+            });
+        } catch (error) {
+            console.error(error);
+            res.render('Admin/news/add', {
+            message: 'Có lỗi xảy ra khi thêm bài viết!',
+            username: req.session.username
+            });
+        }
+        });
     // edit theo id news 
     router.get('/news/edit/:id',checkAdmin , async (req, res) => {
         try {
@@ -148,7 +143,6 @@ const upload = multer({ storage: storage })
         });
     });
     // Sửa tin tức
-
     router.put('/news/:id', checkAdmin, upload.single('image'), async (req, res) => { //NOSONAR
         try {
             const { name, content } = req.body;
@@ -161,14 +155,16 @@ const upload = multer({ storage: storage })
             news.content = content;
     
             if (req.file) {
-                news.image = `/images/${req.file.filename}`;
+                const result = await cloudinary.uploader.upload(req.file.path);
+                news.image = result.secure_url;
     
-                // Kiểm tra file cũ tồn tại trước khi xóa
-                if (fs.existsSync(oldImagePath)) {
-                    fs.unlinkSync(oldImagePath);
+                // Kiểm tra file cũ tồn tại trên Cloudinary trước khi xóa
+                if (oldImagePath && oldImagePath.includes('cloudinary')) {
+                    const publicId = cloudinary.url(oldImagePath).split('/')[4].split('.')[0];
+                    await cloudinary.uploader.destroy(publicId);
                 }
+                console.log(result.secure_url);
             }
-    
             await news.save();
     
             res.render('Admin/news/edit', { news, username: req.session.username, message: 'Sửa thành công' });
@@ -176,6 +172,8 @@ const upload = multer({ storage: storage })
             res.status(500).json({ message: error.message });
         }
     });
+    
+
     //Tìm kiếm tin tức
     router.get('/news/search' ,checkAdmin,  async (req, res) => { //NOSONAR
         const query = req.query.query;

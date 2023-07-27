@@ -43,6 +43,16 @@ a {
 p.text-su.check-term-p{
     margin-top: 5px;
 }
+p.text-verify{
+    color: gray;
+    font-size: 16px;
+    font-weight: bold;
+    padding-top: 10px;
+    text-align: left;
+    margin: auto;
+    width: 60%;
+    margin-bottom: 15px;
+}
 
 p a {
     text-decoration: none;

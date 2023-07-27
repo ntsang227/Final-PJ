@@ -96,6 +96,10 @@
   div.new-notification{
     min-height: 150px;
   }
+
+.index {
+  cursor: pointer;
+}
   
   
   

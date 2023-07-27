@@ -21,8 +21,6 @@ const storage = require('../../drivers/Upload/multer-storage.js');
 
 const upload = multer({ storage: storage });
 
-//import { io } from "socket.io-client";
-
 //Yêu cầu chuyển hướng
 router.get('/', checkMember, function (req, res) {
   req.session.loggedin_tutor = false;
@@ -136,7 +134,6 @@ function generateOTP() {
 
 router.post('/register', async (req, res) => { //NOSONAR
   try {
-console.log('register')
     const otpCode = generateOTP();
 
     req.session.otpCode = otpCode;

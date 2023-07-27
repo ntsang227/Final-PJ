@@ -1,10 +1,11 @@
 const express = require('express');
 const Admin = require('../../../db/models/admins.js');
 const Course = require('../../../db/models/course.js');
+const Reviews = require('../../../db/models/reviews.js');
 const Tutor = require('../../../db/models/tutor.js');
 const Notification = require('../../../db/models/notification.js');
 const router = express.Router();
-
+const stripe = require('stripe')('sk_test_51NTGMgAD16dsBsnGCco498WE2Kanpe4eCq5kloqGgAXrv8GVleFig26MHcjpBesu0dtd6ODpiJBxAI0exhi7C8vh00bo8rgU5m');
 //Admin Login
   router.get('/', function(req, res) {
     if(req.session.loggedin){
@@ -21,8 +22,9 @@ const router = express.Router();
   router.post('/login', async function(req, res) { //NOSONAR 
         const username = req.body.username;
         const password = req.body.password;
+        console.log(username, password);
         try {
-          const admin = await Admin.findOne({ username: username });
+          const admin = await Admin.findOne({ $or: [{ username: username }] });
           if (!admin) {
             res.render('Admin/login', { message: 'Tên đăng nhập hoặc mật khẩu không đúng.' });
           } else if (admin.password !== password) {
@@ -43,6 +45,7 @@ const router = express.Router();
       try {
           if (req.session.loggedin) {
             const courses = await Course.find();
+            const reviews = await Reviews.find();
             const tutor = await Tutor.find();
             const notification = await Notification.find({status: 'Chưa xem',});
             // Gọi API của Stripe để lấy thông tin giao dịch
@@ -63,6 +66,8 @@ const router = express.Router();
               courses,
               tutor,
               username: req.session.username,
+              sumAmount,
+              reviews
             });
           } else {
             res.redirect('/');

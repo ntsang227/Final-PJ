@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <link rel="stylesheet" href="/css/signup-styles.css">
+</head>
+
+<body>
+    <main>
+        <form action="/tutor/verify" method="post">
+
+            <p class="text-verify"> Mã OTP đã được gửi về email mà bạn đăng ký, vui lòng kiểm tra và nhập mã OTP!</p>
+
+            <input type="text" name="otp" id="otp" placeholder="OTP">
+
+
+            <% if (message !=='' ) { %>
+                <div style="font-size: 14px; text-align: center; padding-top: 20px; color: #ff3737; font-weight: bold;">
+                    <%= message %>
+                </div>
+                <% } %>
+
+                    <input type="submit" value="Xác nhận" class="button" id="submitButton">
+        </form>
+
+    </main>
+</body>
+
+</html>
