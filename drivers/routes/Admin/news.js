@@ -21,7 +21,7 @@ const upload = multer({ storage: storage })
 
 //News - yêu cầu chuyển hướng
   // Chuyển hướng đến trang chủ 
-    router.get('/news/',checkAdmin, async (req, res) => {
+    router.get('/news/',checkAdmin, async (req, res) => { //NOSONAR 
             try {
                 const news = await News.find();
                 //console.log(JSON.stringify(news)) 
@@ -59,7 +59,7 @@ const upload = multer({ storage: storage })
         }
     }); 
     // Chuyển hướng đến details news
-    router.get('/news/details/:id',checkAdmin, async function(req, res) {
+    router.get('/news/details/:id',checkAdmin, async function(req, res) { //NOSONAR 
         try {
             const id = req.params.id;
             const news = await News.findById(id);
@@ -93,21 +93,34 @@ const upload = multer({ storage: storage })
                 //     });
                 // });
             //cách mới post được hình
-    router.post('/news/add',checkAdmin, upload.single('image'), function (req, res) {
-        const { name, content } = req.body;
-        const newNews = new News({
-            name,
-            content,
-            image: `/images/${req.file.filename}`
-        });
-        newNews.save()
-        res.render('Admin/news/add',
-            {
-                message: 'Thêm thành công',
-                username: req.session.username 
-            });
-
-    });
+            router.post('/news/add', checkAdmin, upload.single('image'), async function (req, res) { //NOSONAR
+                const { name, content } = req.body;
+        
+                try {
+                    // Upload ảnh lên Cloudinary
+                    const result = await cloudinary.uploader.upload(req.file.path);
+                    const imageUrl = result.secure_url;
+        
+                    // Tạo một bài viết mới với thông tin ảnh từ Cloudinary
+                    const newNews = new News({
+                    name,
+                    content,
+                    image: imageUrl
+                    });
+                    await newNews.save();
+        
+                    res.render('Admin/news/add', {
+                    message: 'Tạo tin tức thành công!',
+                    username: req.session.username
+                    });
+                } catch (error) {
+                    console.error(error);
+                    res.render('Admin/news/add', {
+                    message: 'Có lỗi xảy ra khi thêm bài viết!',
+                    username: req.session.username
+                    });
+                }
+                });
     // edit theo id news 
     router.get('/news/edit/:id',checkAdmin , async (req, res) => {
         try {

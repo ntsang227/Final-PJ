@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 function formatTime(dateString) {
     const postDate = new Date(dateString);
     const currentDate = new Date();
@@ -14,3 +15,5 @@ function formatTime(dateString) {
     }
   }
   
+=======
+>>>>>>> 89e5afd8cc6bcef5126c2c1d27ca2053a2764348

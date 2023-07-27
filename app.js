@@ -10,6 +10,7 @@ const path = require('path');
 const methodOverride = require('method-override');
 const socketio = require('socket.io');
 
+
 const app = express();
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -60,6 +61,7 @@ const news = require('./drivers/routes/Admin/news.js');
 const course = require('./drivers/routes/Admin/course.js');
 const tutorAdmin = require('./drivers/routes/Admin/tutor.js');
 const student = require('./drivers/routes/Admin/student.js');
+const payment = require('./drivers/routes/Admin/payment.js');
 
 const tutor = require('./drivers/routes/tutor.js');
 
@@ -67,7 +69,7 @@ const index = require('./drivers/routes/index.js');
 
 app.use('/',index);
 
-app.use('/admin', [ admins, course, news , tutorAdmin, student ]);
+app.use('/admin', [ admins, course, news , tutorAdmin, student, payment ]);
 
 app.use('/tutor',tutor);
 
