@@ -1,36 +1,41 @@
 <%- include('../layout/header.ejs') %>
     <%- include('../layout/menu.ejs') %>
         <div class="section">
-            <div class="course">
+            <div class="course detail-tutor">
                 <% if (typeof tutors !=='undefined' && tutors) { %>
-                    <img src="<%= tutors.avt %>" alt="Avatar" id="avatar"
-                        style="width: 150px; height: 180px; margin: 0 auto;" />
-                    <h5>
-                        <%= tutors.name %>
-                    </h5>
-                    <p class="">Email:
+                    <div class="avt">
+                        <img src="<%= tutors.avt %>" alt="Avatar" id="avatar"
+                            style="width: 150px; height: 180px; margin: 0 auto;" />
+                    </div>
+                    <div class="detail">
+                        <h5>
+                            <%= tutors.name %>
+                        </h5>
+                        <p class="">Email:
                             <%= tutors.email %>
                         </p>
-                    <p class="">Trạng thái: <%= tutors.status %>
-                    </p>
-                    <% if (reviews) { %>
-                        <p class="text-muted">Đánh giá: <%= reviews.rate %>
+                        <p class="">Trạng thái: <%= tutors.status %>
                         </p>
-                        <% } %>
-                            <p class="">Khóa học:
-                                <a href="#" class="">
-                                    <% if (courses) { %>
-                                        <p>
-                                            <%= courses.name %>
-                                        </p>
-                                        <% } %>
-                                </a>
+                        <% if (reviews) { %>
+                            <p class="text-muted">Đánh giá: <%= reviews.rate %>
                             </p>
+                            <% } %>
+                                <p class="">Khóa học:
+                                    <% if (courses) { %>
+                                        <a href="/tutor/detail-courses/<%= courses._id %>" class="">
 
-                            <button class="btn-apply">Liên hệ</button>
-                            <% } else { %>
-                                <p>không tìm thấy tài khoản tutor!</p>
-                                <% } %>
+                                            <li>
+                                                <%= courses.name %> - <%= courses.subject %>
+                                            </li>
+                                            <% } %>
+                                        </a>
+                                </p>
+
+                                <button class="btn-apply">Liên hệ</button>
+                                <% } else { %>
+                                    <p>không tìm thấy tài khoản tutor!</p>
+                                    <% } %>
+                    </div>
             </div>
         </div>
         </div>

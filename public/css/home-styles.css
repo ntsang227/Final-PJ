@@ -471,7 +471,10 @@ div.d-calendar {
 .tutors .card-body h6{
     margin-top: 10px;
 }
-.tutors .card-body .card-text{
-}
-.tutors .card-body button{
+div.detail-tutor{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    border: solid 1px #cccc;
+    padding: 30px;
 }
