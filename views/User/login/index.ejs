@@ -22,10 +22,17 @@
             <input name="login" id="login" placeholder="Email hoặc username">
             <input type="password" name="password" id="password" placeholder="Mật khẩu">
             <a href="#" class="fg-pword"> Quên mật khẩu ?</a>
-            <input type="submit" value="Đăng nhập" class="button">
+            <input type="submit" value="Đăng nhập" class="button"onclick="updateUsername()">
             <p class="text-su">Bạn chưa có tài khoản ? <a href="/tutor/register">Đăng ký</a></p>
         </form>
     </main>
 </body>
 
 </html>
+<script>
+    function updateUsername(){
+        debugger
+        // localStorage.setItem("username",  event.target.value);
+        localStorage.setItem("username",  "");
+    }
+    </script>

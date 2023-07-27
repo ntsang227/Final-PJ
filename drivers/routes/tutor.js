@@ -9,34 +9,41 @@ const multer = require('multer');
 const path = require('path');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-const saltRounds = 10
+const saltRounds = 10;
+const nodemailer = require('nodemailer');
+const { OAuth2Client } = require('google-auth-library');
+const Websocket = require('../webserver/websocket.js');
+
+
+const cloudinary = require('../../db/Cloudinary/cloudinary.js');
+const storage = require('../../drivers/Upload/multer-storage.js');
+
+
+const upload = multer({ storage: storage });
+
+//import { io } from "socket.io-client";
 
 //Yêu cầu chuyển hướng
 router.get('/', checkMember, function (req, res) {
   req.session.loggedin_tutor = false;
   res.render('User/main/index.ejs', { email: req.session.email });
 });
+
 // Chuyển hướng đến trang home tutor 
+
 router.get('/home', checkMember, async (req, res) => {
   try {
-    const emailtutor = req.session.email;
-    const tutor = await Tutor.findOne({ email: emailtutor });
-    if (tutor) {
-      const name = tutor.username;
-      const apply = await Apply.find({ nametutor: name }); // Chỉ hiển thị danh sách yêu cầu đăng ký của người đăng bài
-      const courses = await Course.find({ status: 'active' });
+    const courses = await Course.find({ status: 'active' });
       res.render('User/main/index.ejs',
       {
-        courses,apply
-      });
-    } else {
-      res.status(404).send('Không tìm thấy tài khoản tutor!');
-    }
+        courses
+      }); 
   }
   catch (error) {
     res.status(500).json({ message: error.message })
   }
-})
+});
+
 router.get('/courses', checkMember, function (req, res) {
   res.render('User/main/course.ejs', { email: req.session.email });
 });
@@ -45,6 +52,41 @@ router.get('/detail-course', checkMember, function (req, res) {
 });
 router.get('/calendar', checkMember, function (req, res) {
   res.render('User/main/calendar.ejs', { email: req.session.email });
+});
+router.get('/tutors', checkMember, async (req, res) => {
+  try {
+    const tutors = await Tutor.find({ status: 'active' });
+    res.render('User/main/tutors.ejs',
+      {
+        tutors,
+      });
+  }
+  catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+});
+router.get('/detail-tutors/:id', checkMember, async function (req, res) {
+  try {
+    const id = req.params.id;
+    const tutors = await Tutor.findById(id);
+    if(tutors){
+      const nametutor = tutors.username;
+      const reviews = await Review.findOne({ nametutor : nametutor});
+      const courses = await Course.findOne({ nametutor : nametutor});
+
+      res.render('User/main/detail-tutors',
+      {
+        tutors,
+        reviews,
+        courses,
+      });
+    } else{
+      res.status(404).send('Không tìm thấy tài khoản tutor!');
+    }
+  }
+  catch (error) {
+    res.redirect('/tutors/');
+  }
 });
 router.get('/detail-courses/:id', checkMember, async function (req, res) {
   try {
@@ -63,53 +105,151 @@ router.get('/detail-courses/:id', checkMember, async function (req, res) {
 router.get('/register', function (req, res) {
   res.render('User/signup/index.ejs', { message: '' });
 });
+router.get('/verify', function (req, res) {
+  res.render('User/signup/verify/index.ejs', { message: '' });
+});
 
 //Chuyển hướng đến login 
 router.get('/login', function (req, res) {
   res.render('User/login/index.ejs', { message: '' });
 });
+
 //Post đăng kí tài khoản
+
+const GOOGLE_MAILER_CLIENT_ID = '971773736385-8s1f6bgqvil3sojgvmikpibkvfed23nc.apps.googleusercontent.com'
+const GOOGLE_MAILER_CLIENT_SECRET = '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'
+const GOOGLE_MAILER_REFRESH_TOKEN = '1//04vFtS9Gwf1xNCgYIARAAGAQSNwF-L9IrFyeYlAUfE8LS0QFFZM_BYXmkKEGDFihORi42pHJbcZil571jYIO7t287Ok6FOdp9R70'
+const ADMIN_EMAIL_ADDRESS = 'sptutoranytime@gmail.com'
+
+// Khởi tạo OAuth2Client với Client ID và Client Secret 
+const myOAuth2Client = new OAuth2Client(
+  GOOGLE_MAILER_CLIENT_ID,
+  GOOGLE_MAILER_CLIENT_SECRET
+)
+// Set Refresh Token vào OAuth2Client Credentials
+myOAuth2Client.setCredentials({
+  refresh_token: GOOGLE_MAILER_REFRESH_TOKEN
+})
+function generateOTP() {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+}
+
 router.post('/register', async (req, res) => { //NOSONAR
-  const password = req.body.password;
-  const hashedPassword = generateHash(password);
-  const tutor = new Tutor({
-    name: req.body.name,
-    username: req.body.username,
-    email: req.body.email,
-    password: hashedPassword
-  })
-  const newNotification = new Notification({
-    name: 'Người dùng mới',
-    category: 'newUser',
-    actionName: req.body.username
-  });
-  const email = req.body.email;
-  const username = req.body.username;
-  const existingUsername = await Tutor.findOne({ username });
-  const existingEmail = await Tutor.findOne({ email });
-  if (existingEmail) {
-    return res.render('User/signup', { message: 'Email đã được đăng ký.' });
-  }
-  if (existingUsername) {
-    return res.render('User/signup', { message: 'Username đã được sử dụng.' });
-  }
   try {
-    await tutor.save();
-    await newNotification.save();
-    res.redirect('/tutor/login');
-  }
-  catch (error) {
+console.log('register')
+    const otpCode = generateOTP();
+
+    req.session.otpCode = otpCode;
+
+    const tutorData = new Tutor({
+      name: req.body.name,
+      username: req.body.username,
+      email: req.body.email,
+      password: req.body.password,
+    });
+
+    req.session.name_input = tutorData.name;
+    req.session.username_input = tutorData.username;
+    req.session.email_input = tutorData.email;
+    req.session.password_input = tutorData.password;
+
+    const existingUsername = await Tutor.findOne({ username: req.body.username });
+    const existingEmail = await Tutor.findOne({ email: req.body.email });
+
+    if (existingEmail) {
+      return res.render('User/signup', { message: 'Email đã được đăng ký.' });
+    }
+    if (existingUsername) {
+      return res.render('User/signup', { message: 'Username đã được sử dụng.' });
+    }
+
+    const myAccessTokenObject = await myOAuth2Client.getAccessToken()
+    const myAccessToken = myAccessTokenObject?.token
+
+    const transport = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        type: 'OAuth2',
+        user: ADMIN_EMAIL_ADDRESS,
+        clientId: GOOGLE_MAILER_CLIENT_ID,
+        clientSecret: GOOGLE_MAILER_CLIENT_SECRET,
+        refresh_token: GOOGLE_MAILER_REFRESH_TOKEN,
+        accessToken: myAccessToken
+      }
+    })
+    const mailOptions = {
+      to: req.body.email,
+      subject: 'Verify your email',
+      html: `Your OTP code is <strong>${otpCode}</strong>`
+    }
+
+    await transport.sendMail(mailOptions)
+
+    res.render('User/signup/verify', { message: '', otp: otpCode });
+
+
+  } catch (error) {
     res.status(400).json({ message: error.message })
   }
 });
+
+//Verify OTP code
+
+router.post('/verify', async (req, res) => {
+
+  const enteredOTP = req.body.otp;
+  const savedOTP = req.session.otpCode;
+
+  const nameinput = req.session.name_input;
+  const usernameinput = req.session.username_input;
+  const emailinput = req.session.email_input;
+  const passwordinput = req.session.password_input;
+  const hashedPassword = generateHash(passwordinput);
+
+  if (enteredOTP === savedOTP) {
+    try {
+      const tutor = new Tutor({
+        name: nameinput,
+        username: usernameinput,
+        email: emailinput,
+        password: hashedPassword,
+      });
+      await tutor.save();
+
+      const newNotification = new Notification({
+        name: 'Người dùng mới',
+        category: 'newUser',
+        actionName: usernameinput
+      }); 
+      await newNotification.save();
+
+      // Delete session
+      delete req.session.name_input;
+      delete req.session.username_input;
+      delete req.session.email_input;
+      delete req.session.password_input;
+
+      res.redirect('/tutor/login');
+
+    } catch (error) {
+      console.error(error);
+    }
+  } else {
+    res.render('User/signup/verify', { message: 'Invalid OTP code.', otp: savedOTP });
+  }
+});
+
 //Post login 
+
 router.post('/login', async function (req, res) { //NOSONAR 
+console.log('login')
   const username = req.body.login;
   const email = req.body.login;
   const password = req.body.password;
   try {
     const tutor = await Tutor.findOne({ $or: [{ email: email }, { username: username }] });
     const isMatch = bcrypt.compareSync(password, tutor.password);
+    console.log(isMatch);
     console.log(password);
     console.log(tutor.password);
     if (!tutor) {
@@ -123,7 +263,6 @@ router.post('/login', async function (req, res) { //NOSONAR
       console.log(req.session.name_tutor);
       req.session.loggedin_tutor = true;
       req.session.email = tutor.email;
-      console.log(req.session.email);
       res.redirect('/tutor/home');
     }
   } catch (err) {
@@ -225,46 +364,30 @@ router.get('/logout', checkMember, function (req, res) {
   }
 });
 // avatar
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'public/avatar');
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-  }
-});
 
-const upload = multer({ storage: storage });
 
 router.post('/avatar/update', upload.single('file'), async (req, res) => { //NOSONAR
   try {
-    // Lưu đường dẫn mới vào DB
-    const avatarPath = '/avatar/' + req.file.filename;
+    // Tải lên ảnh lên Cloudinary
+    const result = await cloudinary.uploader.upload(req.file.path);
+
+    // Lưu URL mới vào DB
+    const avatarUrl = result.secure_url;
     const tutor = await Tutor.findOne({ _id: req.body.tutorId });
-    const oldAvatarPath = tutor.avt;
+    const oldAvatarUrl = tutor.avt;
 
     // Xóa ảnh cũ nếu tồn tại
-    // Lưu đường dẫn tương đối của thư mục public vào một biến
-    const publicDir = 'public';
-
-    // Xóa ảnh cũ nếu tồn tại
-    if (oldAvatarPath) {
-      const fs = require('fs');
-      const filePath = path.join(publicDir, oldAvatarPath);
-      if (fs.existsSync(filePath)) {
-        fs.unlink(filePath, function (err) {
-          if (err) throw err;
-          //console.log('Old avatar deleted!');
-        });
-      } else {
-        // console.log('Avatar file not found!');
-      }
+    if (oldAvatarUrl) {
+      await cloudinary.uploader.destroy(oldAvatarUrl);
     }
 
-    // Lưu ảnh mới vào DB
-    await Tutor.findOneAndUpdate({ _id: req.body.tutorId }, { avt: avatarPath });
+    // Lưu URL mới vào DB
+    await Tutor.updateOne({ _id: req.body.tutorId }, { avt: avatarUrl });
 
-    res.send('Avatar updated!');
+    // Xóa file tạm thời trên server
+    fs.unlinkSync(req.file.path);
+
+    res.send('OK!');
   } catch (error) {
     res.status(500).send(error.message);
   }
@@ -316,13 +439,13 @@ router.post('/apply', async (req, res) => {
     const tutorName = req.body.tutorName;
     const username = req.session.name_tutor;
 
-    const course = await Course.findById(courseId);
-    if (!course) {
+    const courses = await Course.findById(courseId);
+    if (!courses) {
       res.status(404).send('Khóa học không tồn tại');
       return;
     }
     // Kiểm tra nếu username đã đăng ký khóa học này, gửi trả về thông báo tương ứng
-    if (course.nameuser.includes(username)) {
+    if (courses.nameuser.includes(username)) {
       res.send({ alreadyApplied: true, username: username });
       return;
     }
@@ -331,9 +454,9 @@ router.post('/apply', async (req, res) => {
       res.send({ alreadyApplied: false, username: username });
       return;
     }
-    course.nameuser = course.nameuser  + username;
-await course.save();
-    res.render('User/main/notification.ejs', { course });
+    courses.nameuser = courses.nameuser  + username;
+await courses.save();
+    res.render('User/main/notification.ejs', { courses });
   } catch (err) {
     console.log(err);
     res.status(500).send('Đã xảy ra lỗi khi lưu yêu cầu đăng ký!');
@@ -348,21 +471,60 @@ router.get('/applys', async (req, res) => {
       res.status(404).send('Không tìm thấy khóa học nào');
       return;
     }
-    const filteredCourses = courses.filter(course => course.nametutor === tutorName);
-    res.render('User/main/notification.ejs', { course: filteredCourses });
+    const filteredCourse = courses.filter(courses => courses.nametutor === tutorName);
+    res.render('User/main/index.ejs', { 
+      courses: filteredCourse,
+      isPoster: true // biến cờ để kiểm tra xem người dùng hiện tại có phải là người đăng bài hay không
+    });
+    
   } catch (err) {
     console.log(err);
     res.status(500).send('Đã xảy ra lỗi khi lấy danh sách yêu cầu đăng ký!');
   }
 });
-//đồng ý apply
-router.post('/accept', async (req, res) => {
-  try {
-    res.redirect('/tutor/home');
-  } catch (err) {
+////
+router.post('/accept', (req, res) => {
+  console.log('accept ')
+  const courseId = req.body.courseId;
+
+  // In the accept route
+  Course.findById(courseId)
+  .then((course) => {
+    if (course) {
+      const nameuser = course.nameuser;
+      Course.findOne({ nameuser: nameuser })
+        .then((user) => {
+          if (user) {
+            // Gửi thông báo đến nameuser
+            console.log(`Đã gửi thông báo đến ${nameuser}`);
+            
+            // Emit a 'request-accepted' event to the WebSocket server
+            Websocket.getInstance().io.emit('request-accepted', { nameuser: user.username, courseId: courseId });
+
+            // hiển thị thông báo thành công và cập nhật trang EJS
+            res.render('User/main/notification.ejs', { 
+              course: user,
+              isPoster: false // người dùng hiện tại không phải là người đăng bài
+            });
+          } else {
+            console.log(`Không tìm thấy người dùng với username: ${nameuser}`);
+            res.send('Có lỗi xảy ra');
+
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          res.send('Có lỗi xảy ra');
+        });
+    } else {
+      console.log(`Không tìm thấy khóa học với ID: ${courseId}`);
+      res.send('Có lỗi xảy ra');
+    }
+  })
+  .catch((err) => {
     console.log(err);
-    res.status(500).send('Đã xảy ra lỗi khi cập nhật khóa học!');
-  }
+    res.send('Có lỗi xảy ra');
+  });
 });
 // huy apply
 router.post('/ancel', async (req, res) => {
@@ -379,6 +541,49 @@ router.post('/ancel', async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).send('Đã xảy ra lỗi khi xóa yêu cầu đăng ký!');
+  }
+});
+//search 
+router.post('/search',checkMember, async (req, res) => { //NOSONAR
+  let {grade , subject } = req.body;
+  let query = req.body.query.trim();
+  let courses; 
+  const status = 'active';
+  console.log({status , grade, subject, query });
+  try {
+    if (query) {
+      courses = await Course.find({
+        status,
+        category: new RegExp('.*' + grade + '.*', 'i'),
+        subject: new RegExp('.*' + subject + '.*', 'i'),
+        $or: [
+          {name: new RegExp('.*' + query + '.*', 'i')},
+          {decs: new RegExp('.*' + query + '.*', 'i')},
+          {key: new RegExp('.*' + query + '.*', 'i')},
+          {nametutor: new RegExp('.*' + query + '.*', 'i')}
+        ]
+      });
+    }  else if (grade){
+      courses = await Course.find({
+        status,
+        category: new RegExp('.*' + grade + '.*', 'i'),
+        $or: [
+        {subject: new RegExp('.*' + subject + '.*', 'i')}
+      ]
+      });
+    } else {
+      courses = await Course.find({
+          status
+        }
+      );
+    }
+      console.log(courses);
+      res.render('User/main/index',
+          {
+              courses,
+          });
+  } catch (err) {
+      res.status(500).json({ message: error.message })
   }
 });
 //Functions

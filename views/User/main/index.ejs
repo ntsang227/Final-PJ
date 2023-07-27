@@ -1,159 +1,238 @@
 <%- include('../layout/header.ejs') %>
-    <%- include('../layout/menu.ejs') %>
-        <div class="section">
-          <%- include('../main/search.ejs') %>
-          <h5 class="title-content">Khóa học mới nhất</h5>
-            <div class="card card-wrapper">
-                <% if (typeof courses !=='undefined' && Array.isArray(courses) && courses.length> 0) { %>
-                    <% for(var i=0; i< courses.length; i++){ %>
-                        <% if (courses[i].status !== 'Đã đóng' ) { %>
-                            <% if(i===8) break; %>
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        <a href="/tutor/detail-courses/<%= courses[i]._id %>"><%= courses[i].name %></a>
-                                    </h5>
-                                    <p class="card-text">Tên gia sư: <a href="/tutor/detail-tutor"><%= courses[i].nametutor %></a></p>
-                                    <p class="card-text">Trạng thái: <%= courses[i].status %></p>
-                                    <p class="card-text">Mô tả: <%= courses[i].decs %></p>
-                                    <p class="card-text"><small class="text-muted">Ngày đăng: <%= new
-                                                Date(courses[i].datePost).toLocaleString('vi-VN') %></small></p>      
-                                        <button class="btn-apply" data-course-id="<%= courses[i]._id %>">Apply</button>
+  <%- include('../layout/menu.ejs') %>
+    <div class="section">
+      <%- include('../main/search.ejs') %>
+        <h5 class="title-content">Khóa học mới nhất</h5>
+        <div class="card card-wrapper">
+          <% if (typeof courses !=='undefined' && Array.isArray(courses) && courses.length> 0) { %>
+            <% for(var i=0; i< courses.length; i++){ %>
+              <% if (courses[i].status !=='Đã đóng' ) { %>
+                <% if(i===8) break; %>
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      <a href="/tutor/detail-courses/<%= courses[i]._id %>">
+                        <%= courses[i].name %>
+                      </a>
+                    </h5>
+                    <p class="card-text">Tên gia sư: <a href="/tutor/detail-tutor">
+                        <%= courses[i].nametutor %>
+                      </a></p>
+                    <p class="card-text">Môn: <%= courses[i].subject%>
+                    </p>
+                    <p class="card-text">
+                      <% if (courses[i].category==='primary' ) { %>
+                        Dành cho Tiểu Học
+                        <% } else if (courses[i].category==='secondary' ) { %>
+                          Dành cho THCS
+                          <% } else if (courses[i].category==='high-school' ) { %>
+                            Dành cho THPT
+                            <% } else if (courses[i].category==='training-high-school' ) { %>
+                              Luyện thi THPT QG
+                              <% } else if (courses[i].category==='english-cerificate' ) { %>
+                                Luyện thi Chứng Chỉ Tiếng Anh
+                                <% } else if (courses[i].category==='english-communication' ) { %>
+                                  Tiếng Anh giao tiếp
+                                  <% } %>
+                    </p>
+                    <p class="card-text">Trạng thái: <%= courses[i].status %>
+                    </p>
+                    <p class="card-text">Mô tả: <%= courses[i].decs %>
+                    </p>
+                    <p class="card-text"><small class="text-muted">Ngày đăng: <%= new
+                          Date(courses[i].datePost).toLocaleString('vi-VN') %></small></p>
+                    <button class="btn-apply" data-course-id="<%= courses[i]._id %>">Apply</button>
 
-                                        <button class="btn-tb" onclick="location.href='/tutor/applys'" >
-                                          <span class="badge badge-light" style="background-color: red; position: absolute;display: none; top: -5px; right: -2px;">
-                                            <span id="apply-count"></span>
-                                          </span>
-                                          <svg height="24" width="24" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M0 0h24v24H0z" fill="none"></path>    
-                                            <path d="M20 17h2v2H2v-2h2v-7a8 8 0 1 1 16 0v7zm-2 0v-7a6 6 0 1 0-12 0v7h12zm-9 4h6v2H9v-2z" fill="currentColor"></path>      
-                                          </svg>
-                                        </button>
-                            
-                                </div>
-                        <% } %>
+
+                  </div>
+                  <% } %>
+                    <% } %>
+                      <% } else { %>
+                        <% if (typeof message !=='undefined' && message !='' ) { %>
+                          <div class="alert alert-success" style="margin-top: 100px ;">
+                            <%= message %>
+                          </div>
+                          <% } else { %>
+                            <p>Không có khóa học nào!</p>
                             <% } %>
-                                <% } else { %>
-                                    <% if (typeof message !=='undefined' && message !='' ) { %>
-                                        <div class="alert alert-success" style="margin-top: 100px ;">
-                                            <%= message %>
-                                        </div>
-                                        <% } else { %>
-                                            <p>Không có khóa học nào!</p>
-                                            <% } %>
-                                                <% } %>
-            </div>
+                              <% } %>
         </div>
         </div>
-        <script src="/socket.io/socket.io.js"></script>
-        <script>
+        <div class="modal" id="applyModal" tabindex="-1" role="dialog" aria-labelledby="applyModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+           <div class="modal-content">
+              <div class="modal-header">
+                 <h5 class="modal-title" id="applyModalLabel">Edit Profile</h5>
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                 <span aria-hidden="true">&times;</span>
+                 </button>
+              </div>
+              <div class="modal-body">
+                 <% if (true){ %>
+                 <p> Duoc chap thuan</p>
+                 <% }   else {  for (let i=0; i < courses.length; i++) { %>
+                 <% if (courses[i].nameuser) { %>
+                 <div>
+                    <p>Tên khóa học: <%= courses[i].name %>
+                    </p>
+                    <p>Tên gia sư: <%= courses[i].nametutor %>
+                    </p>
+                    <p>Tên người dùng: <%= courses[i].nameuser %>
+                    </p>
+                    <p>Ngày đăng ký: <%= courses[i].datePost %>
+                    </p>
+                 </div>
+       </div>
+              <div class="modal-footer">
+                 <!-- <form method="post" action="/tutor/accept">
+                    <input type="hidden" name="courseId" value="<%= courses[i]._id %>">
+                    <button type="button" class="btn-accept">Đồng ý</button>
+                    </form> -->
+                    <form action="/tutor/accept" method="post">
+                       <input type="hidden" name="courseId" value="<%= courses[i]._id %>">
+                       <input type="submit" value="Đồng ý" class="button">
+                       <!-- <p class="text-su">Bạn chưa có tài khoản ? <a href="/tutor/register">Đăng ký</a></p> -->
+                    </form>
+                 <form action="/tutor/accept" method="post" style="display:none">
+                    <input type="hidden" name="courseId" value="<%= courses[i]._id %>">
+                    <!-- <button class="btn" type="submit">Đồng ý</button> -->
+                    <input type="submit" value="Đồng ý" class="button">
+                 </form>
+                 <form method="post" action="/tutor/ancel">
+                    <input type="hidden" name="courseId" value="<%= courses[i]._id %>">
+                    <button type="button" class="btn-cancel" data-dismiss="modal"><a href="/tutor/ancel">Hủy</a></button>
+                 </form>
+              </div>
+              <% }  }   } %>
+           </div>
+        </div>
+     </div>
+     <style>
+        .modal-backdrop {
+        display: none;
+        }
+     </style>
+    <script src="/socket.io/socket.io.js"></script>
+  <script>
          
 // apply
-/*$('.btn-apply').on('click', function() {
-  var courseId = $(this).data('course-id');
-  var courseName = $(this).closest('.card-body').find('.card-title a').text();
-  var tutorName = $(this).closest('.card-body').find('.card-text a').text();
+var applyModal = document.getElementById('applyModal');
+   var editapplyBtn = document.querySelector('.btn-tb');
+   var closeModalBtns = document.querySelectorAll('[data-dismiss="modal"]');
+   
+   editapplyBtn.addEventListener('click', function () {
+       applyModal.classList.add('show');
+       applyModal.style.display = 'block';
+       applyModal.style.visibility = 'visible';
+   });
+   
+   closeModalBtns.forEach(function (btn) {
+       btn.addEventListener('click', function () {
+           applyModal.classList.remove('show');
+           applyModal.style.display = 'none';
+       });
+   });
+   
+   window.addEventListener('click', function (event) {
+       if (event.target == applyModal) {
+           applyModal.classList.remove('show');
+           applyModal.style.display = 'none';
+       }
+   });
+   
+  //  var form = applyModal.querySelector('form');
+  //  form.addEventListener('submit', function (event) {
+  //      event.preventDefault();
+   
+  //      // Code to save changes goes here
+   
+  //      applyModal.classList.remove('show');
+  //      applyModal.style.display = 'none';
+  //  });
+   // apply
+   $('.btn-apply').on('click', function() {
+   var courseId = $(this).data('course-id');
+   var courseName = $(this).closest('.card-body').find('.card-title a').text();
+   var tutorName = $(this).closest('.card-body').find('.card-text a').text();
+   
+   // Hiển thị thông báo muốn đăng ký
+   var r = confirm('Bạn muốn đăng ký khoá học này?');
+   if (r == true) {
+   alert('Đã gửi yêu cầu đăng ký');
+   // Connect to the WebSocket server
+   socket.emit('apply', {
+     courseId: courseId,
+     tutorName: tutorName,
+     courseName: courseName,
+   });
+   
+   // Gửi thông báo đăng ký đến server bằng AJAX
+   $.ajax({
+     url: '/tutor/apply',
+     type: 'POST',
+     data: {
+       courseId: courseId,
+       tutorName: tutorName,
+       courseName: courseName,
+     },
+     success: function(data) {
+       if ( tutorName === data.username) {
+         alert('Bạn không thể tự đăng ký cho khoá học của mình! ');
+       } else if (data.alreadyApplied) {
+         alert('Bạn đã đăng ký khoá học này rồi!');
+       } else {
+         // Emit an 'apply-created' event to the WebSocket server
+         socket.emit('apply-created');
+       }
+     },
+     error: function() {
+       alert('Đã xảy ra lỗi khi lưu yêu cầu đăng ký!');
+     }
+   });
+   }
+   });
+   // Thiết lập kết nối WebSocket
+   const applyCount = document.querySelector('#apply-count');
+   let count = 0;
+   
+   // Khi có một yêu cầu mới được tạo, tăng biến đếm count lên 1
+   const socket = io();
+   console.log('socket')
+   socket.on('apply-created', () => {
+   if(
+     true
+   )
+   {
+     count++;
+     applyCount.innerText = count;
+   }
+   
+   if (count > 0) {
+   document.querySelector('.badge').style.display = 'inline-block';
+   }
+   });
+   socket.on('request-accepted', (data) => {
+   if (data.courseId === courseId) {
+   count++;
+   applyCount.innerText = count;
+   if (count > 0) {
+     document.querySelector('.badge').style.display = 'inline-block';
+   }
+   alert(`The request for course ${courseName} has been accepted by ${data.nameuser}`);
+   }
+   });
+   
+   // thông báo
+   //   document.querySelector('.btn-tb').addEventListener('click', () => {
+   //   location.href = '/tutor/applys'
+   // })
+   ///
+   
+   
+       
+</script>
+    </script>
+    <%- include('../layout/footer.ejs') %>
+      </body>
 
-  // Hiển thị thông báo muốn đăng ký
-  var r = confirm('Bạn muốn đăng ký khoá học này?');
-  if (r == true) {
-    alert('Đã gửi yêu cầu đăng ký');
-    // Gửi thông báo đăng ký đến server bằng WebSocket
-    const socket = io();
-    socket.emit('apply', {
-      courseId: courseId,
-      tutorName: tutorName,
-      courseName: courseName,
-    });
-
-    // Gửi thông báo đăng ký đến server bằng AJAX
-    $.ajax({
-      url: '/tutor/apply',
-      type: 'POST',
-      data: {
-        courseId: courseId,
-        tutorName: tutorName,
-        courseName: courseName,
-      },
-      success: function(data) {
-        if (data.alreadyApplied) {
-          alert('Bạn đã đăng ký khoá học này rồi!');
-        } else {
-          // Emit an 'apply-created' event to the WebSocket server
-          socket.emit('apply-created');
-        }
-      },
-      error: function() {
-        alert('Bạn không thể tự đăng ký cho bản thân');
-      }
-    });
-  }
-});
-  */
-  
-  $('.btn-apply').on('click', function() {
-  var courseId = $(this).data('course-id');
-  var courseName = $(this).closest('.card-body').find('.card-title a').text();
-  var tutorName = $(this).closest('.card-body').find('.card-text a').text();
-
-  // Hiển thị thông báo muốn đăng ký
-  var r = confirm('Bạn muốn đăng ký khoá học này?');
-  if (r == true) {
-    alert('Đã gửi yêu cầu đăng ký');
-    // Connect to the WebSocket server
-    socket.emit('apply', {
-      courseId: courseId,
-      tutorName: tutorName,
-      courseName: courseName,
-    });
-    
-    // Gửi thông báo đăng ký đến server bằng AJAX
-    $.ajax({
-      url: '/tutor/apply',
-      type: 'POST',
-      data: {
-        courseId: courseId,
-        tutorName: tutorName,
-        courseName: courseName,
-      },
-      success: function(data) {
-        if ( tutorName === data.username) {
-          alert('Bạn không thể tự đăng ký cho khoá học của mình! ');
-        } else if (data.alreadyApplied) {
-          alert('Bạn đã đăng ký khoá học này rồi!');
-        } else {
-          // Emit an 'apply-created' event to the WebSocket server
-          socket.emit('apply-created');
-        }
-      },
-      error: function() {
-        alert('Đã xảy ra lỗi khi lưu yêu cầu đăng ký!');
-      }
-    });
-  }
-});
- // Thiết lập kết nối WebSocket
- const applyCount = document.querySelector('#apply-count');
-  let count = <%= courses.length %>;
-
-  // Khi có một yêu cầu mới được tạo, tăng biến đếm count lên 1
-  const socket = io();
-  socket.on('apply-created', () => {
-    count++;
-    applyCount.innerText = count;
-  if (count > 0) {
-    document.querySelector('.badge').style.display = 'inline-block';
-  }
-  });
- 
-// thông báo
-  document.querySelector('.btn-tb').addEventListener('click', () => {
-  location.href = '/tutor/applys'
-})
-///
-
-  
-        </script>
-        <%- include('../layout/footer.ejs') %>
-            </body>
-
-            </html>
+      </html>

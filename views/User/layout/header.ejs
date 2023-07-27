@@ -13,8 +13,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js">
     </script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-    <script src="/js/script.js">
-    </script>
+    <script src="/js/script.js"></script>
+    <script src="/js/adm-scripts.js" type="text/javascript"></script>
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
     <!-- Google Fonts -->
@@ -29,8 +29,10 @@
 <body>
     <div class="header-top">
         <i class="fa fa-envelope" style="color: white;"></i>
-        <a href="#">support@tutoranytime.com</a>
-        <a href="/tutor/logout">Đăng xuất</a>
+        <a href="#">sptutoranytime@gmail.com</a>
+        <a href="/tutor/logout">
+            <i class="fas fa-sign-out-alt"></i>
+        </a>
     </div>
     <nav class="navbar navbar-expand-md navbar-light bg-light ">
         <div class="container-fluid">
@@ -78,7 +80,18 @@
 
                     </li>
                     <li class="nav-item">
-                        
+                        <button class="btn-tb" data-toggle="modal"
+                        data-target="#applyModal" >
+                            <span class="badge badge-light" style="background-color: red; 
+                            position: absolute;display: none; top: -5px; right: -2px;">
+                              <span id="apply-count"></span>
+                            </span>
+                            <svg height="24" width="24" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M0 0h24v24H0z" fill="none"></path>    
+                              <path d="M20 17h2v2H2v-2h2v-7a8 8 0 1 1 16 0v7zm-2 0v-7a6 6 0 1 0-12 0v7h12zm-9 4h6v2H9v-2z" fill="currentColor"></path>      
+                            </svg>
+                          </button>
+
                     </li>
 
                     <li class="nav-item">
