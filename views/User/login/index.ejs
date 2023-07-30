@@ -19,7 +19,7 @@
                     <%= message %>
                 </div>
                 <% } %>
-            <input name="login" id="login" placeholder="Email hoặc username">
+                <input name="login" id="username" placeholder="Email hoặc username">
             <input type="password" name="password" id="password" placeholder="Mật khẩu">
             <a href="#" class="fg-pword"> Quên mật khẩu ?</a>
             <input type="submit" value="Đăng nhập" class="button"onclick="updateUsername()">
@@ -30,9 +30,9 @@
 
 </html>
 <script>
-    function updateUsername(){
-        debugger
-        // localStorage.setItem("username",  event.target.value);
-        localStorage.setItem("username",  "");
-    }
+   
+function updateUsername() {
+  var username = document.getElementById("username").value;
+  document.cookie = "username=" + username;
+}
     </script>
