@@ -55,63 +55,57 @@
                             <p>Không có khóa học nào!</p>
                             <% } %>
                               <% } %>
+          </div>
         </div>
-        </div>
-        <div class="modal" id="applyModal" tabindex="-1" role="dialog" aria-labelledby="applyModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-           <div class="modal-content">
-              <div class="modal-header">
-                 <h5 class="modal-title" id="applyModalLabel">Edit Profile</h5>
-                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                 <span aria-hidden="true">&times;</span>
-                 </button>
-              </div>
-              <div class="modal-body">
-                 <% if (true){ %>
-                 <p> Duoc chap thuan</p>
-                 <% }   else {  for (let i=0; i < courses.length; i++) { %>
-                 <% if (courses[i].nameuser) { %>
-                 <div>
-                    <p>Tên khóa học: <%= courses[i].name %>
-                    </p>
-                    <p>Tên gia sư: <%= courses[i].nametutor %>
-                    </p>
-                    <p>Tên người dùng: <%= courses[i].nameuser %>
-                    </p>
-                    <p>Ngày đăng ký: <%= courses[i].datePost %>
-                    </p>
-                 </div>
-       </div>
-              <div class="modal-footer">
-                 <!-- <form method="post" action="/tutor/accept">
-                    <input type="hidden" name="courseId" value="<%= courses[i]._id %>">
-                    <button type="button" class="btn-accept">Đồng ý</button>
-                    </form> -->
-                    <form action="/tutor/accept" method="post">
-                       <input type="hidden" name="courseId" value="<%= courses[i]._id %>">
-                       <input type="submit" value="Đồng ý" class="button">
-                       <!-- <p class="text-su">Bạn chưa có tài khoản ? <a href="/tutor/register">Đăng ký</a></p> -->
-                    </form>
-                 <form action="/tutor/accept" method="post" style="display:none">
-                    <input type="hidden" name="courseId" value="<%= courses[i]._id %>">
-                    <!-- <button class="btn" type="submit">Đồng ý</button> -->
-                    <input type="submit" value="Đồng ý" class="button">
-                 </form>
-                 <form method="post" action="/tutor/ancel">
-                    <input type="hidden" name="courseId" value="<%= courses[i]._id %>">
-                    <button type="button" class="btn-cancel" data-dismiss="modal"><a href="/tutor/ancel">Hủy</a></button>
-                 </form>
-              </div>
-              <% }  }   } %>
-           </div>
-        </div>
-     </div>
-     <style>
-        .modal-backdrop {
-        display: none;
-        }
-     </style>
+      </div>
+      <div class="modal" id="applyModal" tabindex="-1" role="dialog" aria-labelledby="applyModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" id="applyModalLabel">Edit Profile</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+               </button>
+            </div>
+            <div class="modal-body">
+              <% for (let i=0; i < courses.length; i++) { %>
+                <% if (courses[i] && courses[i].nameuser && username === courses[i].nameuser) { %>
+                  <p> Duoc chap thuan</p>
+                <% } else if (courses[i] && courses[i].nametutor && username === courses[i].nametutor) { %>
+                  <div>
+                    <p>Tên khóa học: <%= courses[i].name %></p>
+                    <p>Tên gia sư: <%= courses[i].nametutor %></p>
+                    <p>Tên người dùng: <%= courses[i].nameuser %></p>
+                    <p>Ngày đăng ký: <%= courses[i].datePost %></p>
+                  </div>
+            </div>
+            
+            <div class="modal-footer">
+                  <form action="/tutor/accept" method="post">
+                     <input type="hidden" name="courseId" value="<%= courses[i]._id %>">
+                     <input type="submit" value="Đồng ý" class="button">
+                  </form>
+               <form action="/tutor/accept" method="post" style="display:none">
+                  <input type="hidden" name="courseId" value="<%= courses[i]._id %>">
+                  <!-- <button class="btn" type="submit">Đồng ý</button> -->
+                  <input type="submit" value="Đồng ý" class="button">
+               </form>
+               <form method="post" action="/tutor/ancel">
+                  <input type="hidden" name="courseId" value="<%= courses[i]._id %>">
+                  <input type="submit" value="Hủy" class="button">
+               </form>
+            </div>
+            <% }  }  %>
+         </div>
+      </div>
+   </div>
+   </div>
+   <style>
+      .modal-backdrop {
+      display: none;
+      }
+   </style>
     <script src="/socket.io/socket.io.js"></script>
   <script>
          
@@ -194,7 +188,8 @@ var applyModal = document.getElementById('applyModal');
    // Thiết lập kết nối WebSocket
    const applyCount = document.querySelector('#apply-count');
    let count = 0;
-   
+   const username = localStorage.getItem('username');
+   console.log(username)
    // Khi có một yêu cầu mới được tạo, tăng biến đếm count lên 1
    const socket = io();
    console.log('socket')
@@ -228,9 +223,7 @@ var applyModal = document.getElementById('applyModal');
    // })
    ///
    
-   
-       
-</script>
+
     </script>
     <%- include('../layout/footer.ejs') %>
       </body>

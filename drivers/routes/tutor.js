@@ -31,10 +31,11 @@ router.get('/', checkMember, function (req, res) {
 
 router.get('/home', checkMember, async (req, res) => {
   try {
+    const username = req.cookies.username;
     const courses = await Course.find({ status: 'active' });
       res.render('User/main/index.ejs',
       {
-        courses
+        courses,username
       }); 
   }
   catch (error) {
@@ -453,7 +454,7 @@ router.post('/apply', async (req, res) => {
     }
     courses.nameuser = courses.nameuser  + username;
 await courses.save();
-    res.render('User/main/notification.ejs', { courses });
+    res.render('User/main/index.ejs', { courses });
   } catch (err) {
     console.log(err);
     res.status(500).send('Đã xảy ra lỗi khi lưu yêu cầu đăng ký!');
@@ -481,14 +482,13 @@ router.get('/applys', async (req, res) => {
 });
 ////
 router.post('/accept', (req, res) => {
-  console.log('accept ')
   const courseId = req.body.courseId;
 
   // In the accept route
   Course.findById(courseId)
-  .then((course) => {
-    if (course) {
-      const nameuser = course.nameuser;
+  .then((courses) => {
+    if (courses) {
+      const nameuser = courses.nameuser;
       Course.findOne({ nameuser: nameuser })
         .then((user) => {
           if (user) {
@@ -499,8 +499,8 @@ router.post('/accept', (req, res) => {
             Websocket.getInstance().io.emit('request-accepted', { nameuser: user.username, courseId: courseId });
 
             // hiển thị thông báo thành công và cập nhật trang EJS
-            res.render('User/main/notification.ejs', { 
-              course: user,
+            res.render('User/main/index.ejs', { 
+              courses: user,
               isPoster: false // người dùng hiện tại không phải là người đăng bài
             });
           } else {
