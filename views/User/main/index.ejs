@@ -71,7 +71,7 @@
             <div class="modal-body">
               <% for (let i=0; i < courses.length; i++) { %>
                 <% if (courses[i] && courses[i].nameuser && username === courses[i].nameuser) { %>
-                  <p> Duoc chap thuan</p>
+                  <p>Gia sư <%= courses[i].nametutor %> đã đồng ý yêu cầu đăng ký của bạn </p>
                 <% } else if (courses[i] && courses[i].nametutor && username === courses[i].nametutor) { %>
                   <div>
                     <p>Tên khóa học: <%= courses[i].name %></p>
@@ -188,8 +188,7 @@ var applyModal = document.getElementById('applyModal');
    // Thiết lập kết nối WebSocket
    const applyCount = document.querySelector('#apply-count');
    let count = 0;
-   const username = localStorage.getItem('username');
-   console.log(username)
+   
    // Khi có một yêu cầu mới được tạo, tăng biến đếm count lên 1
    const socket = io();
    console.log('socket')
