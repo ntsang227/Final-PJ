@@ -168,7 +168,7 @@ var applyModal = document.getElementById('applyModal');
        courseId: courseId,
        tutorName: tutorName,
        courseName: courseName,
-     },
+     }, 
      success: function(data) {
        if ( tutorName === data.username) {
          alert('Bạn không thể tự đăng ký cho khoá học của mình! ');
@@ -185,17 +185,16 @@ var applyModal = document.getElementById('applyModal');
    });
    }
    });
+   
    // Thiết lập kết nối WebSocket
    const applyCount = document.querySelector('#apply-count');
    let count = 0;
    
+   var username = localStorage.getItem("username");
    // Khi có một yêu cầu mới được tạo, tăng biến đếm count lên 1
    const socket = io();
-   console.log('socket')
-   socket.on('apply-created', () => {
-   if(
-     true
-   )
+   socket.on('apply-created', (data) => {
+   if(username && data.tutorName === username)
    {
      count++;
      applyCount.innerText = count;
@@ -206,7 +205,8 @@ var applyModal = document.getElementById('applyModal');
    }
    });
    socket.on('request-accepted', (data) => {
-   if (data.courseId === courseId) {
+    debugger
+   if (username && data.nameuser === username) {
    count++;
    applyCount.innerText = count;
    if (count > 0) {
@@ -215,14 +215,32 @@ var applyModal = document.getElementById('applyModal');
    alert(`The request for course ${courseName} has been accepted by ${data.nameuser}`);
    }
    });
-   
-   // thông báo
-   //   document.querySelector('.btn-tb').addEventListener('click', () => {
-   //   location.href = '/tutor/applys'
-   // })
-   ///
-   
+   /*
+  // Lưu trữ tên người dùng và số lượng yêu cầu
+  let username = '';
+  let count = 0;
 
+// Khi có một yêu cầu mới được tạo, tăng biến đếm applyCount lên 1 nếu tên người dùng trên MongoDB bằng với biến username
+const socket = io();
+socket.on('apply-created', (data) => {
+ 
+  if (username && data.nametutor === username) {
+    console.log(data.nametutor)
+    console.log(username)
+    count++;
+    document.querySelector('#apply-count').innerText = count;
+    document.querySelector('.badge').style.display = 'inline-block';
+  }
+});
+
+// Khi một yêu cầu được chấp nhận, tăng biến đếm acceptedCount lên 1 nếu tên người dùng trên MongoDB bằng với biến username
+socket.on('request-accepted', (data) => {
+  if (username && data.nameuser === username) {
+    count++;
+    alert(`The request for course ${data.courseName} has been accepted by ${data.nametutor}`);
+  }
+});
+*/
     </script>
     <%- include('../layout/footer.ejs') %>
       </body>

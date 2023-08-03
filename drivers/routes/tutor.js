@@ -483,24 +483,24 @@ router.get('/applys', async (req, res) => {
 ////
 router.post('/accept', (req, res) => {
   const courseId = req.body.courseId;
-
+console.log('POST /accept')
   // In the accept route
   Course.findById(courseId)
   .then((courses) => {
     if (courses) {
       const nameuser = courses.nameuser;
       Course.findOne({ nameuser: nameuser })
-        .then((user) => {
-          if (user) {
+        .then((course) => {
+          if (course) {
             // Gửi thông báo đến nameuser
             console.log(`Đã gửi thông báo đến ${nameuser}`);
             
             // Emit a 'request-accepted' event to the WebSocket server
-            Websocket.getInstance().io.emit('request-accepted', { nameuser: user.username, courseId: courseId });
+            Websocket.getInstance().io.emit('request-accepted', { nameuser: nameuser, courseId: courseId });
 
             // hiển thị thông báo thành công và cập nhật trang EJS
             res.render('User/main/index.ejs', { 
-              courses: user,
+              courses: course,
               isPoster: false // người dùng hiện tại không phải là người đăng bài
             });
           } else {
