@@ -69,14 +69,14 @@
                </button>
             </div>
             <div class="modal-body">
-              <% for (let i=0; i < courses.length; i++) { %>
+              <% for (let i=0; i < courses.length; i++) { console.log(courses) %>
                 <% if (courses[i] && courses[i].nameuser && username === courses[i].nameuser) { %>
                   <p>Gia sư <%= courses[i].nametutor %> đã đồng ý yêu cầu đăng ký của bạn </p>
                 <% } else if (courses[i] && courses[i].nametutor && username === courses[i].nametutor) { %>
                   <div>
                     <p>Tên khóa học: <%= courses[i].name %></p>
                     <p>Tên gia sư: <%= courses[i].nametutor %></p>
-                    <p>Tên người dùng: <%= courses[i].nameuser %></p>
+                    <p>Tên người dùngcc: <%= courses[i].nameuser %></p>
                     <p>Ngày đăng ký: <%= courses[i].datePost %></p>
                   </div>
             </div>
@@ -146,9 +146,8 @@ var applyModal = document.getElementById('applyModal');
    // apply
    $('.btn-apply').on('click', function() {
    var courseId = $(this).data('course-id');
-   var courseName = $(this).closest('.card-body').find('.card-title a').text();
-   var tutorName = $(this).closest('.card-body').find('.card-text a').text();
-   
+   var courseName = $(this).closest('.card-body').find('.card-title a').text().trim();
+   var tutorName = $(this).closest('.card-body').find('.card-text a').text().trim();
    // Hiển thị thông báo muốn đăng ký
    var r = confirm('Bạn muốn đăng ký khoá học này?');
    if (r == true) {
@@ -170,7 +169,7 @@ var applyModal = document.getElementById('applyModal');
        courseName: courseName,
      }, 
      success: function(data) {
-       if ( tutorName === data.username) {
+       if ( tutorName === data.tutorName) {
          alert('Bạn không thể tự đăng ký cho khoá học của mình! ');
        } else if (data.alreadyApplied) {
          alert('Bạn đã đăng ký khoá học này rồi!');
@@ -194,14 +193,12 @@ var applyModal = document.getElementById('applyModal');
    // Khi có một yêu cầu mới được tạo, tăng biến đếm count lên 1
    const socket = io();
    socket.on('apply-created', (data) => {
-   if(username && data.tutorName === username)
-   {
+   if(username && data.tutorName === username){
      count++;
      applyCount.innerText = count;
-   }
-   
-   if (count > 0) {
+     if (count > 0) {
    document.querySelector('.badge').style.display = 'inline-block';
+   }
    }
    });
    socket.on('request-accepted', (data) => {
@@ -212,7 +209,7 @@ var applyModal = document.getElementById('applyModal');
    if (count > 0) {
      document.querySelector('.badge').style.display = 'inline-block';
    }
-   alert(`The request for course ${courseName} has been accepted by ${data.nameuser}`);
+  
    }
    });
    /*

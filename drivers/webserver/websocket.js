@@ -6,7 +6,8 @@ class Websocket {
       this.io.on('connection', (socket) => {
         console.log('A user has connected');
         socket.on('apply', (data) => {
-          console.log('Received an apply request:', data);
+          
+          console.log('Received an apply request:',data);
           this.io.emit('apply-created', data);
         });
         // socket.on('request-accepted', (data) => {
