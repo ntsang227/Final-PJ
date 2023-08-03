@@ -76,7 +76,7 @@
                   <div>
                     <p>Tên khóa học: <%= courses[i].name %></p>
                     <p>Tên gia sư: <%= courses[i].nametutor %></p>
-                    <p>Tên người dùngcc: <%= courses[i].nameuser %></p>
+                    <p>Tên người dùng: <%= courses[i].nameuser %></p>
                     <p>Ngày đăng ký: <%= courses[i].datePost %></p>
                   </div>
             </div>
@@ -185,24 +185,7 @@ var applyModal = document.getElementById('applyModal');
    });
    }
    });
-   // lấy thẻ button bằng id hoặc class
-const applyButton = $('.btn-tb');
-// bắt sự kiện click của button
-applyButton.on('click', function() {
-  // gọi hàm ajax để gửi request đến đường dẫn '/applys'
-  $.ajax({
-    method: 'GET',
-    url: '/tutor/applys',
-    success: function(response) {
-      // xử lý kết quả trả về từ server
-      console.log(response);
-    },
-    error: function(error) {
-      // xử lý lỗi nếu có
-      console.log(error);
-    }
-  });
-});
+   
    // Thiết lập kết nối WebSocket
    const applyCount = document.querySelector('#apply-count');
    let count = 0;
@@ -216,7 +199,6 @@ applyButton.on('click', function() {
   }
   return "";
 }
-
 var username = getCookie("username");
    //var username = localStorage.getItem("username");
    // Khi có một yêu cầu mới được tạo, tăng biến đếm count lên 1

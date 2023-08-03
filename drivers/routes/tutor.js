@@ -33,7 +33,6 @@ router.get('/home', checkMember, async (req, res) => {
   try {
     const username = req.cookies.username;
     //const username = localStorage.getItem("username");
-    console.log(username);
     const courses = await Course.find({ status: 'active' });
       res.render('User/main/index.ejs',
       {
@@ -467,12 +466,15 @@ router.get('/applys', async (req, res) => {
   try {
     const tutorName = req.session.name_tutor;
     const courses = await Course.find({ nametutor: tutorName });
+    const username = req.cookies.username;
+    console.log(courses)
     if (!courses) {
       res.status(404).send('Không tìm thấy khóa học nào');
       return;
     }
     const filteredCourse = courses.filter(courses => courses.nametutor === tutorName);
     res.render('User/main/index.ejs', { 
+      username,
       courses: filteredCourse,
       isPoster: true // biến cờ để kiểm tra xem người dùng hiện tại có phải là người đăng bài hay không
     });
