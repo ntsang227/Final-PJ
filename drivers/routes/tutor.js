@@ -32,10 +32,12 @@ router.get('/', checkMember, function (req, res) {
 router.get('/home', checkMember, async (req, res) => {
   try {
     const username = req.cookies.username;
+    //const username = localStorage.getItem("username");
+    console.log(username);
     const courses = await Course.find({ status: 'active' });
       res.render('User/main/index.ejs',
       {
-        courses,username
+        courses ,username
       }); 
   }
   catch (error) {
