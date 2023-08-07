@@ -14,37 +14,13 @@
                                 <div class="container" style="display: flex; flex-direction: row;">
                                     <div class="card mb-3">
                                         <div class="card-body">
-                                            <h3 class="card-title">Tên : <%= courses.name %></h3>
-                                            <hr>
+                                            <h5 class="card-title">Tên : <%= courses.name %></h5>
                                             <p class="card-text">Mã khóa học : <%= courses.key %></p>
                                             <p class="card-text">Tên giáo viên: <%= courses.nametutor %></p>
                                             <p class="card-text">Tên học sinh: <%= courses.nameuser %></p>
-                                            <p class="card-text">Môn học : <%= courses.subject %> - 
-                                                <% if (courses.category==='primary' ) { %>
-                                                    Dành cho Tiểu Học
-                                                    <% } else if (courses.category==='secondary' ) { %>
-                                                      Dành cho THCS
-                                                      <% } else if (courses.category==='high-school' ) { %>
-                                                        Dành cho THPT
-                                                        <% } else if (courses.category==='training-high-school' ) { %>
-                                                          Luyện thi THPT QG
-                                                          <% } else if (courses.category==='english-cerificate' ) { %>
-                                                            Luyện thi Chứng Chỉ Tiếng Anh
-                                                            <% } else if (courses.category==='english-communication' ) { %>
-                                                              Tiếng Anh giao tiếp
-                                                              <% } %>
-                                            </p>
+                                            <p class="card-text">Danh mục : <%= courses.cate %></p>
                                             <p class="card-text">Nội dung: <%= courses.decs %></p>
-                                            <p class="card-text">Trạng thái:
-                                                <% if (courses.status === 'active') { %>
-                                                  <span style="color: rgb(0, 228, 0);">Đang mở</span>
-                                                <% } else if (courses.status === 'inactive') { %>
-                                                  <span style="color: red;">Đã đóng</span>
-                                                <% } else { %>
-                                                  <%= courses.status %>
-                                                <% } %>
-                                              </p>
-                                              
+                                            <p class="card-text">Trạng thái: <%= courses.status %></p>
                                         </p>
                                         <p class="date" style="flex:1;">Ngày tạo: <%= new Date(courses.datePost).toLocaleString('vi-VN') %>
                                         </p>
