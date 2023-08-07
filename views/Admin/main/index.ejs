@@ -83,18 +83,6 @@
                         <div >
                             <% for(var i=0; i< notification.length; i++){ %>
                                 <% if(notification[i].category === 'Courses'){ %>
-<<<<<<< HEAD
-                                    <a class="notification" href="/admin/noti/<%= notification[i]._id %>">
-                                        <span class="notification-name"><%= notification[i].actionName %> đã đăng kí <%= notification[i].name %></span>
-                                    </a>
-                                    <br>
-                                <% } %>
-                                <% if(notification[i].category === 'newUser'){ %>
-                                    <a class="notification" href="/admin/tutor/index.html">
-                                        <span class="notification-name"><%= notification[i].name %> tên là <%= notification[i].actionName %></span>
-                                    </a>
-                                    <br>
-=======
                                     <div class="alert alert-secondary index" role="alert" onclick="urlAction('/admin/noti/<%= notification[i]._id %>')">
                                         <%= notification[i].actionName %> đã đăng kí <%= notification[i].name %>
                                       </div>                              
@@ -103,7 +91,6 @@
                                     <div class="alert alert-secondary index" role="alert" onclick="urlAction('/admin/tutor/index.html')">
                                         <%= notification[i].name %> tên là <%= notification[i].actionName %>
                                       </div>
->>>>>>> parent of d1c65f3 (fix : script)
                                 <% } %>
                             <% } %>
                             
