@@ -99,7 +99,7 @@ router.get('/course/add', checkAdmin, async function (req, res) {
         res.status(500).json({ message: 'Lỗi' })
     }
 });
-// Chuyển hướng đến details course
+// Chuyển hướng đến details news
 router.get('/course/details.html/:id', checkAdmin, async function (req, res) {
     try {
         const id = req.params.id;
@@ -114,6 +114,7 @@ router.get('/course/details.html/:id', checkAdmin, async function (req, res) {
         res.redirect('/course/');
     }
 });
+//Thao tác db
 //Thêm khóa học
 router.post('/course/add', upload.single('image'), function (req, res) {
     const { name, nametutor, nameuser, key, status, content } = req.body;
@@ -149,39 +150,38 @@ router.get('/course/edit/:id', checkAdmin, async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
-//ẨN
-    // Xóa khóa học  
-    router.get('/course/delete/:id', async (req, res) => {
-        Course.findOneAndDelete({ _id: req.params.id })
-            .then(data => {
-                if (!data) {
-                    res.render('Admin/course/index', { username: req.session.username, message: 'Xóa không thành công' })
-                }
-                return res.redirect('/course')
-            })
-            .catch(err => {
-                console.log('Error deleting item from database:', err);
-                console.log('Lỗi khi xóa khóa học');
-                return res.redirect('/course');
-            });
-    });
-    // Sửa khóa học
-    router.put('/course/:id', checkAdmin, async (req, res) => {
-        try {
-            const id = req.params.id;
-            const updateCourse = req.body;
-            updateCourse.updatedAt = new Date();
-            const courses = await Course.findById(id);
-            await Course.findByIdAndUpdate(
-                id, updateCourse
-            )
-            res.render('Admin/course/edit', { courses, username: req.session.username, message: 'Sửa thành công' })
-        }
-        catch (error) {
-            res.status(500).json({ message: error.message })
-        }
-    });
-//Tìm kiếm khóa học
+// Xóa tin tức 
+router.get('/course/delete/:id', async (req, res) => {
+    Course.findOneAndDelete({ _id: req.params.id })
+        .then(data => {
+            if (!data) {
+                res.render('Admin/course/index', { username: req.session.username, message: 'Xóa không thành công' })
+            }
+            return res.redirect('/course')
+        })
+        .catch(err => {
+            console.log('Error deleting item from database:', err);
+            console.log('Lỗi khi xóa khóa học');
+            return res.redirect('/course');
+        });
+});
+// Sửa tin tức
+router.put('/course/:id', checkAdmin, async (req, res) => {
+    try {
+        const id = req.params.id;
+        const updateCourse = req.body;
+        updateCourse.updatedAt = new Date();
+        const courses = await Course.findById(id);
+        await Course.findByIdAndUpdate(
+            id, updateCourse
+        )
+        res.render('Admin/course/edit', { courses, username: req.session.username, message: 'Sửa thành công' })
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+});
+//Tìm kiếm tin tức
 router.post('/course/search', checkAdmin, async (req, res) => {
     let query = req.body.query.trim()
     try {

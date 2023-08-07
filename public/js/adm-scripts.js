@@ -15,15 +15,3 @@ function confirmAction(url) {
 function urlAction(url) {
     window.location.href = url;
 }
-//tính thời gian
-function calculateTimeDifference(createdAt) {
-    const currentTime = new Date();
-    const createdAtTime = new Date(createdAt);
-  
-    // Tính số giờ chênh lệch
-    const timeDifferenceInHours = Math.round(
-      (currentTime.getTime() - createdAtTime.getTime()) / (1000 * 60 * 60)
-    );
-  
-    return `${timeDifferenceInHours} giờ trước`;
-  }

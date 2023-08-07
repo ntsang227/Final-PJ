@@ -13,4 +13,7 @@ function formatTime(dateString) {
       return postDate.toLocaleDateString();
     }
   }
+<<<<<<< HEAD
   
+=======
+>>>>>>> parent of d1c65f3 (fix : script)
