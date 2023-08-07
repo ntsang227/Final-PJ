@@ -22,8 +22,8 @@
                 <section class="box nobox marginBottom0">
                     <div class="content-body">
                         <div class="row">
-                            <div class="col-md-3 col-sm-6 col-xs-12">
-                                <div class="r4_counter db_box">
+                            <div class="col-md-3 col-sm-6 col-xs-12" >
+                                <div class="r4_counter db_box index" onclick="urlAction('/admin/tutor/reviews.html')" >
                                     <i class='pull-left fa fa-thumbs-up icon-md icon-rounded icon-primary'></i>
                                     <div class="stats">
                                         <h4><strong><%= reviews.length %></strong></h4>
@@ -31,8 +31,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-3 col-sm-6 col-xs-12">
-                                <div class="r4_counter db_box">
+                            <div class="col-md-3 col-sm-6 col-xs-12 ">
+                                <div class="r4_counter db_box index" onclick="urlAction('/admin/course')">
                                     <i class='pull-left fa fa-book icon-md icon-rounded icon-success'></i>
                                     <div class="stats">
                                         <h4><strong><%= courses.length %></strong></h4>
@@ -40,8 +40,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-3 col-sm-6 col-xs-12">
-                                <div class="r4_counter db_box">
+                            <div class="col-md-3 col-sm-6 col-xs-12" >
+                                <div class="r4_counter db_box index">
                                     <i class='pull-left fa fa-dollar icon-md icon-rounded icon-purple'></i>
                                     <div class="stats">
                                         <h4><strong><%= sumAmount %>₫</strong></h4>
@@ -49,8 +49,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-3 col-sm-6 col-xs-12">
-                                <div class="r4_counter db_box">
+                            <div class="col-md-3 col-sm-6 col-xs-12 ">
+                                <div class="r4_counter db_box index" onclick="urlAction('/admin/tutor/index.html')">
                                     <i class='pull-left fa fa-users icon-md icon-rounded icon-warning'></i>
                                     <div class="stats">
                                         <h4><strong><%= tutor.length %></strong></h4>
@@ -67,9 +67,9 @@
                 <div class="col-xs-12 ">
                     <section class="box flex-fill">
                     <header class="panel_header">
-                        <a href="/notification">
+                        <a href="#">
                             <button type="button" class="btn btn-primary" style="margin: 20px;">
-                                Thông báo <span class="badge badge-light" style="background-color: red;"><%= notification.length %></span>
+                                Thông báo <span class="badge badge-light" style="background-color: red; margin-left: 10px;  "><%= notification.length %></span>
                               </button>
                         </a>
                         
@@ -81,15 +81,49 @@
                     </header>
                     <div class="content-body flex-fill new-notification">
                         <div >
-                            <% for(var i=0; i< notification.length; i++){ %>
+                            <% for(var i=notification.length-1; i>=0 ; i--){ %>
                                 <% if(notification[i].category === 'Courses'){ %>
                                     <div class="alert alert-secondary index" role="alert" onclick="urlAction('/admin/noti/<%= notification[i]._id %>')">
-                                        <%= notification[i].actionName %> đã đăng kí <%= notification[i].name %>
+                                        <%= notification[i].actionName %> đã đăng kí <%= notification[i].name %> 
+                                        <span style="float: right;">
+                                            <% var createdAt = new Date(notification[i].createdAt); %> <!-- Lấy thời gian tạo -->
+                                            <% var currentTime = new Date(); %> <!-- Lấy thời gian hiện tại -->
+                                            <% var timeDiff = Math.abs(currentTime - createdAt); %> <!-- Tính khoảng thời gian giữa hai thời điểm -->
+                                            <% var diffMinutes = Math.floor(timeDiff / (1000 * 60)); %> <!-- Đổi ra phút -->
+                                            <% if(diffMinutes > 60){ %> <!-- Nếu hơn 60 phút -->
+                                                <% var diffHours = Math.floor(diffMinutes / 60); %> <!-- Đổi ra giờ -->
+                                                <% if(diffHours > 24){ %> <!-- Nếu hơn 24 giờ -->
+                                                    <% var diffDays = Math.floor(diffHours / 24); %> <!-- Đổi ra ngày -->
+                                                    <i style="color: black"><%= diffDays %> ngày trước</i>
+                                                <% } else { %>
+                                                    <i style="color: black"><%= diffHours %> giờ trước</i>
+                                                <% } %>
+                                            <% } else { %>
+                                                <i style="color: black"><%= diffMinutes %> phút trước </i>
+                                            <% } %>
+                                        </span>
                                       </div>                              
                                 <% } %>
                                 <% if(notification[i].category === 'newUser'){ %>
-                                    <div class="alert alert-secondary index" role="alert" onclick="urlAction('/admin/tutor/index.html')">
+                                    <div class="alert alert-secondary index" role="alert" onclick="urlAction('/admin/notif/<%= notification[i]._id %>')">
                                         <%= notification[i].name %> tên là <%= notification[i].actionName %>
+                                        <span style="float: right; font-size:13px">
+                                            <% var createdAt = new Date(notification[i].createdAt); %> <!-- Lấy thời gian tạo -->
+                                            <% var currentTime = new Date(); %> <!-- Lấy thời gian hiện tại -->
+                                            <% var timeDiff = Math.abs(currentTime - createdAt); %> <!-- Tính khoảng thời gian giữa hai thời điểm -->
+                                            <% var diffMinutes = Math.floor(timeDiff / (1000 * 60)); %> <!-- Đổi ra phút -->
+                                            <% if(diffMinutes > 60){ %> <!-- Nếu hơn 60 phút -->
+                                                <% var diffHours = Math.floor(diffMinutes / 60); %> <!-- Đổi ra giờ -->
+                                                <% if(diffHours > 24){ %> <!-- Nếu hơn 24 giờ -->
+                                                    <% var diffDays = Math.floor(diffHours / 24); %> <!-- Đổi ra ngày -->
+                                                    <i style="color: black"><%= diffDays %> ngày trước</i>
+                                                <% } else { %>
+                                                    <i style="color: black"><%= diffHours %> giờ trước</i>
+                                                <% } %>
+                                            <% } else { %>
+                                                <i style="color: black"><%= diffMinutes %> phút trước </i>
+                                            <% } %>
+                                        </span>
                                       </div>
                                 <% } %>
                             <% } %>
