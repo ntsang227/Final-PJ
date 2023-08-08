@@ -72,13 +72,14 @@
               <% for (let i=0; i < courses.length; i++) {  %>
                 <% if (courses[i] && courses[i].nameuser && username === courses[i].nameuser) { %>
                   <p>Gia sư <%= courses[i].nametutor %> đã đồng ý yêu cầu đăng ký của bạn </p>
-                <% } else if (courses[i] && courses[i].nametutor && username === courses[i].nametutor) { %>
+                <% } else if (courses[i] && courses[i].nametutor && courses[i].nameuser && username === courses[i].nametutor) { %>
                   <div>
                     <p>Tên khóa học: <%= courses[i].name %></p>
                     <p>Tên gia sư: <%= courses[i].nametutor %></p>
                     <p>Tên người dùng: <%= courses[i].nameuser %></p>
                     <p>Ngày đăng ký: <%= courses[i].datePost %></p>
                   </div>
+                  <p>Trạng thái: <%= courses[i].status %></p>
             </div>
             
             <div class="modal-footer">
@@ -95,6 +96,7 @@
                   <input type="hidden" name="courseId" value="<%= courses[i]._id %>">
                   <input type="submit" value="Hủy" class="button">
                </form>
+               
             </div>
             <% }  }  %>
          </div>
@@ -170,10 +172,10 @@ var applyModal = document.getElementById('applyModal');
        courseName: courseName,
      }, 
      success: function(data) {
-       if ( tutorName === data.tutorName) {
-         alert('Bạn không thể tự đăng ký cho khoá học của mình! ');
-       } else if (data.alreadyApplied) {
+       if (data.alreadyApplied ) {
          alert('Bạn đã đăng ký khoá học này rồi!');
+       } else if (tutorName === data.username) {
+         alert('Bạn không thể tự đăng ký cho khoá học của mình!');
        } else {
          // Emit an 'apply-created' event to the WebSocket server
          socket.emit('apply-created');
@@ -185,7 +187,11 @@ var applyModal = document.getElementById('applyModal');
    });
    }
    });
-   
+ ///////////
+ 
+
+
+
    // Thiết lập kết nối WebSocket
    const applyCount = document.querySelector('#apply-count');
    let count = 0;

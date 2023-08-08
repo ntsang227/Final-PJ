@@ -485,7 +485,7 @@ router.get('/applys', async (req, res) => {
   }
 });
 ////
-router.post('/accept', (req, res) => {
+/*router.post('/accept', (req, res) => {
   const courseId = req.body.courseId;
 console.log('POST /accept')
   // In the accept route
@@ -526,7 +526,57 @@ console.log('POST /accept')
     console.log(err);
     res.send('Có lỗi xảy ra');
   });
+});*/
+router.post('/accept', (req, res) => {
+  const courseId = req.body.courseId;
+  console.log('POST /tutor/accept');
+
+  Course.findById(courseId)
+    .then((course) => {
+      if (course) {
+        const nameuser = course.nameuser;
+        Course.findOneAndUpdate(
+          { nameuser: nameuser },
+          { status: 'inactive' },
+          { new: true }
+        )
+          .then((updatedCourse) => {
+            if (updatedCourse) {
+              // Gửi thông báo đến nameuser
+              console.log(`Đã gửi thông báo đến ${nameuser}`);
+
+              // Emit a 'request-accepted' event to the WebSocket server
+              Websocket.getInstance().io.emit('request-accepted', {
+                nameuser: nameuser,
+                courseId: courseId,
+              });
+
+              // hiển thị thông báo thành công và cập nhật trang EJS
+              res.render('User/main/index.ejs', {
+                courses: updatedCourse,
+                isPoster: false, // người dùng hiện tại không phải là người đăng bài
+              });
+            } else {
+              console.log(`Không tìm thấy người dùng với username: ${nameuser}`);
+              res.send('Có lỗi xảy ra');
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+            res.send('Có lỗi xảy ra');
+          });
+      } else {
+        console.log(`Không tìm thấy khóa học với ID: ${courseId}`);
+        res.send('Có lỗi xảy ra');
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      res.send('Có lỗi xảy ra');
+    });
 });
+
+
 // huy apply
 router.post('/ancel', async (req, res) => {
   try {
