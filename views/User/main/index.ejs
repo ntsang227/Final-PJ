@@ -156,15 +156,16 @@ var applyModal = document.getElementById('applyModal');
    var r = confirm('Bạn muốn đăng ký khoá học này?');
    if (r == true) {
    alert('Đã gửi yêu cầu đăng ký');
-  
+   if (tutorName === username) {
+   alert('Bạn không thể tự đăng ký cho khoá học của mình!');
+   return;
+}
    // Connect to the WebSocket server
-   
          socket.emit('apply', {
             courseId: courseId,
             tutorName: tutorName,
             courseName: courseName,
          });
-      
    
    // Gửi thông báo đăng ký đến server bằng AJAX
    $.ajax({
@@ -176,14 +177,12 @@ var applyModal = document.getElementById('applyModal');
        courseName: courseName,
      }, 
      success: function(data) {
-       if ( tutorName === data.username) {
-         alert('Bạn không thể tự đăng ký cho khoá học của mình!');
-       } else if (data.alreadyApplied) {
-         alert('Bạn đã đăng ký khoá học này rồi!');
-       } else {
-         // Emit an 'apply-created' event to the WebSocket server
-         socket.emit('apply-created');
-       }
+      if (data.alreadyApplied) {
+               alert('Bạn đã đăng ký khoá học này rồi!');
+            } else {
+               // Emit an 'apply-created' event to the WebSocket server
+               socket.emit('apply-created');
+            }
      },
      error: function() {
        alert('Đã xảy ra lỗi khi lưu yêu cầu đăng ký!');
