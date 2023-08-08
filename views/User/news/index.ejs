@@ -1,42 +1,72 @@
 <%- include('../layout/headerv2.ejs') %>
 
-  <section id="main-content" class=" ">
-    <section class="wrapper main-wrapper row">
-      <div class="container">
-        <% if (typeof news !=='undefined' && Array.isArray(news) && news.length> 0) { %>
-          <% for(var i=0; i< news.length; i++){ %>
-            <div class="container" style="display: flex; flex-direction: row;">
-              <img class="img" src=" <%= news[i].image %>" alt="Images"
-                style="flex: 1; max-height: 160px; max-width: 150px; margin-right: 30px; margin-top: 35px;">
-              <div class="content" style="flex:4; display: flex; flex-direction: column;">
-                <h6 style="flex:1; margin-top: 30px; font-size: 24px;"><a style="color: #000000cc; text-decoration: none;" href="/details/<%= news[i]._id %>">
-                    <%= news[i].name %>
-                  </a>
-                </h6>
-                <p class="text" style="flex:3; overflow:hidden;max-height: 120px; max-width: 100%; ">
-                  <%= news[i].content %>
-                </p>
-                </p>
-                <p class="date" style="flex:1;">Ngày đăng: <%= new Date(news[i].createdAt).toLocaleString('vi-VN') %>
-                </p>
-                <p class="edit" style="flex:1; border-bottom: rgb(168, 168, 168) solid 1px;">
-                  <a href="/details/<%= news[i]._id %>">Xem thêm </a>|
-                  <a href="/">Quay lại</a>
-                </p>
+
+  <div class="container">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+        <li class="breadcrumb-item active" aria-current="page"><a href="/news">Tin Tức</a></li>
+      </ol>
+    </nav>
+    
+    <% if (typeof news !== 'undefined' && Array.isArray(news) && news.length > 0) { %>
+      <% var itemsPerPage = 10; // Số tin tức hiển thị trên mỗi trang %>
+      <% var currentPage = 1; // Replace with the actual current page number %>
+      <% var startIdx = (currentPage - 1) * itemsPerPage; %>
+      <% var endIdx = currentPage * itemsPerPage; %>
+
+      <% for(var i = startIdx; i < news.length && i < endIdx; i++) { %>
+        <div class="card mb-3">
+          <div class="container" style="display: flex; flex-direction: row; margin-bottom:30px;">
+              <img class="img img-thumbnail" src="<%= news[i].image %>" alt="Images" style="flex: 1; max-height: 180px; max-width: 200px; margin-right: 30px; margin-left:20px; margin-top: 30px;">
+              <div class="content" style="flex: 6; display: flex; flex-direction: column;">
+                  <h4 class="name" style="margin-top: 30px;">
+                      <a href="/details/<%= news[i]._id %>" style="color:#404040  ; "><%= news[i].name %></a>
+                  </h4>
+                  <span class="text" style="overflow: hidden; max-height: 50px; max-width: 100%; font-size: 15px; text-overflow: ellipsis;">
+                      Nội dung bài viết: <%= news[i].content %>
+                  </span>
+                  <a  style="margin-top: -6px;"  href="/details/<%= news[i]._id %>">Xem thêm...</a>
+                  <br>
+                  <span class="date">Ngày đăng: <%= new Date(news[i].createdAt).toLocaleString('vi-VN') %></span>
+
               </div>
-            </div>
-            <br>
-            <% } %>
-              <% } else { %>
-                <p>No news found</p>
-                <% } %>
+          </div>
       </div>
+      <hr>
+      <% } %>
 
-
-    </section>
-  </section>
-
-  <%- include('../layout/footer.ejs') %>
-    </body>
-
-    </html>
+      <% var totalPages = Math.ceil(news.length / itemsPerPage); %>
+      <% if (totalPages > 1) { %>
+        <ul class="pagination">
+          <% if (currentPage !== 1) { %>
+            <li class="page-item">
+              <a href="/news?page=<%= currentPage-1 %>" class="page-link">Trước</a>
+            </li>
+          <% } %>
+          <% for(var page = 1; page <= totalPages; page++) { %>
+            <% if (page !== currentPage) { %>
+              <li class="page-item">
+                <a href="/news?page=<%= page %>" class="page-link"><%= page %></a>
+              </li>
+            <% } else { %>
+              <li class="page-item active">
+                <span class="page-link"><%= page %></span>
+              </li>
+            <% } %>
+          <% } %>
+          <% if (currentPage !== totalPages) { %>
+            <li class="page-item">
+              <a href="/news?page=<%= currentPage+1 %>" class="page-link">Sau</a>
+            </li>
+          <% } %>
+        </ul>
+      <% } %>
+    <% } else { %>
+      <!-- ...Thông báo khi không có tin tức... -->
+    <% } %>
+  </div>
+</section>
+<%- include('../layout/footer.ejs') %>
+</body>
+</html>

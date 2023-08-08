@@ -49,23 +49,21 @@
     </div>
   </div>
   <div class="h4">
-    <h4>Tin tức nổi bật</h4>
+    <h3>Tin tức nổi bật</h3>
   </div>
-  <div class="news">
+  <div class="news" >
     <% if (typeof news !=='undefined' && Array.isArray(news) && news.length> 0) { %>
-      <% for(var i=0; i < news.length; i++){ %>
-        <% if(i===3) break; %>
-        <div class="harticle-item">
-          <img src="<%= news[i].image %>" alt="news img" width="350" height="200">
-          <h6 class="article-item">
-            <a style="color: #000000cc; text-decoration: none;" href="/details/<%= news[i]._id %>">
-              <%= news[i].name %>
-            </a>
-          </h6>
-          <div class="article-desc">
-            <%= news[i].content %>
+      <% var total = 0;  %>
+      <% for(var i=news.length-1; i>=0 ; i--){ %>
+        <% total++ ;  %>
+        <% if(total===4) break; %>
+        <div class="card" style="width: 23rem; margin-top:20px;">
+          <img class="card-img-top" src="<%= news[i].image %>" alt="Card image cap" width="220" height="220" >
+          <div class="card-body">
+            <h5 class="card-title"><%= news[i].name %></h5>
+            <p class="card-text"><%= news[i].content %></p>
+            <a href="/details/<%= news[i]._id %>" class="btn btn-primary">Xem thêm...</a>
           </div>
-          <a href="/details/<%= news[i]._id %>">Xem thêm...</a>
         </div>
         <br>
         <% } %>

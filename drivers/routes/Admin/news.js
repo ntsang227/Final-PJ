@@ -89,7 +89,7 @@ const upload = multer({ storage: storage });
                 // });
             //cách mới post được hình
     router.post('/news/add', checkAdmin, upload.single('image'), async function (req, res) { //NOSONAR
-        const { name, content } = req.body;
+        const { name, content, url } = req.body;
 
         try {
             // Upload ảnh lên Cloudinary
@@ -100,7 +100,8 @@ const upload = multer({ storage: storage });
             const newNews = new News({
             name,
             content,
-            image: imageUrl
+            image: imageUrl,
+            sourceUrl : url
             });
             await newNews.save();
 
@@ -117,7 +118,7 @@ const upload = multer({ storage: storage });
         }
         });
     // edit theo id news 
-    router.get('/news/edit/:id',checkAdmin , async (req, res) => {
+    router.get('/news/edit/:id',checkAdmin , async (req, res) => { //NOSONAR
         try {
           const id = req.params.id;
           const news = await News.findById(id);
@@ -127,7 +128,7 @@ const upload = multer({ storage: storage });
         }
       });
     // Xóa tin tức 
-    router.get('/news/delete/:id', function (req, res) {
+    router.get('/news/delete/:id',checkAdmin, function (req, res) {
         News.findOneAndDelete({ _id: req.params.id })
         .then(data => {
             if (!data) {

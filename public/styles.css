@@ -64,6 +64,9 @@ button:hover{
 .h4 h4 {
     padding: 30px;
 }
+.h4 h3 {
+    padding: 30px;
+}
 .hservice-item{
     padding: 30px;
     background: #FFFFFF;
@@ -77,13 +80,15 @@ button:hover{
 .text-center{
     text-align: center;
 }
-.news{
+.news {
     display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    margin-left: 50px;
+    justify-content: center;
 }
+
+.news > * {
+    margin-right: 30px;
+}
+
 .harticle-item{
     margin-top: 30px;
     max-width: 350px;
@@ -101,7 +106,9 @@ button:hover{
     margin-top: 50px;
 }
 div.container{
-    margin-top: 30px;
+    margin-top: 10px;
+    margin-bottom: 80px;
+    padding: 5px;
 }
 div.container div.services{
     display: flex;
@@ -127,4 +134,25 @@ div.services .item-1 .item-content h5{
 
 div.services .item-1 .item-content .service-desc{
     max-width: 700px;
+}
+.card-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Số dòng tối đa muốn hiển thị */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+.breadcrumb{
+    font-size: 25px;
+    margin-top: 15px;
+    padding-left: 30px;
+}
+.pagination{
+    float:right;
+}
+pre{
+    font-family: 'inherit';
+    
+    font-size: 17px;
+    white-space: pre-wrap; /* Để hỗ trợ xuống dòng tự động */
 }
