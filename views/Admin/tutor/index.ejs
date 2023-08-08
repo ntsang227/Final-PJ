@@ -14,18 +14,22 @@
                             <% if (typeof tutors !=='undefined' && Array.isArray(tutors) && tutors.length> 0) { %>
                             <thead class="" style="background-color: #67CDF9; color: aliceblue;">
                                 <tr>
-                                    <th scope="col">Name</th>
+                                    <th scope="col">STT</th>
+                                    <th scope="col">Tên</th>
                                     <th scope="col">ID</th>
                                     <th scope="col">Email</th>
-                                    <th scope="col">Rate</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Edit</th>
+                                    <th scope="col">Đánh giá</th>
+                                    <th scope="col">Trạng thái</th>
+                                    <th scope="col">Ghi Chú</th>
                                 </tr>
                             </thead>
                             <tbody>
                                     <% for(var i=0; i< tutors.length; i++){ %>
 
                                         <tr>
+                                            <td>
+                                                <%= i+1 %>
+                                            </td>
                                             <td>
                                                 <%= tutors[i].username %>
                                             </td>

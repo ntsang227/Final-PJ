@@ -6,6 +6,7 @@ const newSchema = new Schema({
   name: { type: String, required: true },
   content: { type: String, required: true },
   image: { type: String, required: true , default: 'null' },
+  sourceUrl: { type: String, default: 'null' },
   createdAt: { type: Date, required: true, default: Date.now },
   updatedAt: { type: Date, required: true, default: Date.now }
 });
