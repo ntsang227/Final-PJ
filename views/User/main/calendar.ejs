@@ -23,7 +23,7 @@
                 <span class="close">&times;</span>
                 <h4 id="event-date"></h4>
                 <input type="text" id="event-input" placeholder="Thêm sự kiện">
-                <button id="add-event-btn">Add</button>
+                <button id="add-event-btn" onclick="addEventToDate()">Add</button>
                 <ul id="event-list"></ul>
             </div>
         </div>
@@ -113,11 +113,11 @@
                 modal.style.display = 'none';
             }
 
-            const events = {};
-
-
             // Thêm sự kiện khi nhấp chuột vào mỗi ngày
             function addEventToDate(date) {
+
+                const events = {};
+
                 const dateKey = `${date}-${currentMonth + 1}-${currentYear}`;
 
                 if (!events[dateKey]) {
@@ -130,7 +130,24 @@
 
                 events[dateKey].push(eventInput.value);
                 eventInput.value = '';
-            }
+
+                fetch('/tutor/addevent', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        content: events[dateKey]
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Event saved:', data);
+                    })
+                    .catch(error => {
+                        console.error('Failed to save event:', error);
+                    });
+            };
 
             addEventBtn.addEventListener('click', () => {
                 const date = eventDate.innerText.split(' ')[1];

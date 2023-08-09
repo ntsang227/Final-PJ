@@ -14,7 +14,7 @@
                         <%= courses[i].name %>
                       </a>
                     </h5>
-                    <p class="card-text">Tên gia sư: <a href="/tutor/detail-tutor">
+                    <p class="card-text">Tên gia sư: <a href="/tutor/detail-tutors/<%= tutors[i]._id %>">
                         <%= courses[i].nametutor %>
                       </a></p>
                     <p class="card-text text-sub">Môn: <%= courses[i].subject%>-
@@ -151,53 +151,60 @@ var applyModal = document.getElementById('applyModal');
   //  });
   //var username = localStorage.getItem("username");
    // apply
-   $('.btn-apply').on('click', function() {
+   var isAlreadyApplied = false; // Biến cờ để theo dõi trạng thái đăng ký
+
+$('.btn-apply').on('click', function() {
    var courseId = $(this).data('course-id');
    var courseName = $(this).closest('.card-body').find('.card-title a').text().trim();
-   var tutorName = $(this).closest('.card-body').find('.card-text a').text().trim();
-   // Hiển thị thông báo muốn đăng ký
+   var tutorName = $(this).closest('.card-body').find('.card-text a').text().trim().replace(/(Đang mở|Đã đóng|\s+)/g, '');
    var r = confirm('Bạn muốn đăng ký khoá học này?');
    if (r == true) {
-   alert('Đã gửi yêu cầu đăng ký');
-   if (tutorName === username) {
-   alert('Bạn không thể tự đăng ký cho khoá học của mình!');
-   return;
-}
-   // Connect to the WebSocket server
-         socket.emit('apply', {
+      alert('Đã gửi yêu cầu đăng ký');
+
+      if (tutorName === username) {+
+         alert('Bạn không thể tự đăng ký cho khoá học của mình!');
+         return;
+      }  
+
+      if (isAlreadyApplied) {
+         alert('Bạn đã đăng ký khoá học này rồi!');
+         return;
+      }
+
+      // Gửi thông tin đăng ký lên websocket
+      socket.emit('apply', {
+         courseId: courseId,
+         tutorName: tutorName,
+         courseName: courseName,
+         username: username
+      });
+
+      // Đặt cờ đã đăng ký thành true
+      isAlreadyApplied = true;
+
+      // Emit một sự kiện 'apply-created' đến máy chủ WebSocket
+      socket.emit('apply-created');
+      
+      // Gửi thông báo đăng ký đến server bằng AJAX
+      $.ajax({
+         url: '/tutor/apply',
+         type: 'POST',
+         data: {
             courseId: courseId,
             tutorName: tutorName,
             courseName: courseName,
-         });
-   
-   // Gửi thông báo đăng ký đến server bằng AJAX
-   $.ajax({
-     url: '/tutor/apply',
-     type: 'POST',
-     data: {
-       courseId: courseId,
-       tutorName: tutorName,
-       courseName: courseName,
-     }, 
-     success: function(data) {
-      if (data.alreadyApplied) {
-               alert('Bạn đã đăng ký khoá học này rồi!');
-            } else {
-               // Emit an 'apply-created' event to the WebSocket server
-               socket.emit('apply-created');
-            }
-     },
-     error: function() {
-       alert('Đã xảy ra lỗi khi lưu yêu cầu đăng ký!');
-     }
-   });
+            username: username
+         },
+         success: function(data) {
+            // Không cần xử lý lại trạng thái đăng ký ở đây vì đã xử lý ở trên
+         },
+         error: function() {
+            alert('Đã xảy ra lỗi khi lưu yêu cầu đăng ký!');
+         }
+      });
    }
-   });
- ///////////
+});
  
-
-
-
    // Thiết lập kết nối WebSocket
    const applyCount = document.querySelector('#apply-count');
    let count = 0;
