@@ -34,10 +34,13 @@ router.get('/home', checkMember, async (req, res) => {
     const username = req.cookies.username;
     //const username = localStorage.getItem("username");
     const courses = await Course.find({ status: 'active' });
-      res.render('User/main/index.ejs',
+    const tutors = await Tutor.find({ status: 'active' });
+    res.render('User/main/index.ejs',
       {
-        courses ,username
-      }); 
+        courses,
+        tutors,
+        username
+      });
   }
   catch (error) {
     res.status(500).json({ message: error.message })
@@ -69,18 +72,18 @@ router.get('/detail-tutors/:id', checkMember, async function (req, res) {
   try {
     const id = req.params.id;
     const tutors = await Tutor.findById(id);
-    if(tutors){
+    if (tutors) {
       const nametutor = tutors.username;
-      const reviews = await Review.findOne({ nametutor : nametutor});
-      const courses = await Course.findOne({ nametutor : nametutor});
+      const reviews = await Review.findOne({ nametutor: nametutor });
+      const courses = await Course.findOne({ nametutor: nametutor });
 
       res.render('User/main/detail-tutors',
-      {
-        tutors,
-        reviews,
-        courses,
-      });
-    } else{
+        {
+          tutors,
+          reviews,
+          courses,
+        });
+    } else {
       res.status(404).send('Không tìm thấy tài khoản tutor!');
     }
   }
@@ -92,9 +95,12 @@ router.get('/detail-courses/:id', checkMember, async function (req, res) {
   try {
     const id = req.params.id;
     const courses = await Course.findById(id);
+    const username = courses.nametutor;
+    const tutors = await Tutor.findOne({ username: username });
     res.render('User/main/detail-courses',
       {
         courses,
+        tutors
       });
   }
   catch (error) {
@@ -219,7 +225,7 @@ router.post('/verify', async (req, res) => {
         name: 'Người dùng mới',
         category: 'newUser',
         actionName: usernameinput
-      }); 
+      });
       await newNotification.save();
 
       // Delete session
@@ -241,7 +247,7 @@ router.post('/verify', async (req, res) => {
 //Post login 
 
 router.post('/login', async function (req, res) { //NOSONAR 
-console.log('login')
+  console.log('login')
   const username = req.body.login;
   const email = req.body.login;
   const password = req.body.password;
@@ -453,8 +459,8 @@ router.post('/apply', async (req, res) => {
       res.send({ alreadyApplied: false, username: username });
       return;
     }
-    courses.nameuser = courses.nameuser  + username;
-await courses.save();
+    courses.nameuser = courses.nameuser + username;
+    await courses.save();
     res.render('User/main/index.ejs', { courses });
   } catch (err) {
     console.log(err);
@@ -473,12 +479,12 @@ router.get('/applys', async (req, res) => {
       return;
     }
     const filteredCourse = courses.filter(courses => courses.nametutor === tutorName);
-    res.render('User/main/index.ejs', { 
+    res.render('User/main/index.ejs', {
       username,
       courses: filteredCourse,
       isPoster: true // biến cờ để kiểm tra xem người dùng hiện tại có phải là người đăng bài hay không
     });
-    
+
   } catch (err) {
     console.log(err);
     res.status(500).send('Đã xảy ra lỗi khi lấy danh sách yêu cầu đăng ký!');
@@ -595,12 +601,12 @@ router.post('/ancel', async (req, res) => {
   }
 });
 //search 
-router.post('/search',checkMember, async (req, res) => { //NOSONAR
-  let {grade , subject } = req.body;
+router.post('/search', checkMember, async (req, res) => { //NOSONAR
+  let { grade, subject } = req.body;
   let query = req.body.query.trim();
-  let courses; 
+  let courses;
   const status = 'active';
-  console.log({status , grade, subject, query });
+  console.log({ status, grade, subject, query });
   try {
     if (query) {
       courses = await Course.find({
@@ -608,33 +614,33 @@ router.post('/search',checkMember, async (req, res) => { //NOSONAR
         category: new RegExp('.*' + grade + '.*', 'i'),
         subject: new RegExp('.*' + subject + '.*', 'i'),
         $or: [
-          {name: new RegExp('.*' + query + '.*', 'i')},
-          {decs: new RegExp('.*' + query + '.*', 'i')},
-          {key: new RegExp('.*' + query + '.*', 'i')},
-          {nametutor: new RegExp('.*' + query + '.*', 'i')}
+          { name: new RegExp('.*' + query + '.*', 'i') },
+          { decs: new RegExp('.*' + query + '.*', 'i') },
+          { key: new RegExp('.*' + query + '.*', 'i') },
+          { nametutor: new RegExp('.*' + query + '.*', 'i') }
         ]
       });
-    }  else if (grade){
+    } else if (grade) {
       courses = await Course.find({
         status,
         category: new RegExp('.*' + grade + '.*', 'i'),
         $or: [
-        {subject: new RegExp('.*' + subject + '.*', 'i')}
-      ]
+          { subject: new RegExp('.*' + subject + '.*', 'i') }
+        ]
       });
     } else {
       courses = await Course.find({
-          status
-        }
+        status
+      }
       );
     }
-      console.log(courses);
-      res.render('User/main/index',
-          {
-              courses,
-          });
+    console.log(courses);
+    res.render('User/main/index',
+      {
+        courses,
+      });
   } catch (err) {
-      res.status(500).json({ message: error.message })
+    res.status(500).json({ message: error.message })
   }
 });
 //Functions
