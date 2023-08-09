@@ -484,49 +484,7 @@ router.get('/applys', async (req, res) => {
     res.status(500).send('Đã xảy ra lỗi khi lấy danh sách yêu cầu đăng ký!');
   }
 });
-////
-/*router.post('/accept', (req, res) => {
-  const courseId = req.body.courseId;
-console.log('POST /accept')
-  // In the accept route
-  Course.findById(courseId)
-  .then((courses) => {
-    if (courses) {
-      const nameuser = courses.nameuser;
-      Course.findOne({ nameuser: nameuser })
-        .then((course) => {
-          if (course) {
-            // Gửi thông báo đến nameuser
-            console.log(`Đã gửi thông báo đến ${nameuser}`);
-            
-            // Emit a 'request-accepted' event to the WebSocket server
-            Websocket.getInstance().io.emit('request-accepted', { nameuser: nameuser, courseId: courseId });
-
-            // hiển thị thông báo thành công và cập nhật trang EJS
-            res.render('User/main/index.ejs', { 
-              courses: course,
-              isPoster: false // người dùng hiện tại không phải là người đăng bài
-            });
-          } else {
-            console.log(`Không tìm thấy người dùng với username: ${nameuser}`);
-            res.send('Có lỗi xảy ra');
-
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-          res.send('Có lỗi xảy ra');
-        });
-    } else {
-      console.log(`Không tìm thấy khóa học với ID: ${courseId}`);
-      res.send('Có lỗi xảy ra');
-    }
-  })
-  .catch((err) => {
-    console.log(err);
-    res.send('Có lỗi xảy ra');
-  });
-});*/
+// đồng ý apply
 router.post('/accept', (req, res) => {
   const courseId = req.body.courseId;
   console.log('POST /tutor/accept');
