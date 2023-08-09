@@ -82,11 +82,12 @@ button:hover{
 }
 .news {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
 }
 
 .news > * {
-    margin-right: 30px;
+    margin-left: 15px;
 }
 
 .harticle-item{
@@ -106,9 +107,9 @@ button:hover{
     margin-top: 50px;
 }
 div.container{
-    margin-top: 10px;
-    margin-bottom: 80px;
+    margin-bottom: 10px;
     padding: 5px;
+    padding-bottom: 20px;
 }
 div.container div.services{
     display: flex;
@@ -152,7 +153,22 @@ div.services .item-1 .item-content .service-desc{
 }
 pre{
     font-family: 'inherit';
-    
     font-size: 17px;
     white-space: pre-wrap; /* Để hỗ trợ xuống dòng tự động */
+}
+.card-title {
+    display: -webkit-box; /* Old iOS support */
+    -webkit-box-orient: vertical;
+    height: 80px;
+    -webkit-line-clamp: 4; /* Number of lines to display */
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+.cardnews{
+    display: flex;
+    flex-direction: row; 
+  }
+
+.content{
+    margin-top: -2px;
 }
