@@ -9,3 +9,8 @@ function scrollToFooter(event) {
       footer.scrollIntoView(scrollOptions);
     }, 500); // Delay of 500 milliseconds (half a second)
   }
+  window.addEventListener("scroll", function() {
+    var navbar = document.querySelector(".navbar-scroll");
+    navbar.classList.toggle("scroll-active", window.scrollY > 0);
+  });
+  

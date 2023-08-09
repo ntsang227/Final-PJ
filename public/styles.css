@@ -3,7 +3,7 @@
 }
 
 .header-top {
-    background-color: #67CDF9;
+    background-color: rgb(0, 84, 182);
     text-align: right;
     height: 40px;
 }
@@ -19,57 +19,54 @@
 
 .navbar {
     mix-blend-mode: multiply;
-    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.22);
+    box-shadow: 0px 3px 10px rgba(121, 121, 132, 0.22);
+    background-color: #00B2FF;
 }
 
 .navbar li a {
     font-style: normal;
     font-weight: 500;
-    font-size: 20px;
+    font-size: 16px;
     line-height: 60px;
     color: #000000cc;
-    text-transform: uppercase;
 }
 
 button {
-    width: 140px;
-    height: 52px;
-    background: #67CDF9;
+    width: 148px;
+    height: 38px;
     border-radius: 20px;
     border: none;
-    font-size: 16px;
     color: #FFFFFF;
     line-height: 50px;
-    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-
 }
 
 button:hover{
     background: #00B2FF;
 }
 
-.navbar li a:hover {
-    color: black !important;
+.navbar-nav .nav-item li a:hover {
+    color: rgb(219, 30, 49);
 }
+
 
 .carousel-inner img {
     width: 100%;
 }
 
-.h4 {
+.h4 { 
+    color: rgb(0, 84, 182);
     text-align: center;
-    box-shadow: 0px 3px 3px #00B2FF;
+    padding: 64px 0px 8px 0px;
+    display: flex;
+    justify-content: center;
 }
 
-.h4 h4 {
-    padding: 30px;
-}
-.h4 h3 {
-    padding: 30px;
-}
 .hservice-item{
     padding: 30px;
     background: #FFFFFF;
+}
+.service-desc{
+    color: #484E55;
 }
 .service-desc, .article-item{
     overflow: hidden;
@@ -121,7 +118,7 @@ div.services .item-1{
     flex-direction: row;
     justify-content: space-around;
     margin-top: 30px;
-    border-bottom: solid 1px #cccc;
+    border-bottom: solid 0.5px #cccc;
 }
 
 div.services:last-of-type{
@@ -152,9 +149,15 @@ div.services .item-1 .item-content .service-desc{
     float:right;
 }
 pre{
-    font-family: 'inherit';
-    font-size: 17px;
+    font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+    font-size: 18px;
     white-space: pre-wrap; /* Để hỗ trợ xuống dòng tự động */
+}
+.text-content{
+    flex:auto;
+    overflow:hidden; 
+    max-width: 100%;
+    justify-content: center;  
 }
 .card-title {
     display: -webkit-box; /* Old iOS support */
@@ -163,12 +166,89 @@ pre{
     -webkit-line-clamp: 4; /* Number of lines to display */
     overflow: hidden;
     text-overflow: ellipsis;
+    color:#404040;
   }
 .cardnews{
     display: flex;
     flex-direction: row; 
   }
-
+.card-body{
+   padding-right: 10px;
+}
 .content{
     margin-top: -2px;
+    display: flex;
+    padding-right: 15px;
 }
+.content-details{
+    margin-top: -2px;
+    display: flex;
+    justify-content: center; /* canh giữa theo trục chính */
+    align-items: center; /* canh giữa theo trục phụ */
+    padding: 0 40px 0 40px;
+    text-align: justify;
+}
+.content-end{
+    margin-left:40px; 
+}
+.btn-primary{
+    background-color:rgb(0, 84, 182);
+}
+a {
+    color: #404040;
+    text-decoration: none;
+  }
+a:hover {
+    color:#404040;
+    text-decoration: none;
+  }
+.img{
+    flex: 1; 
+    max-height: 400px; 
+    max-width: 800px;
+    margin:15px;
+    margin-left: 100px; 
+   
+}
+hr {
+    width: 100%;
+}
+.a-details{
+    color:rgb(0, 84, 182);
+}
+.a-details:hover{
+    color:rgb(20, 122, 243);
+}
+.sm-collapse{
+    margin-left: 48px;
+}
+.btn-dowload{
+    background-color: #f8f9fa;
+    color: rgb(0, 84, 182);
+}
+.btn-dowload:hover{
+    color: #ffffff;
+    background-color: rgb(0, 84, 182);
+    font-weight: normal;
+}
+.collapse{
+    height: 60px ;
+}
+.navbar-scroll {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #fff;
+    z-index: 999;
+    opacity: 100%;
+    /* Các thuộc tính khác cho thanh navbar trong trạng thái nổi */
+  }
+  .date{
+    color: #979Ea6;
+  }
+  .card{
+    border: 1px solid #EFEFEF;
+  }
+  .breadcrumb{
+    background-color: #fff;
+  }

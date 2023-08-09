@@ -4,32 +4,32 @@
     <section class="wrapper main-wrapper row">
         <div class="container">
             <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
+                <ol class="breadcrumb" style="font-size: 18px;">
                   <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
                   <li class="breadcrumb-item active" aria-current="page"><a href="/news" style="color: #6c757d;">Tin Tức</a></li>
                 </ol>
               </nav>
               
             <% if (typeof news !=='undefined' && news) { %>
-                    <div class="container" style="display: flex; flex-direction: row;">
-                        <div class="content" style="flex:4; display: flex; flex-direction: column;">
-                            <h1 style="flex:1; margin-top: 30px;"><%= news.name %>
-                            </h1>
+                    <div class="container">
+                        <div class="content-details" style="flex:4; display: flex; flex-direction: column;">
+                            <h2 style="flex:1; margin-top: 30px;"><%= news.name %>
+                            </h2>
                             <hr>
-                            <img class="img" src="<%= news.image %>" alt="Images" style="flex: 1; max-height: 400px; max-width: 800px; margin:15px; margin-left: 100px; ">
+                            <img class="img" src="<%= news.image %>" alt="Images">
                             <hr>
-                            <p class="text" style="flex:auto; overflow:hidden; max-width: 100%;  justify-content: center; font-size:15 ">
+                            <p class="text text-content" >
                                 <pre><%= news.content %></pre>
                             </p>
-                            <span>Nguồn:<a style="margin-top: -6px;" href="<%= news.sourceUrl %>" target="_blank"> <%= news.sourceUrl %></a></span>
-
                             
+                            
+                        </div>
+                        <div class="content-end">
+                            <span>Nguồn:<a style="margin-top: -6px;" href="<%= news.sourceUrl %>" target="_blank"> <%= news.sourceUrl %></a></span>
                             <hr>
-                            <p class="date" style="flex:1;">Ngày đăng: <%= new Date(news.createdAt).toLocaleString('vi-VN') %>
+                            <p class="date">Ngày đăng: <%= new Date(news.createdAt).toLocaleString('vi-VN') %>
                             </p>
-                            <p class="date" style="flex:1 ; ">Cập nhật lần cuối: <%= new Date(news.updatedAt).toLocaleString('vi-VN') %>
-                            </p>
-                            <button type="button" class="btn btn-info" onclick="urlAction('/news')">Quay lại</button>
+                            <button type="button" class="btn btn-primary" onclick="urlAction('/news')">Quay lại</button>
                         </div>
                     </div>
                     <br>

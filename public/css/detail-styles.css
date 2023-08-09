@@ -99,7 +99,24 @@
   .index {
     cursor: pointer;
   }
-  
-  
+  .card-text {
+    font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    white-space: pre-wrap; /* Để hỗ trợ xuống dòng tự động */
+    margin-top: 10px;
+  }
+  .content{
+    margin: 20px;
+    flex:4;
+    display: flex;
+    flex-direction: column;
+  }
+  .text-span{
+    font-size: 20px;
+    color: black;
+  }
+  hr {
+    width: 100%;
+  }
   
   
