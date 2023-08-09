@@ -8,7 +8,7 @@
             <% for(var i=0; i< courses.length; i++){ %>
               <% if (courses[i].status !=='Đã đóng' ) { %>
                 <% if(i===8) break; %>
-                  <div class="card-body">
+                  <div class="card-body card-items">
                     <h5 class="card-title">
                       <a href="/tutor/detail-courses/<%= courses[i]._id %>">
                         <%= courses[i].name %>
@@ -17,9 +17,7 @@
                     <p class="card-text">Tên gia sư: <a href="/tutor/detail-tutor">
                         <%= courses[i].nametutor %>
                       </a></p>
-                    <p class="card-text">Môn: <%= courses[i].subject%>
-                    </p>
-                    <p class="card-text">
+                    <p class="card-text text-sub">Môn: <%= courses[i].subject%>-
                       <% if (courses[i].category==='primary' ) { %>
                         Dành cho Tiểu Học
                         <% } else if (courses[i].category==='secondary' ) { %>
@@ -29,14 +27,19 @@
                             <% } else if (courses[i].category==='training-high-school' ) { %>
                               Luyện thi THPT QG
                               <% } else if (courses[i].category==='english-cerificate' ) { %>
-                                Luyện thi Chứng Chỉ Tiếng Anh
+                                Luyện Chứng Chỉ Tiếng Anh
                                 <% } else if (courses[i].category==='english-communication' ) { %>
                                   Tiếng Anh giao tiếp
                                   <% } %>
                     </p>
-                    <p class="card-text">Trạng thái: <%= courses[i].status %>
+                    <p class="card-text" style="margin-bottom:-20px; font-size:13px;">Trạng thái: <a class="text-success">
+                      <% if (courses[i].status === 'active') { %>
+                        Đang mở
+                      <% } else  { %>
+                        Đã đóng
+                      <% } %>
+                      </a>
                     </p>
-                    <p class="card-text">Mô tả: <%= courses[i].decs %>
                     </p>
                     <p class="card-text"><small class="text-muted">Ngày đăng: <%= new
                           Date(courses[i].datePost).toLocaleString('vi-VN') %></small></p>
