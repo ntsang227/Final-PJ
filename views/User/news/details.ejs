@@ -21,7 +21,8 @@
                             <p class="text" style="flex:auto; overflow:hidden; max-width: 100%;  justify-content: center; font-size:15 ">
                                 <pre><%= news.content %></pre>
                             </p>
-                            <span>Nguồn:<a  style="margin-top: -6px;"  href="<%= news.sourceUrl %>"> <%= news.sourceUrl %></a></span>
+                            <span>Nguồn:<a style="margin-top: -6px;" href="<%= news.sourceUrl %>" target="_blank"> <%= news.sourceUrl %></a></span>
+
                             
                             <hr>
                             <p class="date" style="flex:1;">Ngày đăng: <%= new Date(news.createdAt).toLocaleString('vi-VN') %>

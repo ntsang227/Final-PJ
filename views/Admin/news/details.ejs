@@ -44,8 +44,11 @@
                                     <div class="content" style="flex:4; display: flex; flex-direction: column;">
                                         <h1 class="name" style="flex:1; margin-top: 30px; "><%= news.name %>
                                         </h1>
+                                        <span>Nguồn bài viết:<a style="margin-top: -6px;" href="<%= news.sourceUrl %>" target="_blank"> <%= news.sourceUrl %></a></span>
+                                        <hr>
                                         <p class="text" style="flex:auto; overflow:hidden; max-width: 100%; ">Nội dung: <%= news.content %>
                                         </p>
+                                        
                                         <p class="date" style="flex:1;">Ngày đăng: <%= new Date(news.createdAt).toLocaleString('vi-VN') %> | Cập nhật lần cuối: <%= new Date(news.updatedAt).toLocaleString('vi-VN') %>
                                         </p>
                                     </div>
