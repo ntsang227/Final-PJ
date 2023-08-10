@@ -26,16 +26,16 @@
           Trải nghiệm dịch vụ tư vấn sức khỏe trực tuyến qua video với đội ngũ bác sĩ tận tâm và dày dặn kinh nghiệm tại
           Việt Nam mọi lúc mọi nơi, thuận tiện & đơn giản.
         </div>
-        <a href="/service"><button style="margin-top: 50px;">TÌM HIỂU THÊM</button></a>
+        <a href="/service"><button class="btn btn-primary" style="margin-top: 32px;">Tìm hiểu thêm</button></a>
       </div>
       <div class="col-sm hservice-item text-center">
         <img class="service-item" src="./images/grade-1.png" alt="service image" width="60" height="60">
         <h6 class="service-item">Dịch vụ gì đó chưa nghĩ ra</h6>
-        <div class="service-desc">
+        <div class="service-desc" >
           Trải nghiệm dịch vụ tư vấn sức khỏe trực tuyến qua video với đội ngũ bác sĩ tận tâm và dày dặn kinh nghiệm tại
           Việt Nam mọi lúc mọi nơi, thuận tiện & đơn giản.
         </div>
-        <a href="/service"><button style="margin-top: 50px;">TÌM HIỂU THÊM</button></a>
+        <a href="/service"><button class="btn btn-primary" style="margin-top: 32px;">Tìm hiểu thêm</button></a>
       </div>
       <div class="col-sm hservice-item text-center">
         <img class="service-item" src="./images/people.jpg" alt="service image" width="60" height="60">
@@ -44,12 +44,13 @@
           Trải nghiệm dịch vụ tư vấn sức khỏe trực tuyến qua video với đội ngũ bác sĩ tận tâm và dày dặn kinh nghiệm tại
           Việt Nam mọi lúc mọi nơi, thuận tiện & đơn giản.
         </div>
-        <a href="/service"><button style="margin-top: 50px;">TÌM HIỂU THÊM</button></a>
+        <a href="/service"><button class="btn btn-primary" style="margin-top: 32px;">Tìm hiểu thêm</button></a>
       </div>
     </div>
   </div>
+  
   <div class="h4">
-    <h3>Tin tức nổi bật</h3>
+    <h4>Tin tức nổi bật</h4>
   </div>
   <div class="news" >
     <% if (typeof news !=='undefined' && Array.isArray(news) && news.length> 0) { %>
@@ -60,7 +61,9 @@
         <div class="card" style="width: 23rem; margin-top:20px;">
           <img class="card-img-top" src="<%= news[i].image %>" alt="Card image cap" width="220" height="220" >
           <div class="card-body">
-            <h5 class="card-title"><%= news[i].name %></h5>
+            <h5 class="card-title">
+              <a href="/details/<%= news[i]._id %>"><%= news[i].name %></a>
+            </h5>
             <p class="card-text"><%= news[i].content %></p>
             <a href="/details/<%= news[i]._id %>" class="btn btn-primary">Xem thêm...</a>
           </div>
