@@ -4,7 +4,8 @@
       <%- include('../main/search.ejs') %>
         <h5 class="title-content">Khóa học mới nhất</h5>
         <div class="card card-wrapper">
-          <% if (typeof courses !=='undefined' && Array.isArray(courses) && courses.length> 0) { %>
+          <% if (typeof 
+           !=='undefined' && Array.isArray(courses) && courses.length> 0) { %>
             <% for(var i=0; i< courses.length; i++){ %>
               <% if (courses[i].status !=='Đã đóng' ) { %>
                 <% if(i===8) break; %>
@@ -44,7 +45,7 @@
                     <p class="card-text"><small class="text-muted">Ngày đăng: <%= new
                           Date(courses[i].datePost).toLocaleString('vi-VN') %></small></p>
                     <button class="btn-apply" data-course-id="<%= courses[i]._id %>">Apply</button>
-
+ 
 
                   </div>
                   <% } %>
@@ -61,150 +62,15 @@
           </div>
         </div>
       </div>
-      <div class="modal" id="applyModal" tabindex="-1" role="dialog" aria-labelledby="applyModalLabel"
-      aria-hidden="true">
-      <div class="modal-dialog" role="document">
-         <div class="modal-content">
-            <div class="modal-header">
-               <h5 class="modal-title" id="applyModalLabel">Edit Profile </p></h5>
-               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-               <span aria-hidden="true">&times;</span>
-               </button>
-            </div>
-            <div class="modal-body">
-              <% for (let i=0; i < courses.length; i++) {  %>
-                <% if (courses[i] && courses[i].nameuser && username === courses[i].nameuser) { %>
-                  <p>Gia sư <%= courses[i].nametutor %> đã đồng ý yêu cầu đăng ký của bạn </p>
-                <% } else if (courses[i] && courses[i].nametutor && courses[i].nameuser && username === courses[i].nametutor) { %>
-                  <div>
-                    <p>Tên khóa học: <%= courses[i].name %></p>
-                    <p>Tên gia sư: <%= courses[i].nametutor %></p>
-                    <p>Tên người dùng: <%= courses[i].nameuser %></p>
-                    <p>Ngày đăng ký: <%= courses[i].datePost %></p>
-                  </div>
-                  
-                  <p>Trạng thái: <%= courses[i].status %></p>
-            </div>
-            
-            <div class="modal-footer">
-                  <form action="/tutor/accept" method="post">
-                     <input type="hidden" name="courseId" value="<%= courses[i]._id %>">
-                     <input type="submit" value="Đồng ý" class="button">
-                  </form>
-               <form action="/tutor/accept" method="post" style="display:none">
-                  <input type="hidden" name="courseId" value="<%= courses[i]._id %>">
-                  <!-- <button class="btn" type="submit">Đồng ý</button> -->
-                  <input type="submit" value="Đồng ý" class="button">
-               </form>
-               <form method="post" action="/tutor/ancel">
-                  <input type="hidden" name="courseId" value="<%= courses[i]._id %>">
-                  <input type="submit" value="Hủy" class="button">
-               </form>
-               
-            </div>
-            <% }  }  %>
-         </div>
-      </div>
+      <%- include('../main/apply-modal.ejs') %>
    </div>
-   </div>
-   <style>
-      .modal-backdrop {
-      display: none;
-      }
-   </style>
+  
     <script src="/socket.io/socket.io.js"></script>
   <script>
-         
-// apply
-var applyModal = document.getElementById('applyModal');
-   var editapplyBtn = document.querySelector('.btn-tb');
-   var closeModalBtns = document.querySelectorAll('[data-dismiss="modal"]');
-   
-   editapplyBtn.addEventListener('click', function () {
-       applyModal.classList.add('show');
-       applyModal.style.display = 'block';
-       applyModal.style.visibility = 'visible';
-   });
-   
-   closeModalBtns.forEach(function (btn) {
-       btn.addEventListener('click', function () {
-           applyModal.classList.remove('show');
-           applyModal.style.display = 'none';
-       });
-   });
-   
-   window.addEventListener('click', function (event) {
-       if (event.target == applyModal) {
-           applyModal.classList.remove('show');
-           applyModal.style.display = 'none';
-       }
-   });
-   
-  //  var form = applyModal.querySelector('form');
-  //  form.addEventListener('submit', function (event) {
-  //      event.preventDefault();
-   
-  //      // Code to save changes goes here
-   
-  //      applyModal.classList.remove('show');
-  //      applyModal.style.display = 'none';
-  //  });
-  //var username = localStorage.getItem("username");
+  
    // apply
    var isAlreadyApplied = false; // Biến cờ để theo dõi trạng thái đăng ký
 
-$('.btn-apply').on('click', function() {
-   var courseId = $(this).data('course-id');
-   var courseName = $(this).closest('.card-body').find('.card-title a').text().trim();
-   var tutorName = $(this).closest('.card-body').find('.card-text a').text().trim().replace(/(Đang mở|Đã đóng|\s+)/g, '');
-   var r = confirm('Bạn muốn đăng ký khoá học này?');
-   if (r == true) {
-      alert('Đã gửi yêu cầu đăng ký');
-
-      if (tutorName === username) {+
-         alert('Bạn không thể tự đăng ký cho khoá học của mình!');
-         return;
-      }  
-
-      if (isAlreadyApplied) {
-         alert('Bạn đã đăng ký khoá học này rồi!');
-         return;
-      }
-
-      // Gửi thông tin đăng ký lên websocket
-      socket.emit('apply', {
-         courseId: courseId,
-         tutorName: tutorName,
-         courseName: courseName,
-         username: username
-      });
-
-      // Đặt cờ đã đăng ký thành true
-      isAlreadyApplied = true;
-
-      // Emit một sự kiện 'apply-created' đến máy chủ WebSocket
-      socket.emit('apply-created');
-      
-      // Gửi thông báo đăng ký đến server bằng AJAX
-      $.ajax({
-         url: '/tutor/apply',
-         type: 'POST',
-         data: {
-            courseId: courseId,
-            tutorName: tutorName,
-            courseName: courseName,
-            username: username
-         },
-         success: function(data) {
-            // Không cần xử lý lại trạng thái đăng ký ở đây vì đã xử lý ở trên
-         },
-         error: function() {
-            alert('Đã xảy ra lỗi khi lưu yêu cầu đăng ký!');
-         }
-      });
-   }
-});
- 
    // Thiết lập kết nối WebSocket
    const applyCount = document.querySelector('#apply-count');
    let count = 0;
@@ -242,7 +108,7 @@ var username = getCookie("username");
   
    }
    });
-
+   
     </script>
     <%- include('../layout/footer.ejs') %>
       </body>

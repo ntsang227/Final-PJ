@@ -35,11 +35,13 @@ router.get('/home', checkMember, async (req, res) => {
     //const username = localStorage.getItem("username");
     const courses = await Course.find({ status: 'active' });
     const tutors = await Tutor.find({ status: 'active' });
+    console.log('tutors',tutors)
     res.render('User/main/index.ejs',
       {
         courses,
         tutors,
-        username
+        username,
+
       });
   }
   catch (error) {
@@ -472,6 +474,7 @@ router.get('/applys', async (req, res) => {
   try {
     const tutorName = req.session.name_tutor;
     const courses = await Course.find({ nametutor: tutorName });
+    const tutors = await Tutor.find({ status: 'active' });
     const username = req.cookies.username;
     console.log(courses)
     if (!courses) {
@@ -479,8 +482,9 @@ router.get('/applys', async (req, res) => {
       return;
     }
     const filteredCourse = courses.filter(courses => courses.nametutor === tutorName);
-    res.render('User/main/index.ejs', {
+    res.render('User/main/apply-modal.ejs', {
       username,
+      tutors,
       courses: filteredCourse,
       isPoster: true // biến cờ để kiểm tra xem người dùng hiện tại có phải là người đăng bài hay không
     });
