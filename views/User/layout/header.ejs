@@ -80,7 +80,8 @@
 
                     </li>
                     <li class="nav-item">
-                        <button class="btn-tb" onclick="callRouter()">
+                        <button class="btn-tb"  data-toggle="modal"
+                        data-target="#applyModal" onclick="callRouter()">
                             <span class="badge badge-light" style="background-color: red; 
                             position: absolute;display: none; top: -5px; right: -2px;">
                               <span id="apply-count"></span>
@@ -109,19 +110,11 @@
     $.ajax({
         url: '/tutor/applys',
         type: 'GET',
-        // data: {
-        //     courseId: courseId,
-        //     tutorName: tutorName,
-        //     courseName: courseName,
-        //     username: username
-        //  },
+      
         success: function(response) {
             // Xử lý phản hồi từ server (response)
             console.log(response);
             $("#applyModal").replaceWith(response);
-            // $(".modal").css('display: block');
-
-            // Cập nhật giao diện người dùng theo phản hồi từ server
         },
         error: function(error) {
             // Xử lý lỗi (error)
