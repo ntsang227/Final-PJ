@@ -4,8 +4,7 @@
       <%- include('../main/search.ejs') %>
         <h5 class="title-content">Khóa học mới nhất</h5>
         <div class="card card-wrapper">
-          <% if (typeof 
-           !=='undefined' && Array.isArray(courses) && courses.length> 0) { %>
+          <% if (typeof courses !=='undefined' && Array.isArray(courses) && courses.length> 0) { %>
             <% for(var i=0; i< courses.length; i++){ %>
               <% if (courses[i].status !=='Đã đóng' ) { %>
                 <% if(i===8) break; %>
