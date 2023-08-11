@@ -35,9 +35,10 @@ router.get('/home', checkMember, async (req, res) => {
     //const username = localStorage.getItem("username");
     const courses = await Course.find({ status: 'active' });
     const tutors = await Tutor.find({ status: 'active' });
-    console.log('tutors',tutors)
+    const notification = await Course.find({})
     res.render('User/main/index.ejs',
       {
+        notification,
         courses,
         tutors,
         username,
@@ -475,6 +476,7 @@ router.get('/applys', async (req, res) => {
     const tutorName = req.session.name_tutor;
     const courses = await Course.find({ nametutor: tutorName });
     const tutors = await Tutor.find({ status: 'active' });
+    const notification = await Course.find({})
     const username = req.cookies.username;
     console.log(courses)
     if (!courses) {
@@ -483,6 +485,7 @@ router.get('/applys', async (req, res) => {
     }
     const filteredCourse = courses.filter(courses => courses.nametutor === tutorName);
     res.render('User/main/apply-modal.ejs', {
+      notification,
       username,
       tutors,
       courses: filteredCourse,
