@@ -173,8 +173,36 @@ const upload = multer({ storage: storage });
             res.status(500).json({ message: error.message });
         }
     });
-    
-
+    //ẩn tin tức khỏi trang chủ
+    router.post('/news/hidden/:id', checkAdmin, async (req, res) => { //NOSONAR
+        try {
+            const id = req.params.id;
+            console.log(req.params.id);
+            const news = await News.findById(id);
+            news.updatedAt = new Date();
+            news.status = 'inactive';
+            await news.save();
+            res.json({ message: 'Thao tác thành công' });
+            console.log("1");
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    });
+    //hiển thị lại tin tức
+    router.post('/news/show/:id', checkAdmin, async (req, res) => { //NOSONAR
+        try {
+            const id = req.params.id;
+            console.log(req.params.id);
+            const news = await News.findById(id);
+            news.updatedAt = new Date();
+            news.status = 'active';
+            await news.save();
+            console.log("2");
+            res.json({ message: 'Thao tác thành công' });
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    });
     //Tìm kiếm tin tức
     router.get('/news/search' ,checkAdmin,  async (req, res) => { //NOSONAR
         const query = req.query.query;

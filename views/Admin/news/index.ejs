@@ -14,27 +14,41 @@
                         <% if (typeof news !=='undefined' && Array.isArray(news) && news.length> 0) { %>
                             <% for(var i=0; i< news.length; i++){ %>
                             <div class="card mb-3">
-                                <div class="container" style="display: flex; flex-direction: row; margin-bottom:30px;">
-                                    <img class="img img-thumbnail" src="<%= news[i].image %>" alt="Images" style="flex: 1; max-height: 150px; max-width: 200px; margin-right: 30px; margin-left:20px; margin-top: 30px;">
-                                    <div class="content" style="flex: 6; display: flex; flex-direction: column;">
-                                        <h4 class="name" style="margin-top: 30px;">
+                                <div class="container" style="display: flex; flex-direction: row; ">
+                                    <div class="news-thub">
+                                      <img class="img img-thumbnail img-news" src="<%= news[i].image %>" alt="Images">
+                                      <span >
+                                        Trạng thái: 
+                                        <% if (news[i].status ==='active' ) { %>
+                                          Hiển thị
+                                          <% } else { %>
+                                           Tạm ẩn
+                                            <% } %>
+                                      </span>
+                                    </div>
+                                    <div class="content" >
+                                        <h4 class="name">
                                             <a href="/admin/news/details/<%= news[i]._id %>" style="color:#404040  ; "><%= news[i].name %></a>
                                         </h4>
-                                        <span class="text" style="overflow: hidden; max-height: 50px; max-width: 100%; font-size: 15px; text-overflow: ellipsis;">
+                                        <span class="text">
                                             Nội dung bài viết: <%= news[i].content %>
                                         </span>
                                         <a href="/admin/news/details/<%= news[i]._id %>">Xem thêm...</a>
                                         <span class="date">Ngày đăng: <%= new Date(news[i].createdAt).toLocaleString('vi-VN') %> | Cập nhật lần cuối: <%= new Date(news[i].updatedAt).toLocaleString('vi-VN') %></span>
                                         <div class="btn-group btn-group-sm" role="group" aria-label="Basic example" style="margin-top:15px;">
-                                            <button type="button" class="btn btn-secondary" onclick="urlAction('/admin/news/details/<%= news[i]._id %>')">Chi tiết</button>
-                                            <button type="button" class="btn btn-warning" onclick="urlAction('/admin/news/edit/<%= news[i]._id %>')">Sửa</button>
-                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">Xóa</button>
-                                              <!-- Modal -->
-                                            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                            <button type="button" class="btn btn-secondary rounded" onclick="urlAction('/admin/news/details/<%= news[i]._id %>')">Chi tiết</button>
+                                            <button type="button" class="btn btn-warning rounded" onclick="urlAction('/admin/news/edit/<%= news[i]._id %>')">Sửa</button>
+                                            <% if (news[i].status === 'active' ) { %>
+                                              <button type="button" class="btn btn-danger rounded" data-toggle="modal" data-target="#exampleModalCenter<%= news[i]._id %>">Tạm ẩn tin</button>
+                                              <% } else { %>
+                                                <button type="button" class="btn btn-danger rounded" data-toggle="modal" data-target="#exampleModalCenter2<%= news[i]._id %>">Hiển thị tin</button>
+                                                <% } %>
+                                              <!-- Modal 1-->
+                                            <div class="modal fade" id="exampleModalCenter<%= news[i]._id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                               <div class="modal-dialog modal-dialog-centered" role="document">
                                                 <div class="modal-content" style="border-radius: 4px;">
                                                   <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalCenterTitle">Bạn có chắc muốn xóa tin tức này không?</h5>
+                                                    <h5 class="modal-title" id="exampleModalCenterTitle">Bạn có muốn ẩn tin tức này không?</h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                       <span aria-hidden="true">&times;</span>
                                                     </button>
@@ -44,7 +58,27 @@
                                                   </div>
                                                   <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                                                    <button type="submit" class="btn btn-primary" data-toggle="modal" onclick="urlAction('/admin/news/delete/<%= news[i]._id %>')">Đồng ý</button>
+                                                    <button type="submit" class="btn btn-primary" data-toggle="modal" onclick="hideNews('<%= news[i]._id %>')"> Đồng ý</button>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <!-- Modal 2 -->
+                                            <div class="modal fade" id="exampleModalCenter2<%= news[i]._id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                              <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content" style="border-radius: 4px;">
+                                                  <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalCenterTitle">Bạn có muốn ẩn tin tức này không?</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                      <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                  </div>
+                                                  <div class="modal-body">
+                                                    Vui lòng nhấn xác nhận nếu đồng ý hoặc hủy để dừng thao tác!
+                                                  </div>
+                                                  <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                                    <button type="submit" class="btn btn-primary" data-toggle="modal" onclick="showNews('<%= news[i]._id %>')"> Đồng ý</button>
                                                   </div>
                                                 </div>
                                               </div>
