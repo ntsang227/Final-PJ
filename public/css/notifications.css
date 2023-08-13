@@ -15,11 +15,6 @@
     border-radius: 0.25rem;
 }
 
-.btn-tb:hover {
-  background: rgba(170, 170, 170, 0.062);
-  transition: 0.5s;
-}
-
 .btn-tb svg {
   color: #fff;
   display: block;

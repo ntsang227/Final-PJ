@@ -126,7 +126,7 @@ div.services:last-of-type{
 }
 
 div.services .item-1 .item-content h5{
-    color: #00B2FF;
+    color: #0054b6;
     text-shadow: 1px 1px 1px #cccc;
 }
 
@@ -225,10 +225,11 @@ hr {
 .btn-dowload{
     background-color: #f8f9fa;
     color: rgb(0, 84, 182);
+    font-weight: 500;
 }
 .btn-dowload:hover{
     color: #ffffff;
-    background-color: rgb(0, 84, 182);
+    background-color: #0054b6;
     font-weight: normal;
 }
 .collapse{
