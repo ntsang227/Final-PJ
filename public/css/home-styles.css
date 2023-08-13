@@ -3,7 +3,7 @@
 }
 
 .header-top {
-    background-color: #67CDF9;
+    background-color: rgb(0, 84, 182);
     text-align: right;
     height: 40px;
 }
@@ -19,15 +19,17 @@
 
 .navbar {
     mix-blend-mode: multiply;
-    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.22);
+    box-shadow: 0px 3px 10px rgba(121, 121, 132, 0.22);
 }
 
-.navbar li a.dropdowna {
+.navbar li a {
     font-style: normal;
-    margin-left: 15px;
     font-weight: 500;
-    font-size: 22px;
+    font-size: 16px;
     line-height: 60px;
+    color: #000000cc;
+}
+.dropdowna {
     color: rgba(0, 0, 0, 0.8);
 }
 
@@ -35,18 +37,6 @@
     color: black;
 }
 
-button {
-    width: 140px;
-    height: 52px;
-    background: rgb(103, 205, 249);
-    border-radius: 4px;
-    border: none;
-    font-size: 16px;
-    color: #FFFFFF;
-    line-height: 50px;
-    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-
-}
 
 button:hover {
     background: #00B2FF;
@@ -193,7 +183,13 @@ form.form-search {
 form.form-course .status {
     padding: 10px;
 }
-
+.btn-tb{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 60px;
+    color: #000000cc;
+}
 .btn-search {
     color: aliceblue;
     padding: 10px;
@@ -495,5 +491,20 @@ div.detail-tutor{
     border: solid 1px #cccc;
     padding: 30px;
 }
-
-
+.btn-primary{
+    background-color:rgb(0, 84, 182);
+    max-height: 38px;
+}
+.collapse{
+    height: 60px ;
+}
+.navbar li{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 60px;
+    color: #000000cc;
+}
+.sm-collapse{
+    margin-left: 48px;
+}

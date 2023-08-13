@@ -35,9 +35,9 @@
         </a>
     </div>
     <nav class="navbar navbar-expand-md navbar-light bg-light ">
-        <div class="container-fluid">
-            <a class="navbar-branch" href="#">
-                <img src="/images/logopage.png" width="220" height="100">
+        <div class="container-fluid" >
+            <a class="navbar-branch" href="/">
+              <img src="/images/logopage.png" width="106" height="60">
             </a>
             <button class="navbar-toggler collapsed" type="button" data-toggle="collapse"
                 data-target="#navbarResponsive" aria-expanded="false">
@@ -47,7 +47,7 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
                         <div class="dropdown">
-                            <a class="nav-link dropdowna active" href="/tutor/home">Khóa học</a>
+                            <a class="nav-link dropdowna " href="/tutor/home">Khóa học</a>
                             <div class="dropdown-content">
                                 <a href="#">Dành cho Tiểu Học</a>
                                 <a href="#">Dành cho THCS</a>
@@ -79,9 +79,17 @@
                         <a class="nav-link dropdowna" href="/tutor/calendar">Lịch trình</a>
 
                     </li>
+                </ul>
+                <ul class="navbar-nav sm-collapse">
                     <li class="nav-item">
+<<<<<<< Updated upstream
                         <button class="btn-tb"  data-toggle="modal"
                         data-target="#applyModal" onclick="callRouter()">
+=======
+                        <a class="nav-link">
+                            <button class="btn btn-primary" data-toggle="modal"
+                                data-target="#applyModal" >
+>>>>>>> Stashed changes
                             <span class="badge badge-light" style="background-color: red; 
                             position: absolute;display: none; top: -5px; right: -2px;">
                               <span id="apply-count"></span>
@@ -92,11 +100,13 @@
                             </svg>
                           </button>
 
+                        </a>
+                        
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="/tutor/profile">
-                            <button>My Account</button>
+                            <button class="btn btn-primary" >My Account</button>
                         </a>
                     </li>
 

@@ -56,19 +56,21 @@
     <% if (typeof news !=='undefined' && Array.isArray(news) && news.length> 0) { %>
       <% var total = 0;  %>
       <% for(var i=news.length-1; i>=0 ; i--){ %>
-        <% total++ ;  %>
-        <% if(total===4) break; %>
-        <div class="card" style="width: 23rem; margin-top:20px;">
-          <img class="card-img-top" src="<%= news[i].image %>" alt="Card image cap" width="220" height="220" >
-          <div class="card-body">
-            <h5 class="card-title">
-              <a href="/details/<%= news[i]._id %>"><%= news[i].name %></a>
-            </h5>
-            <p class="card-text"><%= news[i].content %></p>
-            <a href="/details/<%= news[i]._id %>" class="btn btn-primary">Xem thêm...</a>
+        <% if (news[i].status === "active") { %>
+          <% total++ ;  %>
+          <% if(total===4) break; %>
+          <div class="card" style="width: 23rem; margin-top:20px;">
+            <img class="card-img-top" src="<%= news[i].image %>" alt="Card image cap" width="220" height="220" >
+            <div class="card-body">
+              <h5 class="card-title">
+                <a href="/details/<%= news[i]._id %>"><%= news[i].name %></a>
+              </h5>
+              <p class="card-text"><%= news[i].content %></p>
+              <a href="/details/<%= news[i]._id %>" class="btn btn-primary">Xem thêm...</a>
+            </div>
           </div>
-        </div>
-        <br>
+          <br>
+          <% } %>
         <% } %>
           <% } else { %>
             <p>No news found</p>
