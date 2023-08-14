@@ -67,3 +67,43 @@ function showNews(newsId) {
             console.error('Lỗi khi gửi yêu cầu ẩn tin tức:', error);
         });
 }   
+function showCourse(courseId) {
+    // Gửi yêu cầu AJAX đến API
+    fetch(`/admin/course/show/${courseId}`, {
+        method: 'POST', // Hoặc bạn có thể sử dụng method 'PUT' tùy vào thiết kế của API của bạn
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data && data.message) {
+                // Hiển thị thông báo thành công
+                alert(data.message);
+                location.reload();
+            } else {
+                // Hiển thị thông báo lỗi (nếu có)
+                alert('Có lỗi xảy ra. Vui lòng thử lại sau.');
+            }
+        })
+        .catch(error => {
+            console.error('Lỗi khi gửi yêu cầu ẩn tin tức:', error);
+        });
+}  
+function hiddenCourse(courseId) {
+    // Gửi yêu cầu AJAX đến API
+    fetch(`/admin/course/hidden/${courseId}`, {
+        method: 'POST', // Hoặc bạn có thể sử dụng method 'PUT' tùy vào thiết kế của API của bạn
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data && data.message) {
+                // Hiển thị thông báo thành công
+                alert(data.message);
+                location.reload();
+            } else {
+                // Hiển thị thông báo lỗi (nếu có)
+                alert('Có lỗi xảy ra. Vui lòng thử lại sau.');
+            }
+        })
+        .catch(error => {
+            console.error('Lỗi khi gửi yêu cầu ẩn tin tức:', error);
+        });
+}    

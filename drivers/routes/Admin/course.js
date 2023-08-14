@@ -45,7 +45,7 @@ router.get('/course/apply-course.html', checkAdmin, async (req, res) => { //NOSO
 router.get('/course/apply/:id', checkAdmin, async (req, res) => { //NOSONAR
     try {
         const id = req.params.id;
-        const status = 'Đã đóng';
+        const status = 'closed';
         await Course.findByIdAndUpdate(
             id, { status }
         )
@@ -184,6 +184,10 @@ router.get('/course/edit/:id', checkAdmin, async (req, res) => {
 //Tìm kiếm khóa học
 router.post('/course/search', checkAdmin, async (req, res) => {
     let query = req.body.query.trim()
+    if (query.toLowerCase() === "đang mở") {
+        let statusCourse = 'open';
+      }
+      
     try {
         const courses = await Course.find({
             $or: [
@@ -193,7 +197,7 @@ router.post('/course/search', checkAdmin, async (req, res) => {
                 { nametutor: new RegExp('.*' + query + '.*', 'i') },
                 { nameuser: new RegExp('.*' + query + '.*', 'i') },
                 { content: new RegExp('.*' + query + '.*', 'i') },
-                { status: new RegExp('.*' + query + '.*', 'i') }
+                { status: new RegExp('.*' + statusCourse + '.*', 'i') }
             ]
         });
         res.render('Admin/course/index',
@@ -206,7 +210,34 @@ router.post('/course/search', checkAdmin, async (req, res) => {
         res.status(500).json({ message: error.message })
     }
 });
-
+//ẩn Khóa học khỏi trang chủ
+router.post('/course/hidden/:id', checkAdmin, async (req, res) => { //NOSONAR
+    try {
+        const id = req.params.id;
+        console.log("hidden course id: " ,req.params.id);
+        const courses = await Course.findById(id);
+        courses.hidden = true;
+        await courses.save();
+        console.log("1");
+        res.json({ message: 'Thao tác thành công' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+//hiển thị lại Khóa học
+router.post('/course/show/:id', checkAdmin, async (req, res) => { //NOSONAR
+    try {
+        const id = req.params.id;
+        console.log("show course id: " ,req.params.id);
+        const courses = await Course.findById(id);
+        courses.hidden = false;
+        await courses.save();
+        console.log("2");
+        res.json({ message: 'Thao tác thành công' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
 
 //Functions
 // CheckAdmin function

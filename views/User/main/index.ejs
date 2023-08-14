@@ -6,55 +6,57 @@
         <div class="card card-wrapper">
           <% if (typeof courses !=='undefined' && Array.isArray(courses) && courses.length> 0) { %>
             <% for(var i=0; i< courses.length; i++){ %>
-              <% if (courses[i].status !=='Đã đóng' ) { %>
-                <% if(i===8) break; %>
-                  <div class="card-body card-items">
-                    <div class="detail">
-                      <h5 class="card-title">
-                        <a href="/tutor/detail-courses/<%= courses[i]._id %>">
-                          <%= courses[i].name %>
-                        </a>
-                      </h5>
-                      <p class="card-text">Tên gia sư: <a href="/tutor/detail-tutors/<%= tutors[i]._id %>">
-                          <%= courses[i].nametutor %>
-                        </a></p>
-                      <p class="card-text">Môn: <%= courses[i].subject%>-
-                          <% if (courses[i].category==='primary' ) { %>
-                            Dành cho Tiểu Học
-                            <% } else if (courses[i].category==='secondary' ) { %>
-                              Dành cho THCS
-                              <% } else if (courses[i].category==='high-school' ) { %>
-                                Dành cho THPT
-                                <% } else if (courses[i].category==='training-high-school' ) { %>
-                                  Luyện thi THPT QG
-                                  <% } else if (courses[i].category==='english-cerificate' ) { %>
-                                    Luyện Chứng Chỉ Tiếng Anh
-                                    <% } else if (courses[i].category==='english-communication' ) { %>
-                                      Tiếng Anh giao tiếp
-                                      <% } %>
-                      </p>
-                      <p class="card-text" style="margin-bottom:-10px; font-size:13px;">Trạng thái: <a
-                          class="text-status">
-                          <% if (courses[i].status==='active' ) { %>
-                            Đang mở
-                            <% } else { %>
-                              Đã đóng
-                              <% } %>
-                        </a>
-                      </p>
-                      </p>
-                      <p class="card-text"><small class="text-muted">Ngày đăng: <%= new
-                            Date(courses[i].datePost).toLocaleString('vi-VN') %></small>
-                      </p>
+              <% if (courses[i].hidden !== true ) { %>
+                <% if (courses[i].status !=='Đã đóng' ) { %>
+                  <% if(i===8) break; %>
+                    <div class="card-body card-items">
+                      <div class="detail">
+                        <h5 class="card-title">
+                          <a href="/tutor/detail-courses/<%= courses[i]._id %>">
+                            <%= courses[i].name %>
+                          </a>
+                        </h5>
+                        <p class="card-text">Tên gia sư: <a href="/tutor/detail-tutors/">
+                            <%= courses[i].nametutor %>
+                          </a></p>
+                        <p class="card-text">Môn: <%= courses[i].subject%>-
+                            <% if (courses[i].category==='primary' ) { %>
+                              Dành cho Tiểu Học
+                              <% } else if (courses[i].category==='secondary' ) { %>
+                                Dành cho THCS
+                                <% } else if (courses[i].category==='high-school' ) { %>
+                                  Dành cho THPT
+                                  <% } else if (courses[i].category==='training-high-school' ) { %>
+                                    Luyện thi THPT QG
+                                    <% } else if (courses[i].category==='english-cerificate' ) { %>
+                                      Luyện Chứng Chỉ Tiếng Anh
+                                      <% } else if (courses[i].category==='english-communication' ) { %>
+                                        Tiếng Anh giao tiếp
+                                        <% } %>
+                        </p>
+                        <p class="card-text" style="margin-bottom:-10px; font-size:13px;">Trạng thái: <a
+                            class="text-status">
+                            <% if (courses[i].status==='active' ) { %>
+                              Đang mở
+                              <% } else { %>
+                                Đã đóng
+                                <% } %>
+                          </a>
+                        </p>
+                        </p>
+                        <p class="card-text"><small class="text-muted">Ngày đăng: <%= new
+                              Date(courses[i].datePost).toLocaleString('vi-VN') %></small>
+                        </p>
+                      </div>
+
+                      <div class="btn">
+                        <button class="btn-apply" data-course-id="<%= courses[i]._id %>">Đăng ký</button>
+                        <button class="btn-apply btn-contact" data-course-id="<%= courses[i]._id %>">Liên hệ</button>
+                      </div>
+
+
                     </div>
-
-                    <div class="btn">
-                      <button class="btn-apply" data-course-id="<%= courses[i]._id %>">Đăng ký</button>
-                      <button class="btn-apply btn-contact" data-course-id="<%= courses[i]._id %>">Liên hệ</button>
-                    </div>
-
-
-                  </div>
+                    <% } %>
                   <% } %>
                     <% } %>
                       <% } else { %>

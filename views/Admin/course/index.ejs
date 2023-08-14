@@ -17,7 +17,8 @@
                             <th scope="col">Mã Khóa Học</th>
                             <th scope="col">Tên Giáo Viên</th>
                             <th scope="col">Tên Học Viên</th>
-                            <th scope="col">Ghi chú</th>
+                            <th scope="col"><span style="margin-right: 4px;"></span>Ghi chú <span style="margin-left: 12px;"></span>Trạng Thái</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
@@ -38,6 +39,11 @@
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-primary btn-sm" onclick="urlAction('/admin/course/details.html/<%= courses[i]._id %>')">Chi tiết</button>
+                                        <% if (courses[i].hidden === true ) { %>
+                                            <button type="button" class="btn btn-secondary btn-sm" onclick="showCourse('<%= courses[i]._id %>')">Hiển thị</button>
+                                            <% } else { %>
+                                                <button type="button" class="btn btn-secondary btn-sm" onclick="hiddenCourse('<%= courses[i]._id %>')">Tạm ẩn</button>
+                                              <% } %>
                                     </td>
                                 </tr>
                             <% } %>

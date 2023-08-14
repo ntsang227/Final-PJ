@@ -8,7 +8,8 @@ const courseSchema = new Schema({
   category: { type: String, required: true },
   subject: { type: String, required: true },
   key: { type: String, required: true },
-  status : { type: String, default: 'null'},
+  status : { type: String, default: 'open'},
+  hidden : { type: Boolean, default: false},
   decs : { type: String, default: 'null' },
   datePost  : { type: Date, required: true, default: Date.now },
   updatedAt: { type: Date, required: true, default: Date.now }
