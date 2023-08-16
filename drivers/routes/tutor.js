@@ -446,7 +446,7 @@ router.post('/apply', async (req, res) => {
     const courseId = req.body.courseId;
     const tutorName = req.body.tutorName;
     const username = req.session.name_tutor;
-
+    const notification = await Course.find({})
     const courses = await Course.findById(courseId);
     if (!courses) {
       res.status(404).send('Khóa học không tồn tại');
@@ -464,7 +464,7 @@ router.post('/apply', async (req, res) => {
     }
     courses.nameuser = courses.nameuser + username;
     await courses.save();
-    res.render('User/main/index.ejs', { courses });
+    res.render('User/main/index.ejs', { courses, notification: notification, });
   } catch (err) {
     console.log(err);
     res.status(500).send('Đã xảy ra lỗi khi lưu yêu cầu đăng ký!');
@@ -478,14 +478,14 @@ router.get('/applys', async (req, res) => {
     const tutors = await Tutor.find({ status: 'active' });
     const notification = await Course.find({})
     const username = req.cookies.username;
-    console.log(courses)
+    console.log("aaaa",notification)
     if (!courses) {
       res.status(404).send('Không tìm thấy khóa học nào');
       return;
     }
     const filteredCourse = courses.filter(courses => courses.nametutor === tutorName);
     res.render('User/main/apply-modal.ejs', {
-      notification,
+      notification: notification,
       username,
       tutors,
       courses: filteredCourse,
@@ -498,60 +498,66 @@ router.get('/applys', async (req, res) => {
   }
 });
 // đồng ý apply
-router.post('/accept', (req, res) => {
+router.post('/accept', async (req, res) => {
   const courseId = req.body.courseId;
-  console.log('POST /tutor/accept');
+  try {
+    const notification = await Course.find({});
 
-  Course.findById(courseId)
-    .then((course) => {
-      if (course) {
-        const nameuser = course.nameuser;
-        Course.findOneAndUpdate(
-          { nameuser: nameuser },
-          { status: 'inactive' },
-          { new: true }
-        )
-          .then((updatedCourse) => {
-            if (updatedCourse) {
-              // Gửi thông báo đến nameuser
-              console.log(`Đã gửi thông báo đến ${nameuser}`);
+    Course.findById(courseId)
+      .then((course) => {
+        if (course) {
+          const nameuser = course.nameuser;
+          Course.findOneAndUpdate(
+            { nameuser: nameuser },
+            { status: 'inactive' },
+            { new: true }
+          )
+            .then((updatedCourse) => {
+              if (updatedCourse) {
+                // Gửi thông báo đến nameuser
+                console.log(`Đã gửi thông báo đến ${nameuser}`);
 
-              // Emit a 'request-accepted' event to the WebSocket server
-              Websocket.getInstance().io.emit('request-accepted', {
-                nameuser: nameuser,
-                courseId: courseId,
-              });
+                // Emit a 'request-accepted' event to the WebSocket server
+                Websocket.getInstance().io.emit('request-accepted', {
+                  nameuser: nameuser,
+                  courseId: courseId,
+                });
 
-              // hiển thị thông báo thành công và cập nhật trang EJS
-              res.render('User/main/index.ejs', {
-                courses: updatedCourse,
-                isPoster: false, // người dùng hiện tại không phải là người đăng bài
-              });
-            } else {
-              console.log(`Không tìm thấy người dùng với username: ${nameuser}`);
+                // hiển thị thông báo thành công và cập nhật trang EJS
+                res.render('User/main/index.ejs', {
+                  courses: updatedCourse,
+                  notification: notification,
+                  isPoster: false, // người dùng hiện tại không phải là người đăng bài
+                });
+              } else {
+                console.log(`Không tìm thấy người dùng với username: ${nameuser}`);
+                res.send('Có lỗi xảy ra');
+              }
+            })
+            .catch((err) => {
+              console.log(err);
               res.send('Có lỗi xảy ra');
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-            res.send('Có lỗi xảy ra');
-          });
-      } else {
-        console.log(`Không tìm thấy khóa học với ID: ${courseId}`);
+            });
+        } else {
+          console.log(`Không tìm thấy khóa học với ID: ${courseId}`);
+          res.send('Có lỗi xảy ra');
+        }
+      })
+      .catch((err) => {
+        console.log(err);
         res.send('Có lỗi xảy ra');
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-      res.send('Có lỗi xảy ra');
-    });
+      });
+  } catch (err) {
+    console.log(err);
+    res.send('Có lỗi xảy ra');
+  }
 });
-
 
 // huy apply
 router.post('/ancel', async (req, res) => {
   try {
     const courseId = req.body.courseId;
+    const notification = await Course.find({})
     const course = await Course.findById(courseId);
     if (!course) {
       res.status(404).send('Khóa học không tồn tại');
