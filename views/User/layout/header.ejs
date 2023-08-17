@@ -82,8 +82,8 @@
                 </ul>
                 <ul class="navbar-nav sm-collapse">
                     <li class="nav-item">
-                        <button class="btn-tb"  data-toggle="modal"
-                        data-target="#applyModal" onclick="callRouter()">
+                        <button class="btn-tb notification"  data-toggle="modal"
+                        data-target="#myModal" onClick="callRouter()">
                             <span class="badge badge-light" style="background-color: red; 
                             position: absolute;display: none; top: -5px; right: -2px;">
                               <span id="apply-count"></span>
@@ -118,7 +118,7 @@
         success: function(response) {
             // Xử lý phản hồi từ server (response)
             console.log(response);
-            $("#applyModal").replaceWith(response);
+            $("#myModal").replaceWith(response);
         },
         error: function(error) {
             // Xử lý lỗi (error)

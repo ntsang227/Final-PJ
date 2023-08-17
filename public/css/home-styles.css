@@ -455,12 +455,11 @@ div.d-calendar {
 .modal {
     display: none;
     position: fixed;
-    z-index: 1;
+    z-index: 999;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: auto;
     background-color: rgba(0, 0, 0, 0.5);
 }
 
@@ -469,7 +468,7 @@ div.d-calendar {
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 300px;
+    width: 620px;
 }
 
 .close {
@@ -523,7 +522,7 @@ div.detail-tutor{
     padding: 30px;
 }
 .btn-primary{
-    background-color:rgb(0, 84, 182);
+    background-color:rgb(0, 84, 182) !important;
     max-height: 38px;
 }
 .collapse{

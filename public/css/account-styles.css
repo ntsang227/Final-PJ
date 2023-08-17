@@ -1,19 +1,19 @@
 .gradient-custom {
     /* fallback for old browsers */
-    background: #00B2FF;
+    background: #066ee6;
 
     /* Chrome 10-25, Safari 5.1-6 */
-    background: -webkit-linear-gradient(to right bottom, #67CDF9, #00B2FF);
+    background: -webkit-linear-gradient(to right bottom, #066ee6, #0054b6);
 
     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    background: linear-gradient(to right bottom, #67CDF9, #00B2FF)
+    background: linear-gradient(to right bottom, #066ee6, #0054b6)
 }
 
 .btn-edit-profile,
 .btn-back,.btn-cancel,.btn-save-profile {
     width: 80px;
     height: 32px;
-    background: rgb(103, 205, 249);
+    background: #0054b6;
     border-radius: 4px;
     border: none;
     font-size: 16px;
@@ -24,7 +24,7 @@
 
 .btn-edit-profile:hover,
 .btn-back:hover,.btn-cancel:hover ,.btn-save-profile:hover {
-    background: #00B2FF;
+    background: #066ee6;
 }
 
 .btn-edit-profile {
@@ -41,7 +41,7 @@ a.course p {
 }
 
 a.course p:hover {
-    color: #00B2FF !important;
+    color: #066ee6 !important;
 }
 .modal{
     /*margin-top: 8%;*/
@@ -54,7 +54,7 @@ a.course p:hover {
 
 /* Header */
 .modal-header {
-    background-color: #00B2FF;
+    background-color: #0054b6;
     color: #fff;
     border-bottom: none;
 }
