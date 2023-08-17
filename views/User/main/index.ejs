@@ -69,18 +69,14 @@
                             <% } %>
                               <% } %>
         </div>
+        <%- include('../main/apply-modal.ejs') %>
     </div>
     </div>
-    <%- include('../main/apply-modal.ejs') %>
-      </div>
-
+    </div>
+   
       <script src="/socket.io/socket.io.js"></script>
       <script>
-
-        // apply
         var isAlreadyApplied = false; // Biến cờ để theo dõi trạng thái đăng ký
-
-        // Thiết lập kết nối WebSocket
         const applyCount = document.querySelector('#apply-count');
         let count = 0;
         function getCookie(name) {
@@ -104,6 +100,11 @@
             if (count > 0) {
               document.querySelector('.badge').style.display = 'inline-block';
             }
+            // Kiểm tra trạng thái
+    if (status === 'Chưa xem') {
+      // Lưu giá trị count vào local storage
+      saveBadgeCountToLocalStorage(count);
+    }
           }
         });
         socket.on('request-accepted', (data) => {

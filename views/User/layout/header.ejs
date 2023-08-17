@@ -84,8 +84,9 @@
                     <li class="nav-item">
                         <button class="btn-tb notification"  data-toggle="modal"
                         data-target="#myModal" onClick="callRouter()">
-                            <span class="badge badge-light" style="background-color: red; 
+                            <span  class="badge badge-light" style="background-color: red; 
                             position: absolute;display: none; top: 14px; right: 155px; border-radius: 50%">
+                              <span id="apply-count"></span>
                             </span>
                             <svg height="24" width="24" xmlns="http://www.w3.org/2000/svg">
                               <path d="M0 0h24v24H0z" fill="none"></path>    
@@ -108,23 +109,77 @@
         </div>
     </nav>
     <script>
- function callRouter() {
-    // Gọi đến router bằng AJAX
-    $.ajax({
-        url: '/tutor/applys',
-        type: 'GET',
-      
-        success: function(response) {
-            // Xử lý phản hồi từ server (response)
-            console.log(response);
-            $("#myModal").replaceWith(response);
-        },
-        error: function(error) {
-            // Xử lý lỗi (error)
-            console.log(error);
-            // Hiển thị thông báo lỗi cho người dùng
-        }
-    });
+ // Hàm để lưu số lượng badge vào local storage
+function saveBadgeCountToLocalStorage(count) {
+  localStorage.setItem('badgeCount', count);
 }
+
+// Hàm để khôi phục số lượng badge từ local storage
+function restoreBadgeCountFromLocalStorage() {
+  var storedCount = localStorage.getItem('badgeCount');
+
+  if (storedCount !== null) {
+    document.querySelector('#apply-count').innerText = storedCount;
+
+    if (storedCount > 0) {
+      document.querySelector('.badge').style.display = 'inline-block';
+    }
+  }
+}
+
+// Sự kiện được kích hoạt khi trang được tải
+document.addEventListener('DOMContentLoaded', function() {
+  // Khôi phục số lượng badge từ local storage
+  restoreBadgeCountFromLocalStorage();
+});
+
+// Hàm được gọi khi click vào button và gửi đến router
+function callRouter() {
+  // Gọi đến router bằng AJAX
+  $.ajax({
+    url: '/tutor/applys',
+    type: 'GET',
+    success: function(response) {
+      // Xử lý phản hồi từ server (response)
+      console.log(response);
+      $("#myModal").replaceWith(response);
+      $(".status").text("Đã xem");
+
+      // Kiểm tra trạng thái
+      if (status === 'Chưa xem') {
+        // Lưu giá trị count vào local storage
+        saveBadgeCountToLocalStorage(count);
+      }
+
+      // Ẩn số trên badge nếu cần thiết
+      if (count === 0) {
+        $(".badge").hide();
+      }
+    },
+    error: function(error) {
+      // Xử lý lỗi (error)
+      console.log(error);
+      // Hiển thị thông báo lỗi cho người dùng
+    }
+  });
+}
+
+// Socket.IO event listener để cập nhật số lượng badge
+socket.on('apply-created', function(data) {
+  if (username && data.tutorName === username) {
+    count++;
+    document.querySelector('#apply-count').innerText = count;
+
+    if (count > 0) {
+      document.querySelector('.badge').style.display = 'inline-block';
+    }
+
+    // Kiểm tra trạng thái
+    if (status === 'Chưa xem') {
+      // Lưu giá trị count vào local storage
+      saveBadgeCountToLocalStorage(count);
+    }
+  }
+});
     </script>
    

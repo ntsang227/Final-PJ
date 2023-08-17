@@ -477,14 +477,16 @@ router.get('/applys', async (req, res) => {
     const courses = await Course.find({ nametutor: tutorName });
     const tutors = await Tutor.find({ status: 'active' });
     const notification = await Course.find({})
+    const status = await Notification.find({})
     const username = req.cookies.username;
-    console.log("aaaa",notification)
     if (!courses) {
       res.status(404).send('Không tìm thấy khóa học nào');
       return;
     }
     const filteredCourse = courses.filter(courses => courses.nametutor === tutorName);
+    await Notification.updateMany({ $and: [{ status: 'Chưa xem' }, { actionName: tutorName }] }, { $set: { status: 'Đã xem' } });
     res.render('User/main/apply-modal.ejs', {
+      status,
       notification: notification,
       username,
       tutors,
@@ -524,10 +526,11 @@ router.post('/accept', async (req, res) => {
                 });
 
                 // hiển thị thông báo thành công và cập nhật trang EJS
-                res.render('User/main/index.ejs', {
+                res.render('User/main/apply-modal.ejs', {
                   courses: updatedCourse,
                   notification: notification,
                   isPoster: false, // người dùng hiện tại không phải là người đăng bài
+                  username: nameuser,
                 });
               } else {
                 console.log(`Không tìm thấy người dùng với username: ${nameuser}`);

@@ -17,10 +17,9 @@
             <div class="modal-body">
                 <div class="modal-body-item">
                     <div class="item">
-                        <% for (let i=0; i < notification.length; i++) { %>
-                            <% if (notification[i] && notification[i].nameuser && username===notification[i].nameuser) {
-                                %>
-                                <p>Gia sư <%= notification[i].nametutor %> đã đồng ý yêu cầu đăng ký của bạn! </p>
+                        <% for (let i=0; i < courses.length; i++) { %>
+                            <% if (notification[i] && notification[i].nameuser && username===notification[i].nameuser && notification[i].status === 'inactive') { %>
+                                <p>Gia sư <%= courses[i].nametutor %> đã đồng ý yêu cầu đăng ký của bạn! </p>
                                 <% } else if (courses[i] && courses[i].nametutor && courses[i].nameuser &&
                                     username===courses[i].nametutor) { %>
                                     <p>Học viên <%= courses[i].nameuser %> đã đăng ký khóa học <%= courses[i].name %>
@@ -116,7 +115,6 @@
             alert('Đã gửi yêu cầu đăng ký');
 
             if (tutorName === username) {
-                +
                     alert('Bạn không thể tự đăng ký cho khoá học của mình!');
                 return;
             }
@@ -151,8 +149,7 @@
                     username: username
                 },
                 success: function (data) {
-                    // Không cần xử lý lại trạng thái đăng ký ở đây vì đã xử lý ở trên
-                    $('#modal-body').html(data);
+                   
                 },
                 error: function () {
                     alert('Đã xảy ra lỗi khi lưu yêu cầu đăng ký!');
