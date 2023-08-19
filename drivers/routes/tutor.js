@@ -4,7 +4,6 @@ const Tutor = require('../../db/models/tutor.js');
 const Review = require('../../db/models/reviews.js');
 const Course = require('../../db/models/course.js');
 const Notification = require('../../db/models/notification.js');
-const Apply = require('../../db/models/apply.js');
 const multer = require('multer');
 const path = require('path');
 const router = express.Router();

@@ -92,7 +92,7 @@
         var username = getCookie("username");
         //var username = localStorage.getItem("username");
         // Khi có một yêu cầu mới được tạo, tăng biến đếm count lên 1
-        const socket = io();
+        const socket = io(); 
         socket.on('apply-created', (data) => {
           if (username && data.tutorName === username) {
             count++;
@@ -100,12 +100,9 @@
             if (count > 0) {
               document.querySelector('.badge').style.display = 'inline-block';
             }
-            // Kiểm tra trạng thái
-    if (status === 'Chưa xem') {
-      // Lưu giá trị count vào local storage
-      saveBadgeCountToLocalStorage(count);
-    }
           }
+            // Lưu giá trị của biến count vào localStorage
+        localStorage.setItem('applyCount', count);
         });
         socket.on('request-accepted', (data) => {
           debugger

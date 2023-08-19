@@ -133,5 +133,17 @@
     }
   });
 }
+// Đảm bảo rằng mã khôi phục giá trị count từ localStorage được chạy sau khi tất cả các thành phần đã tải
+window.addEventListener('load', function() {
+  // Khôi phục giá trị của biến count từ localStorage (nếu có)
+  var storedCount = localStorage.getItem('applyCount');
+  count = storedCount ? parseInt(storedCount) : 0;
+
+  // Cập nhật số lượng yêu cầu trên giao diện
+  applyCount.innerText = count;
+  if (count > 0) {
+    document.querySelector('.badge').style.display = 'inline-block';
+  }
+});
     </script>
    
