@@ -53,6 +53,10 @@ router.get('/home', checkMember, async (req, res) => {
 router.get('/courses', checkMember, function (req, res) {
   res.render('User/main/course.ejs', { email: req.session.email });
 });
+  //Chuyển hướng đến nạp tiền vào ví 
+router.get('/payment', checkMember, function (req, res) {
+    res.render('User/account/payment.ejs', { email: req.session.email });
+});
 router.get('/detail-course', checkMember, function (req, res) {
   res.render('User/main/detail-courses.ejs', { email: req.session.email });
 });

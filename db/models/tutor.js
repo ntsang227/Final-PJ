@@ -40,6 +40,10 @@ const dataSchema = new mongoose.Schema({
     status : {
         type: String,
         default : 'active',
+    },
+    coins : {
+        type: Number,
+        default :0 
     }
 })
 const Tutor =  mongoose.model('tutors', dataSchema);

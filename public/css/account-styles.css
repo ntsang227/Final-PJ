@@ -21,6 +21,16 @@
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     margin-bottom: 18px;
 }
+.btn-add{
+   
+    background: #fff;
+    border-radius: 4px;
+    border: none;
+    font-size: 16px;
+    color:  #0054b6;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    margin-bottom: 18px;
+}
 
 .btn-edit-profile:hover,
 .btn-back:hover,.btn-cancel:hover ,.btn-save-profile:hover {
@@ -34,7 +44,9 @@
 .btn-back {
     float: left;
 }
-
+.btn-add:hover {
+    background: #ccc;
+}
 a.course p {
     margin-bottom: 1px;
     color: #757575;

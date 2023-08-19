@@ -44,6 +44,8 @@ const router = express.Router();
       res.status(500).json({ message: error.message })
   }
   }) 
+
+  
   //chuyển hướng đến reviews
   router.get('/tutor/reviews.html',checkAdmin, async function(req, res) {// NOSONAR
     try {

@@ -205,7 +205,7 @@ const upload = multer({ storage: storage });
     });
     //Tìm kiếm tin tức
     router.get('/news/search' ,checkAdmin,  async (req, res) => { //NOSONAR
-        const query = req.query.query;
+        const query = req.query.query.trim();
         try {
             const news = await News.find({
                 $or: [
