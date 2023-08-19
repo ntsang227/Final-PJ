@@ -109,32 +109,7 @@
         </div>
     </nav>
     <script>
- // Hàm để lưu số lượng badge vào local storage
-function saveBadgeCountToLocalStorage(count) {
-  localStorage.setItem('badgeCount', count);
-}
-
-// Hàm để khôi phục số lượng badge từ local storage
-function restoreBadgeCountFromLocalStorage() {
-  var storedCount = localStorage.getItem('badgeCount');
-
-  if (storedCount !== null) {
-    document.querySelector('#apply-count').innerText = storedCount;
-
-    if (storedCount > 0) {
-      document.querySelector('.badge').style.display = 'inline-block';
-    }
-  }
-}
-
-// Sự kiện được kích hoạt khi trang được tải
-document.addEventListener('DOMContentLoaded', function() {
-  // Khôi phục số lượng badge từ local storage
-  restoreBadgeCountFromLocalStorage();
-});
-
-// Hàm được gọi khi click vào button và gửi đến router
-function callRouter() {
+ function callRouter() {
   // Gọi đến router bằng AJAX
   $.ajax({
     url: '/tutor/applys',
@@ -147,12 +122,7 @@ function callRouter() {
 
       // Kiểm tra trạng thái
       if (status === 'Chưa xem') {
-        // Lưu giá trị count vào local storage
-        saveBadgeCountToLocalStorage(count);
-      }
-
-      // Ẩn số trên badge nếu cần thiết
-      if (count === 0) {
+        // Ẩn số trên badge
         $(".badge").hide();
       }
     },
@@ -163,23 +133,5 @@ function callRouter() {
     }
   });
 }
-
-// Socket.IO event listener để cập nhật số lượng badge
-socket.on('apply-created', function(data) {
-  if (username && data.tutorName === username) {
-    count++;
-    document.querySelector('#apply-count').innerText = count;
-
-    if (count > 0) {
-      document.querySelector('.badge').style.display = 'inline-block';
-    }
-
-    // Kiểm tra trạng thái
-    if (status === 'Chưa xem') {
-      // Lưu giá trị count vào local storage
-      saveBadgeCountToLocalStorage(count);
-    }
-  }
-});
     </script>
    
