@@ -110,6 +110,10 @@
     </nav>
     <script>
  function callRouter() {
+    localStorage.removeItem('applyCount');
+    var applyCountElement = document.getElementById('apply-count');
+  applyCountElement.innerText = 0;
+  document.querySelector('.badge').style.display = 'none';
   // Gọi đến router bằng AJAX
   $.ajax({
     url: '/tutor/applys',
