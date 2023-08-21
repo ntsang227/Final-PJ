@@ -23,6 +23,7 @@
                                 </strong> đã đồng ý yêu cầu đăng ký của bạn!
                             </p>
                     <% } else if (courses[i] && courses[i].nametutor && courses[i].nameuser && username===courses[i].nametutor) { %>
+                        <% if (courses[i].status !=='inactive' ) { %>
                             <div class="item-acp">
                                 <p>Học viên <strong>
                                         <%= courses[i].nameuser %>
@@ -30,7 +31,6 @@
                                         <%= courses[i].name %> </strong>của bạn. Vui lòng xác nhận!
                                 </p>
                                 <div class="form">
-                                    <% if (courses[i].status !=='inactive' ) { %>
                                         <form action="/tutor/accept" method="post">
                                             <input type="hidden" name="courseId" value="<%= courses[i]._id %>">
                                             <input type="submit" value="Đồng ý" class="button btn-primary">
