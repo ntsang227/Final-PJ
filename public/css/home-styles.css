@@ -16,6 +16,10 @@
     margin-right: 20px;
     line-height: 40px;
 }
+.header-top a:hover{
+    color: white;
+    text-decoration: none;
+}
 
 .navbar {
     mix-blend-mode: multiply;

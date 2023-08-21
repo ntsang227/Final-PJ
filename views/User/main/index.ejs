@@ -6,7 +6,7 @@
         <div class="card card-wrapper">
           <% if (typeof courses !=='undefined' && Array.isArray(courses) && courses.length> 0) { %>
             <% for(var i=0; i< courses.length; i++){ %>
-              <% if (courses[i].hidden !== true ) { %>
+              <% if (courses[i].hidden !==true ) { %>
                 <% if (courses[i].status !=='Đã đóng' ) { %>
                   <% if(i===8) break; %>
                     <div class="card-body card-items">
@@ -16,7 +16,8 @@
                             <%= courses[i].name %>
                           </a>
                         </h5>
-                        <i style="font-size: 12px; margin-left: 5px; color:red; font-weight: 500;">Phí đăng ký là 5.000 VND</i>
+                        <i style="font-size: 12px; margin-left: 5px; color:red; font-weight: 500;">Phí đăng ký là 5.000
+                          VND</i>
                         <p class="card-text">Tên gia sư: <a href="/tutor/detail-tutors/<%= tutors[i]._id %>">
                             <%= courses[i].nametutor %>
                           </a></p>
@@ -58,67 +59,68 @@
 
                     </div>
                     <% } %>
-                  <% } %>
-                    <% } %>
-                      <% } else { %>
-                        <% if (typeof message !=='undefined' && message !='' ) { %>
-                          <div class="alert alert-success" style="margin-top: 100px ;">
-                            <%= message %>
-                          </div>
+                      <% } %>
+                        <% } %>
                           <% } else { %>
-                            <p>Không có khóa học nào!</p>
-                            <% } %>
-                              <% } %>
+                            <% if (typeof message !=='undefined' && message !='' ) { %>
+                              <div class="alert alert-success" style="margin-top: 100px ;">
+                                <%= message %>
+                              </div>
+                              <% } else { %>
+                                <p>Không có khóa học nào!</p>
+                                <% } %>
+                                  <% } %>
         </div>
         <%- include('../main/apply-modal.ejs') %>
     </div>
     </div>
     </div>
-   
-      <script src="/socket.io/socket.io.js"></script>
-      <script>
-        var isAlreadyApplied = false; // Biến cờ để theo dõi trạng thái đăng ký
-        const applyCount = document.querySelector('#apply-count');
-        let count = 0;
-        function getCookie(name) {
-          var cookies = document.cookie.split("; ");
-          for (var i = 0; i < cookies.length; i++) {
-            var cookie = cookies[i].split("=");
-            if (cookie[0] === name) {
-              return cookie[1];
-            }
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var isAlreadyApplied = false; // Biến cờ để theo dõi trạng thái đăng ký
+      const applyCount = document.querySelector('#apply-count');
+      let count = 0;
+      function getCookie(name) {
+        var cookies = document.cookie.split("; ");
+        for (var i = 0; i < cookies.length; i++) {
+          var cookie = cookies[i].split("=");
+          if (cookie[0] === name) {
+            return cookie[1];
           }
-          return "";
         }
-        var username = getCookie("username");
-        //var username = localStorage.getItem("username");
-        // Khi có một yêu cầu mới được tạo, tăng biến đếm count lên 1
-        const socket = io(); 
-        socket.on('apply-created', (data) => {
-          if (username && data.tutorName === username) {
-            count++;
-            applyCount.innerText = count;
-            if (count > 0) {
-              document.querySelector('.badge').style.display = 'inline-block';
-            }
+        return "";
+      }
+      var username = getCookie("username");
+      //var username = localStorage.getItem("username");
+      // Khi có một yêu cầu mới được tạo, tăng biến đếm count lên 1
+      const socket = io();
+      socket.on('apply-created', (data) => {
+        if (username && data.tutorName === username) {
+          count++;
+          applyCount.innerText = count;
+          if (count > 0) {
+            document.querySelector('.badge').style.display = 'inline-block';
           }
-            // Lưu giá trị của biến count vào localStorage
+        }
+        // Lưu giá trị của biến count vào localStorage
         localStorage.setItem('applyCount', count);
-        });
-        socket.on('request-accepted', (data) => {
-          debugger
-          if (username && data.nameuser === username) {
-            count++;
-            applyCount.innerText = count;
-            if (count > 0) {
-              document.querySelector('.badge').style.display = 'inline-block';
-            }
-
+      });
+      socket.on('request-accepted', (data) => {
+        debugger
+        if (username && data.nameuser === username) {
+          count++;
+          applyCount.innerText = count;
+          if (count > 0) {
+            document.querySelector('.badge').style.display = 'inline-block';
           }
-        });
 
-      </script>
-    
-        </body>
+        }
+      });
 
-        </html>
+    </script>
+    <%- include('../layout/footer.ejs') %>
+
+      </body>
+
+      </html>
