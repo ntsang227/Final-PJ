@@ -15,43 +15,35 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="modal-body-item">
-                    <div class="item">
-                        <% for (let i=0; i < courses.length; i++) { %>
-                            <% if (notification[i] && notification[i].nameuser && username===notification[i].nameuser &&
-                                notification[i].status==='inactive' ) { %>
-                                <p>Gia sư <strong>
-                                        <%= courses[i].nametutor %>
-                                    </strong> đã đồng ý yêu cầu đăng ký của bạn! </p>
-                                <% } else if (courses[i] && courses[i].nametutor && courses[i].nameuser &&
-                                    username===courses[i].nametutor) { %>
-                                    <div class="item-acp">
-                                        <p>Học viên <strong>
-                                                <%= courses[i].nameuser %>
-                                            </strong> đã đăng ký khóa học <strong>
-                                                <%= courses[i].name %>
-                                            </strong>
-                                            của bạn. Vui lòng xác nhận!</p>
-                                        <div class="form">
-                                            <% if (courses[i].status !=='inactive' ) { %>
-                                                <form action="/tutor/accept" method="post">
-                                                    <input type="hidden" name="courseId" value="<%= courses[i]._id %>">
-                                                    <input type="submit" value="Đồng ý" class="button btn-primary">
-                                                </form>
-                                                <form method="post" action="/tutor/ancel">
-                                                    <input type="hidden" name="courseId" value="<%= courses[i]._id %>">
-                                                    <input type="submit" value="Hủy" class="button btn-primary">
-                                                </form>
-                                                <% } %>
-                                                    <% } } %>
-                                        </div>
-                                    </div>
-
-
+                <% for (let i=0; i < courses.length; i++) { %>
+                    <div class="modal-body-item">
+                    <% if (notification[i] && notification[i].nameuser && username===notification[i].nameuser && notification[i].status==='inactive' ) { %>
+                            <p>Gia sư <strong>
+                                    <%= courses[i].nametutor %>
+                                </strong> đã đồng ý yêu cầu đăng ký của bạn!
+                            </p>
+                    <% } else if (courses[i] && courses[i].nametutor && courses[i].nameuser && username===courses[i].nametutor) { %>
+                            <div class="item-acp">
+                                <p>Học viên <strong>
+                                        <%= courses[i].nameuser %>
+                                </strong> đã đăng ký khóa học <strong>
+                                        <%= courses[i].name %> </strong>của bạn. Vui lòng xác nhận!
+                                </p>
+                                <div class="form">
+                                    <% if (courses[i].status !=='inactive' ) { %>
+                                        <form action="/tutor/accept" method="post">
+                                            <input type="hidden" name="courseId" value="<%= courses[i]._id %>">
+                                            <input type="submit" value="Đồng ý" class="button btn-primary">
+                                        </form>
+                                        <form method="post" action="/tutor/ancel">
+                                            <input type="hidden" name="courseId" value="<%= courses[i]._id %>">
+                                            <input type="submit" value="Hủy" class="button btn-primary">
+                                        </form>
+                                            <% } %>
+                                                <% } } %>
+                                </div>
+                            </div>
                     </div>
-
-
-                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
@@ -61,36 +53,32 @@
 </div>
 
 <style>
-    .modal-title{
+    .modal-title {
         color: #0054b6;
-    }
-    .modal-body {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
     }
 
     .modal-body-item {
         margin-bottom: 5px;
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         justify-content: space-between;
     }
 
-    .modal-body-item .form {
+    .item-acp {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+    }
+
+    .item-acp p {
+        flex: 8;
+    }
+    .item-acp .form {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         margin-top: 10px;
         flex: 2;
-    }
-    .item-acp{
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-    }
-    .item-acp p{
-        flex:8;
     }
 
     .modal-backdrop {
