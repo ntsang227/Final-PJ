@@ -62,6 +62,7 @@ const course = require('./drivers/routes/Admin/course.js');
 const tutorAdmin = require('./drivers/routes/Admin/tutor.js');
 const student = require('./drivers/routes/Admin/student.js');
 const payment = require('./drivers/routes/Admin/payment.js');
+const payments = require('./drivers/routes/payment.js');
 
 const tutor = require('./drivers/routes/tutor.js');
 
@@ -71,7 +72,7 @@ app.use('/',index);
 
 app.use('/admin', [ admins, course, news , tutorAdmin, student, payment ]);
 
-app.use('/tutor',tutor);
+app.use('/tutor', [ tutor , payments ]);
 
 
 module.exports = app;

@@ -17,13 +17,19 @@ const Websocket = require('../webserver/websocket.js');
 const cloudinary = require('../../db/Cloudinary/cloudinary.js');
 const storage = require('../../drivers/Upload/multer-storage.js');
 
+const stripe = require('stripe')('sk_test_51NTGMgAD16dsBsnGCco498WE2Kanpe4eCq5kloqGgAXrv8GVleFig26MHcjpBesu0dtd6ODpiJBxAI0exhi7C8vh00bo8rgU5m');
+var stripePublishableKey = 'pk_test_51NTGMgAD16dsBsnGlXKRXyVAGDO3LjzvW1oL6w3uPryK5OS2t52KOv45rWxlI3YkfcCbZ1x5XEvEfznLvpdgcNDF00cBVAmUy4';
+var stripeSecretKey ='sk_test_51NTGMgAD16dsBsnGCco498WE2Kanpe4eCq5kloqGgAXrv8GVleFig26MHcjpBesu0dtd6ODpiJBxAI0exhi7C8vh00bo8rgU5m';
 
 const upload = multer({ storage: storage });
 
 //Yêu cầu chuyển hướng
 router.get('/', checkMember, function (req, res) {
-  req.session.loggedin_tutor = false;
-  res.render('User/main/index.ejs', { email: req.session.email });
+  if(req.session.loggedin_tutor){
+    res.redirect("/tutor/home");
+  }else{
+  res.render('User/login/index.ejs', { message: '' });
+  }
 });
 
 // Chuyển hướng đến trang home tutor 
@@ -123,7 +129,11 @@ router.get('/verify', function (req, res) {
 
 //Chuyển hướng đến login 
 router.get('/login', function (req, res) {
+  if(req.session.loggedin_tutor){
+    res.redirect("/tutor/home");
+  }else{
   res.render('User/login/index.ejs', { message: '' });
+  }
 });
 
 //Post đăng kí tài khoản
@@ -270,6 +280,7 @@ router.post('/login', async function (req, res) { //NOSONAR
     } else if (tutor.status !== 'active') {
       res.render('User/login', { message: 'Tài khoản bị khóa!' });
     } else {
+      req.session.id_tutor = tutor._id;
       req.session.name_tutor = tutor.username;
       console.log(req.session.name_tutor);
       req.session.loggedin_tutor = true;
@@ -620,6 +631,8 @@ router.post('/search', checkMember, async (req, res) => { //NOSONAR
     res.status(500).json({ message: error.message })
   }
 });
+
+
 //Functions
 // Function check member
 function checkMember(req, res, next) {

@@ -41,7 +41,7 @@ const dataSchema = new mongoose.Schema({
         type: String,
         default : 'active',
     },
-    coins : {
+    wallet : {
         type: Number,
         default :0 
     }
