@@ -28,10 +28,11 @@
                                 <div class="col-md-8 float-left">
                                     <div class="card-body">
                                         <h5 class="card-title">Tên giáo viên : <%= tutors.username %></h5>
-                                        <h6 class="card-text">Mã giáo viên : <%= tutors._id %></h6>
-                                        <p class="card-text">Ngày sinh : <%= tutors.birthday %></p>
+                                        <p class="card-text">Mã giáo viên : <%= tutors._id %></p>
+                                        <p class="card-text">Ngày sinh : <%= new Date(tutors.birthday).toLocaleDateString('vi-VN') %></p>
                                         <p class="card-text">Email : <%= tutors.email %></p>
                                         <p class="card-text">Địa chỉ : <%= tutors.address %></p>
+                                        <p class="card-text">Số tiền còn lại trong tài khoản : <%= tutors.wallet %> VND</p>
                                         <% if (reviews.length === 0) { %>
                                             <p class="card-text">Số sao đánh giá: Không có đánh giá nào</p>
                                         <% } else { %>
@@ -60,7 +61,7 @@
                                             <a>Đang hoạt động</a>
                                           <% } %>
                                         </div>
-                                        
+                                      
                                     </div>
                                 </div>
                             </div>

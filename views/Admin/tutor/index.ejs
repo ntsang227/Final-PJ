@@ -18,6 +18,7 @@
                                     <th scope="col">Tên</th>
                                     <th scope="col">ID</th>
                                     <th scope="col">Email</th>
+                                    <th scope="col">Số dư</th>
                                     <th scope="col">Đánh giá</th>
                                     <th scope="col">Trạng thái</th>
                                     <th scope="col">Ghi Chú</th>
@@ -40,6 +41,9 @@
                                                 <%= tutors[i].email %>
                                             </td>
                                             <td>
+                                              <%= tutors[i].wallet %> VND
+                                            </td>
+                                            <td>
                                                 <% var hasReview = false; %>
                                                     <% for (var j=0; j < reviews.length; j++) { %>
                                                         <% if (tutors[i].username === reviews[j].nametutor) { %>
@@ -57,17 +61,17 @@
                                             </td>
                                             <td>
                                                 <% if (tutors[i].status==='inactive' ) { %>
-                                                    Tài khoản đã khóa
+                                                    Đã khóa
                                                     <% } else { %>
-                                                        Đang hoạt động
+                                                        Hoạt động
                                                         <% } %>
                                             </td>
                                             <td>
                                                 <button type="button" class="btn btn-primary btn-sm" onclick="urlAction('/admin/tutor/details.html/<%= tutors[i]._id %>')">Chi tiết</button>
                                                 <% if (tutors[i].status==="active" ) { %>
-                                                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#exampleModalCenter">Khóa tài khoản</button>
+                                                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#exampleModalCenter">Khóa</button>
                                                 <% } else { %>
-                                                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#exampleModalCenter2">Mở khóa tài khoản</button>
+                                                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#exampleModalCenter2">Mở khóa</button>
                                                 <% } %>
                                                   <!-- Modal -->
                                                 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
