@@ -45,7 +45,7 @@
                                 <% } %>
                           </a>
                         </p>
-                        </p>
+                      </br>
                         <p class="card-text"><small class="text-muted">Ngày đăng: <%= new
                               Date(courses[i].datePost).toLocaleString('vi-VN') %></small>
                         </p>
@@ -71,10 +71,9 @@
                                 <% } %>
                                   <% } %>
         </div>
-        <%- include('../main/apply-modal.ejs') %>
     </div>
-    </div>
-    </div>
+    <%- include('../main/apply-modal.ejs') %>
+
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
@@ -118,7 +117,13 @@
         }
       });
     </script>
+
 </div>
+</div>
+</div>
+</div>
+
+
 
     <%- include('../layout/footer.ejs') %>
       </body>

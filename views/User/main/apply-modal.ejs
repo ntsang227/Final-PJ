@@ -39,14 +39,11 @@
                                             <input type="hidden" name="courseId" value="<%= courses[i]._id %>">
                                             <input type="submit" value="Hủy" class="button btn-primary">
                                         </form>
-                                            <% } %>
-                                                <% } } %>
                                 </div>
                             </div>
                     </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    <% } %>
+                                                <% } } %>
             </div>
         </div>
     </div>
@@ -62,6 +59,7 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        flex-wrap: nowrap;
     }
 
     .item-acp {

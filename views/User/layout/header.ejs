@@ -33,9 +33,9 @@
         </a>
     </div>
     <nav class="navbar navbar-expand-md navbar-light bg-light ">
-        <div class="container-fluid" >
+        <div class="container-fluid">
             <a class="navbar-branch" href="/">
-              <img src="/images/logopage.png" width="106" height="60">
+                <img src="/images/logopage.png" width="106" height="60">
             </a>
             <button class="navbar-toggler collapsed" type="button" data-toggle="collapse"
                 data-target="#navbarResponsive" aria-expanded="false">
@@ -80,25 +80,27 @@
                 </ul>
                 <ul class="navbar-nav sm-collapse">
                     <li class="nav-item">
-                        <button class="btn-tb notification"  data-toggle="modal"
-                        data-target="#myModal" onClick="callRouter()">
-                            <span  class="badge badge-light" style="background-color: red; 
+                        <button class="btn-tb notification" data-toggle="modal" data-target="#myModal"
+                            onClick="callRouter()">
+                            <span class="badge badge-light" style="background-color: red; 
                             position: absolute;display: none; top: 14px; right: 155px; border-radius: 50%">
-                              <span id="apply-count"></span>
+                                <span id="apply-count"></span>
                             </span>
                             <svg height="24" width="24" xmlns="http://www.w3.org/2000/svg">
-                              <path d="M0 0h24v24H0z" fill="none"></path>    
-                              <path d="M20 17h2v2H2v-2h2v-7a8 8 0 1 1 16 0v7zm-2 0v-7a6 6 0 1 0-12 0v7h12zm-9 4h6v2H9v-2z" fill="currentColor"></path>      
+                                <path d="M0 0h24v24H0z" fill="none"></path>
+                                <path
+                                    d="M20 17h2v2H2v-2h2v-7a8 8 0 1 1 16 0v7zm-2 0v-7a6 6 0 1 0-12 0v7h12zm-9 4h6v2H9v-2z"
+                                    fill="currentColor"></path>
                             </svg>
-                          </button>
+                        </button>
 
                         </a>
-                        
+
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="/tutor/profile">
-                            <button class="btn btn-primary" >My Account</button>
+                            <button class="btn btn-primary">My Account</button>
                         </a>
                     </li>
 
@@ -107,45 +109,44 @@
         </div>
     </nav>
     <script>
- function callRouter() {
-    localStorage.removeItem('applyCount');
-    var applyCountElement = document.getElementById('apply-count');
-  applyCountElement.innerText = 0;
-  document.querySelector('.badge').style.display = 'none';
-  // Gọi đến router bằng AJAX
-  $.ajax({
-    url: '/tutor/applys',
-    type: 'GET',
-    success: function(response) {
-      // Xử lý phản hồi từ server (response)
-      console.log(response);
-      $("#myModal").replaceWith(response);
-      $(".status").text("Đã xem");
+        function callRouter() {
+            localStorage.removeItem('applyCount');
+            var applyCountElement = document.getElementById('apply-count');
+            applyCountElement.innerText = 0;
+            document.querySelector('.badge').style.display = 'none';
+            // Gọi đến router bằng AJAX
+            $.ajax({
+                url: '/tutor/applys',
+                type: 'GET',
+                success: function (response) {
+                    // Xử lý phản hồi từ server (response)
+                    console.log(response);
+                    $("#myModal").replaceWith(response);
+                    $(".status").text("Đã xem");
 
-      // Kiểm tra trạng thái
-      if (status === 'Chưa xem') {
-        // Ẩn số trên badge
-        $(".badge").hide();
-      }
-    },
-    error: function(error) {
-      // Xử lý lỗi (error)
-      console.log(error);
-      // Hiển thị thông báo lỗi cho người dùng
-    }
-  });
-}
-// Đảm bảo rằng mã khôi phục giá trị count từ localStorage được chạy sau khi tất cả các thành phần đã tải
-window.addEventListener('load', function() {
-  // Khôi phục giá trị của biến count từ localStorage (nếu có)
-  var storedCount = localStorage.getItem('applyCount');
-  count = storedCount ? parseInt(storedCount) : 0;
+                    // Kiểm tra trạng thái
+                    if (status === 'Chưa xem') {
+                        // Ẩn số trên badge
+                        $(".badge").hide();
+                    }
+                },
+                error: function (error) {
+                    // Xử lý lỗi (error)
+                    console.log(error);
+                    // Hiển thị thông báo lỗi cho người dùng
+                }
+            });
+        }
+        // Đảm bảo rằng mã khôi phục giá trị count từ localStorage được chạy sau khi tất cả các thành phần đã tải
+        window.addEventListener('load', function () {
+            // Khôi phục giá trị của biến count từ localStorage (nếu có)
+            var storedCount = localStorage.getItem('applyCount');
+            count = storedCount ? parseInt(storedCount) : 0;
 
-  // Cập nhật số lượng yêu cầu trên giao diện
-  applyCount.innerText = count;
-  if (count > 0) {
-    document.querySelector('.badge').style.display = 'inline-block';
-  }
-});
+            // Cập nhật số lượng yêu cầu trên giao diện
+            applyCount.innerText = count;
+            if (count > 0) {
+                document.querySelector('.badge').style.display = 'inline-block';
+            }
+        });
     </script>
-   
