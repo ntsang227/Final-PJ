@@ -38,7 +38,6 @@ const calculateOrderAmount = (items) => {
           enabled: true,
         },
       });
-  
       res.send({
         clientSecret: paymentIntent.client_secret,
       });
@@ -49,7 +48,7 @@ const calculateOrderAmount = (items) => {
   });
   router.post("/payment", checkMember, async (req, res) => {//NOSONAR
     const { message } = req.body;
-    var wallet =200000;
+    var wallet =100000;
     try {
         if (message === 'success') {
          // Lấy thông tin Tutor từ database
