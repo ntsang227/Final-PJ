@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
 
 const reviewSchema = new mongoose.Schema({
-  nametutor: {
-        type: String,
-        required: true
+  tutorId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'tutors',
+    required: true
   },
   content: {
     type: String,
@@ -25,7 +26,6 @@ const reviewSchema = new mongoose.Schema({
   }
 });
 
-const Review = mongoose.model('reviews', reviewSchema);
-
+const Review = mongoose.model('Review', reviewSchema);
 
 module.exports = Review;

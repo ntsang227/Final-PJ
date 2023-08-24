@@ -44,7 +44,11 @@ const dataSchema = new mongoose.Schema({
     wallet : {
         type: Number,
         default :0 
-    }
+    },
+    reviews: { 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'reviews',
+    },
 })
 const Tutor =  mongoose.model('tutors', dataSchema);
 module.exports = Tutor;

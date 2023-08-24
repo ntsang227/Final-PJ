@@ -110,6 +110,20 @@ async function checkStatus() {
     case "succeeded":
         showMessage("Nạp tiền hoàn tất, Tự động chuyển hướng về trang chủ!");
         // Tạo một async function để thực hiện fetch request
+        const postPayment = async () => {
+          try {
+          await fetch('/tutor/payment', {
+              method: 'POST',
+              headers: {
+              'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ message: 'success' })
+          });
+          } catch (error) {
+          console.error('Lỗi khi gửi dữ liệu: ', error);
+          }
+        };
+        postPayment();
         setTimeout(function() {
             window.location.href = "/tutor/profile";
         }, 2000);  
@@ -154,21 +168,7 @@ function setLoading(isLoading) {
   }
 }
 
-// const postPayment = async () => {
-//   try {
-//   await fetch('/tutor/payment', {
-//       method: 'POST',
-//       headers: {
-//       'Content-Type': 'application/json'
-//       },
-//       body: JSON.stringify({ message: 'success' })
-//   });
 
-//   } catch (error) {
-//   console.error('Lỗi khi gửi dữ liệu: ', error);
-//   }
-// };
-// postPayment();
 
 var amountInput = document.getElementById("amount");
 var errorMsg = document.getElementById("amount-error-msg");

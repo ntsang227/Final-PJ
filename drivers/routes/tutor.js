@@ -415,26 +415,26 @@ router.post('/avatar/update', upload.single('file'), async (req, res) => { //NOS
   }
 });
 //Tạo khóa học
-router.post('/new-courses', checkMember, async (req, res) => { //NOSONAR 
-  //add khóa học mới
+router.post('/new-courses', checkMember, async (req, res) => { //NOSONAR
   const { name, category, subject, status, decs } = req.body;
-  const nametutor = req.session.name_tutor;
+  const tutorId = req.session.id_tutor;
   const key = Math.floor(Math.random() * 9000) + 1000;
   const course = await Course.findOne({ key: key });
+  
   if (course !== null) {
     checkKey(key);
   }
-  //tạo thông báo
+  
   const newNotification = new Notification({
-    actionName: nametutor,
+    actionName: req.session.name_tutor,
     category: 'Courses',
     categoryId: key,
   });
-  // Tạo một course mới
+  
   const newCourse = new Course({
     name,
     key,
-    nametutor,
+    tutor: tutorId,
     category,
     subject,
     status,
@@ -442,17 +442,15 @@ router.post('/new-courses', checkMember, async (req, res) => { //NOSONAR
   });
 
   try {
-    // Lưu course mới vào CSDL
     await newNotification.save();
     await newCourse.save();
     console.log("Tên khóa mới ", name, "Mã: ", key);
-    // Gửi phản hồi về client
   } catch (error) {
     res.render('User/main/course', { message: 'Tạo khóa học thất bại!', })
     console.log(error);
   }
 });
-///
+
 
 //apply
 router.post('/apply', async (req, res) => {
