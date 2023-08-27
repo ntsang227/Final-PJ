@@ -14,12 +14,12 @@
                         <h5 class="card-title">
                           <a href="/tutor/detail-courses/<%= courses[i]._id %>">
                             <%= courses[i].name %>
-                          </a>
+                          </a> 
                         </h5>
                         <i style="font-size: 12px; margin-left: 5px; color:red; font-weight: 500;">Phí đăng ký là 5.000
                           VND</i>
                         <p class="card-text">Tên gia sư: <a href="/tutor/detail-tutors/<%= tutors[i]._id %>">
-                            <%= courses[i].nametutor %>
+                            <%= courses[i].tutor.username %>
                           </a></p>
                         <p class="card-text">Môn: <%= courses[i].subject%>-
                             <% if (courses[i].category==='primary' ) { %>

@@ -19,16 +19,16 @@ const storage = require('../../drivers/Upload/multer-storage.js');
 
 const stripe = require('stripe')('sk_test_51NTGMgAD16dsBsnGCco498WE2Kanpe4eCq5kloqGgAXrv8GVleFig26MHcjpBesu0dtd6ODpiJBxAI0exhi7C8vh00bo8rgU5m');
 var stripePublishableKey = 'pk_test_51NTGMgAD16dsBsnGlXKRXyVAGDO3LjzvW1oL6w3uPryK5OS2t52KOv45rWxlI3YkfcCbZ1x5XEvEfznLvpdgcNDF00cBVAmUy4';
-var stripeSecretKey ='sk_test_51NTGMgAD16dsBsnGCco498WE2Kanpe4eCq5kloqGgAXrv8GVleFig26MHcjpBesu0dtd6ODpiJBxAI0exhi7C8vh00bo8rgU5m';
+var stripeSecretKey = 'sk_test_51NTGMgAD16dsBsnGCco498WE2Kanpe4eCq5kloqGgAXrv8GVleFig26MHcjpBesu0dtd6ODpiJBxAI0exhi7C8vh00bo8rgU5m';
 
 const upload = multer({ storage: storage });
 
 //Yêu cầu chuyển hướng
 router.get('/', checkMember, function (req, res) {
-  if(req.session.loggedin_tutor){
+  if (req.session.loggedin_tutor) {
     res.redirect("/tutor/home");
-  }else{
-  res.render('User/login/index.ejs', { message: '' });
+  } else {
+    res.render('User/login/index.ejs', { message: '' });
   }
 });
 
@@ -38,7 +38,7 @@ router.get('/home', checkMember, async (req, res) => {
   try {
     const username = req.cookies.username;
     //const username = localStorage.getItem("username");
-    const courses = await Course.find({ status: 'active' });
+    const courses = await Course.find({ status: 'active' }).populate('tutor', 'username');
     const tutors = await Tutor.find({ status: 'active' });
     const notification = await Course.find({})
     res.render('User/main/index.ejs',
@@ -58,9 +58,9 @@ router.get('/home', checkMember, async (req, res) => {
 router.get('/courses', checkMember, function (req, res) {
   res.render('User/main/course.ejs', { email: req.session.email });
 });
-  //Chuyển hướng đến nạp tiền vào ví 
+//Chuyển hướng đến nạp tiền vào ví 
 router.get('/payment', checkMember, function (req, res) {
-    res.render('User/account/payment.ejs', { email: req.session.email });
+  res.render('User/account/payment.ejs', { email: req.session.email });
 });
 router.get('/detail-course', checkMember, function (req, res) {
   res.render('User/main/detail-courses.ejs', { email: req.session.email });
@@ -85,9 +85,8 @@ router.get('/detail-tutors/:id', checkMember, async function (req, res) {
     const id = req.params.id;
     const tutors = await Tutor.findById(id);
     if (tutors) {
-      const nametutor = tutors.username;
-      const reviews = await Review.findOne({ nametutor: nametutor });
-      const courses = await Course.findOne({ nametutor: nametutor });
+      const reviews = await Review.findOne({ tutor: tutors._id });
+      const courses = await Course.findOne({ tutor: tutors._id });
 
       res.render('User/main/detail-tutors',
         {
@@ -106,9 +105,8 @@ router.get('/detail-tutors/:id', checkMember, async function (req, res) {
 router.get('/detail-courses/:id', checkMember, async function (req, res) {
   try {
     const id = req.params.id;
-    const courses = await Course.findById(id);
-    const username = courses.nametutor;
-    const tutors = await Tutor.findOne({ username: username });
+    const courses = await Course.findById(id).populate('tutor', 'username');
+    const tutors = await Tutor.findOne({ username: courses.tutor.username });
     res.render('User/main/detail-courses',
       {
         courses,
@@ -129,10 +127,10 @@ router.get('/verify', function (req, res) {
 
 //Chuyển hướng đến login 
 router.get('/login', function (req, res) {
-  if(req.session.loggedin_tutor){
+  if (req.session.loggedin_tutor) {
     res.redirect("/tutor/home");
-  }else{
-  res.render('User/login/index.ejs', { message: '' });
+  } else {
+    res.render('User/login/index.ejs', { message: '' });
   }
 });
 
@@ -420,17 +418,17 @@ router.post('/new-courses', checkMember, async (req, res) => { //NOSONAR
   const tutorId = req.session.id_tutor;
   const key = Math.floor(Math.random() * 9000) + 1000;
   const course = await Course.findOne({ key: key });
-  
+
   if (course !== null) {
     checkKey(key);
   }
-  
+
   const newNotification = new Notification({
     actionName: req.session.name_tutor,
     category: 'Courses',
     categoryId: key,
   });
-  
+
   const newCourse = new Course({
     name,
     key,
