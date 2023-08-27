@@ -17,16 +17,16 @@
             <div class="modal-body">
                 <% for (let i=0; i < courses.length; i++) { %>
                     <div class="modal-body-item">
-                    <% if (notification[i] && notification[i].nameuser && username===notification[i].nameuser && notification[i].status==='inactive' ) { %>
+                    <% if (notification[i] && notification[i].student && username===notification[i].student && notification[i].status==='inactive' ) { %>
                             <p>Gia sư <strong>
-                                    <%= courses[i].nametutor %>
+                                    <%= courses[i].tutor.username %>
                                 </strong> đã đồng ý yêu cầu đăng ký của bạn!
                             </p>
-                    <% } else if (courses[i] && courses[i].nametutor && courses[i].nameuser && username===courses[i].nametutor) { %>
+                    <% } else if (courses[i] && courses[i].tutor.username && username===courses[i].tutor.username) { %>
                         <% if (courses[i].status !=='inactive' ) { %>
                             <div class="item-acp">
                                 <p>Học viên <strong>
-                                        <%= courses[i].nameuser %>
+                                        <%= courses[i].tutor.username%>
                                 </strong> đã đăng ký khóa học <strong>
                                         <%= courses[i].name %> </strong>của bạn. Vui lòng xác nhận!
                                 </p>
@@ -108,9 +108,7 @@
             applyModal.style.display = 'none';
         }
     });
-
-    // apply
-    var isAlreadyApplied = false; // Biến cờ để theo dõi trạng thái đăng ký
+ // apply
     // Trước khi gửi yêu cầu đồng bộ
     $('#modal-footer .button').prop('disabled', true);
     // Sau khi gửi yêu cầu đồng bộ thành công

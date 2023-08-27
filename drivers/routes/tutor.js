@@ -457,14 +457,11 @@ router.post('/apply', async (req, res) => {
     const tutorName = req.body.tutorName;
     const username = req.session.name_tutor;
     const notification = await Course.find({})
+    const user = await Tutor.findOne({ username: username });
+    const userId = user._id;
     const courses = await Course.findById(courseId);
     if (!courses) {
       res.status(404).send('Khóa học không tồn tại');
-      return;
-    }
-    // Kiểm tra nếu username đã đăng ký khóa học này, gửi trả về thông báo tương ứng
-    if (courses.nameuser.includes(username)) {
-      res.send({ alreadyApplied: true, username: username });
       return;
     }
     // Kiểm tra nếu tutorName bằng username, không lưu yêu cầu đăng ký vào MongoDB
@@ -472,7 +469,7 @@ router.post('/apply', async (req, res) => {
       res.send({ alreadyApplied: false, username: username });
       return;
     }
-    courses.nameuser = courses.nameuser + username;
+    courses.student = userId;
     await courses.save();
     res.render('User/main/index.ejs', { courses, notification: notification, });
   } catch (err) {
@@ -483,26 +480,26 @@ router.post('/apply', async (req, res) => {
 // hiển thị trên trang web notification
 router.get('/applys', async (req, res) => {
   try {
-    const tutorName = req.session.name_tutor;
-    const courses = await Course.find({ nametutor: tutorName });
+    const courses = await Course.find({}).populate('tutor', 'username').populate('student','username notification' );
     const tutors = await Tutor.find({ status: 'active' });
-    const notification = await Course.find({})
-    const status = await Notification.find({})
+    const notification = await Course.find({}).populate('tutor', 'username').populate('student','username' );
+    const status = await Notification.find({});
+    const tutorName = req.body.tutorName;
     const username = req.cookies.username;
     if (!courses) {
       res.status(404).send('Không tìm thấy khóa học nào');
       return;
     }
-    const filteredCourse = courses.filter(courses => courses.nametutor === tutorName);
     await Notification.updateMany({ $and: [{ status: 'Chưa xem' }, { actionName: tutorName }] }, { $set: { status: 'Đã xem' } });
     res.render('User/main/apply-modal.ejs', {
       status,
       notification: notification,
       username,
       tutors,
-      courses: filteredCourse,
+      courses,
       isPoster: true // biến cờ để kiểm tra xem người dùng hiện tại có phải là người đăng bài hay không
     });
+    console.log(notification)
 
   } catch (err) {
     console.log(err);
@@ -518,20 +515,20 @@ router.post('/accept', async (req, res) => {
     Course.findById(courseId)
       .then((course) => {
         if (course) {
-          const nameuser = course.nameuser;
+          const student = course.student;
           Course.findOneAndUpdate(
-            { nameuser: nameuser },
+            { student: student },
             { status: 'inactive' },
             { new: true }
           )
             .then((updatedCourse) => {
               if (updatedCourse) {
                 // Gửi thông báo đến nameuser
-                console.log(`Đã gửi thông báo đến ${nameuser}`);
+                console.log(`Đã gửi thông báo đến ${student}`);
 
                 // Emit a 'request-accepted' event to the WebSocket server
                 Websocket.getInstance().io.emit('request-accepted', {
-                  nameuser: nameuser,
+                  student: student,
                   courseId: courseId,
                 });
 
@@ -540,10 +537,10 @@ router.post('/accept', async (req, res) => {
                   courses: updatedCourse,
                   notification: notification,
                   isPoster: false, // người dùng hiện tại không phải là người đăng bài
-                  username: nameuser,
+                  username: student,
                 });
               } else {
-                console.log(`Không tìm thấy người dùng với username: ${nameuser}`);
+                console.log(`Không tìm thấy người dùng với username: ${student}`);
                 res.send('Có lỗi xảy ra');
               }
             })
@@ -576,7 +573,7 @@ router.post('/ancel', async (req, res) => {
       res.status(404).send('Khóa học không tồn tại');
       return;
     }
-    course.nameuser = ''; // remove the user's name from the course
+    course.student = ''; // remove the user's name from the course
     await course.save();
     res.redirect('/tutor/home');
   } catch (err) {
