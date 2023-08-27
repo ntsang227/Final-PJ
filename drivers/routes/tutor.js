@@ -628,6 +628,21 @@ router.post('/search', checkMember, async (req, res) => { //NOSONAR
   }
 });
 
+// get search 
+router.get('/search-grade', checkMember, async (req, res) => {
+  try {
+    const selectedCategory = req.query.category;
+    const courses = await Course.find({ category: selectedCategory, status: 'active' }).populate('tutor', 'username');
+    const tutors = await Tutor.find({ status: 'active' });
+
+    res.render('User/main/index.ejs', {
+      courses,
+      tutors
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
 //Functions
 // Function check member
