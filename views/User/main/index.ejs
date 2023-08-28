@@ -107,7 +107,7 @@
       });
       socket.on('request-accepted', (data) => {
         debugger
-        if (username && data.nameuser === username) {
+        if (username && data.username === username) {
           count++;
           applyCount.innerText = count;
           if (count > 0) {

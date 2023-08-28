@@ -15,8 +15,9 @@
                 </button>
             </div>
             <div class="modal-body">
+                <% for (let i=0; i < notification.length; i++) { %>
                     <div class="modal-body-item">
-                        <% for (let i=0; i < notification.length; i++) { %>
+                       
                     <% if (notification[i] && notification[i].student.username && username===notification[i].student.username && 
                     notification[i].status==='inactive' ) { %>
                             <p>Gia sư <strong>
@@ -44,7 +45,8 @@
                             </div>
                     </div>
                     <% } %>
-                                                <% } } %>
+                 <% } %>
+           <% } %>
             </div>
         </div>
     </div>

@@ -499,8 +499,6 @@ router.get('/applys', async (req, res) => {
       courses,
       isPoster: true // biến cờ để kiểm tra xem người dùng hiện tại có phải là người đăng bài hay không
     });
-    console.log(courses)
-    console.log(notification)
 
   } catch (err) {
     console.log(err);
