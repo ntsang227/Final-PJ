@@ -480,7 +480,7 @@ router.post('/apply', async (req, res) => {
 // hiển thị trên trang web notification
 router.get('/applys', async (req, res) => {
   try {
-    const courses = await Course.find({}).populate('tutor', 'username').populate('student','username notification' );
+    const courses = await Course.find({}).populate('tutor', 'username').populate('student','username' );
     const tutors = await Tutor.find({ status: 'active' });
     const notification = await Course.find({}).populate('tutor', 'username').populate('student','username' );
     const status = await Notification.find({});
@@ -493,12 +493,13 @@ router.get('/applys', async (req, res) => {
     await Notification.updateMany({ $and: [{ status: 'Chưa xem' }, { actionName: tutorName }] }, { $set: { status: 'Đã xem' } });
     res.render('User/main/apply-modal.ejs', {
       status,
-      notification: notification,
+      notification,
       username,
       tutors,
       courses,
       isPoster: true // biến cờ để kiểm tra xem người dùng hiện tại có phải là người đăng bài hay không
     });
+    console.log(courses)
     console.log(notification)
 
   } catch (err) {

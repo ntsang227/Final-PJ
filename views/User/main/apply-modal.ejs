@@ -15,9 +15,10 @@
                 </button>
             </div>
             <div class="modal-body">
-                <% for (let i=0; i < courses.length; i++) { %>
                     <div class="modal-body-item">
-                    <% if (notification[i] && notification[i].student && username===notification[i].student && notification[i].status==='inactive' ) { %>
+                        <% for (let i=0; i < notification.length; i++) { %>
+                    <% if (notification[i] && notification[i].student.username && username===notification[i].student.username && 
+                    notification[i].status==='inactive' ) { %>
                             <p>Gia sư <strong>
                                     <%= courses[i].tutor.username %>
                                 </strong> đã đồng ý yêu cầu đăng ký của bạn!
@@ -26,7 +27,7 @@
                         <% if (courses[i].status !=='inactive' ) { %>
                             <div class="item-acp">
                                 <p>Học viên <strong>
-                                        <%= courses[i].tutor.username%>
+                                        <%= courses[i].student.username%>
                                 </strong> đã đăng ký khóa học <strong>
                                         <%= courses[i].name %> </strong>của bạn. Vui lòng xác nhận!
                                 </p>
