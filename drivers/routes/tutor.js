@@ -509,44 +509,53 @@ router.get('/applys', async (req, res) => {
 router.post('/accept', async (req, res) => {
   const courseId = req.body.courseId;
   try {
-    const notification = await Course.find({});
-
+    const notification = await Course.find({}).populate('tutor', 'username').populate('student','username');
+    
     Course.findById(courseId)
       .then((course) => {
         if (course) {
-          const student = course.student;
-          Course.findOneAndUpdate(
-            { student: student },
-            { status: 'inactive' },
-            { new: true }
-          )
-            .then((updatedCourse) => {
-              if (updatedCourse) {
-                // Gửi thông báo đến nameuser
-                console.log(`Đã gửi thông báo đến ${student}`);
+          const username = course.student;
+          const matchedNotification = notification.find((item) => item.student._id.toString() === course.student.toString());
+          
+          if (matchedNotification) {
+            const notificationUsername = matchedNotification.student.username;
 
-                // Emit a 'request-accepted' event to the WebSocket server
-                Websocket.getInstance().io.emit('request-accepted', {
-                  student: student,
-                  courseId: courseId,
-                });
+            Course.findOneAndUpdate(
+              { student: username },
+              { status: 'inactive' },
+              { new: true }
+            )
+              .then((updatedCourse) => {
+                if (updatedCourse) {
+                  // Gửi thông báo đến notificationUsername
+                  console.log(`Đã gửi thông báo đến ${notificationUsername}`);
 
-                // hiển thị thông báo thành công và cập nhật trang EJS
-                res.render('User/main/apply-modal.ejs', {
-                  courses: updatedCourse,
-                  notification: notification,
-                  isPoster: false, // người dùng hiện tại không phải là người đăng bài
-                  username: student,
-                });
-              } else {
-                console.log(`Không tìm thấy người dùng với username: ${student}`);
+                  // Emit a 'request-accepted' event to the WebSocket server
+                  Websocket.getInstance().io.emit('request-accepted', {
+                    username: notificationUsername,
+                    courseId: courseId,
+                  });
+
+                  // hiển thị thông báo thành công và cập nhật trang EJS
+                  res.render('User/main/apply-modal.ejs', {
+                    courses: updatedCourse,
+                    notification: notification,
+                    isPoster: false, // người dùng hiện tại không phải là người đăng bài
+                    username: notificationUsername,
+                  });
+                } else {
+                  console.log(`Không tìm thấy người dùng với username: ${notificationUsername}`);
+                  res.send('Có lỗi xảy ra');
+                }
+              })
+              .catch((err) => {
+                console.log(err);
                 res.send('Có lỗi xảy ra');
-              }
-            })
-            .catch((err) => {
-              console.log(err);
-              res.send('Có lỗi xảy ra');
-            });
+              });
+          } else {
+            console.log(`Không tìm thấy thông báo cho người dùng với ID: ${course.student}`);
+            res.send('Có lỗi xảy ra');
+          }
         } else {
           console.log(`Không tìm thấy khóa học với ID: ${courseId}`);
           res.send('Có lỗi xảy ra');

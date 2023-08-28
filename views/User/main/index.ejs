@@ -77,7 +77,6 @@
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
-      var isAlreadyApplied = false; // Biến cờ để theo dõi trạng thái đăng ký
       const applyCount = document.querySelector('#apply-count');
       let count = 0;
       function getCookie(name) {
@@ -106,8 +105,7 @@
         localStorage.setItem('applyCount', count);
       });
       socket.on('request-accepted', (data) => {
-        debugger
-        if (username && data.username === username) {
+        if (username && data.notificationUsername === username) {
           count++;
           applyCount.innerText = count;
           if (count > 0) {

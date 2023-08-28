@@ -112,6 +112,7 @@
         }
     });
  // apply
+ 
     // Trước khi gửi yêu cầu đồng bộ
     $('#modal-footer .button').prop('disabled', true);
     // Sau khi gửi yêu cầu đồng bộ thành công
@@ -120,6 +121,7 @@
         var courseId = $(this).data('course-id');
         var courseName = $(this).closest('.card-body').find('.card-title a').text().trim();
         var tutorName = $(this).closest('.card-body').find('.card-text a').text().trim().replace(/(Đang mở|Đã đóng|\s+)/g, '');
+        var isAlreadyApplied = false; // Biến cờ để theo dõi trạng thái đăng ký
         var r = confirm('Bạn muốn đăng ký khoá học này?');
         if (r == true) {
             alert('Đã gửi yêu cầu đăng ký');
