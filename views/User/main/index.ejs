@@ -105,15 +105,14 @@
         localStorage.setItem('applyCount', count);
       });
       socket.on('request-accepted', (data) => {
-        if (username && data.notificationUsername === username) {
-          count++;
-          applyCount.innerText = count;
-          if (count > 0) {
-            document.querySelector('.badge').style.display = 'inline-block';
-          }
-
-        }
-      });
+  if (username && data.username === username) {
+    count++;
+    applyCount.innerText = count;
+    if (count > 0) {
+      document.querySelector('.badge').style.display = 'inline-block';
+    }
+  }
+});
     </script>
 
 </div>
