@@ -127,9 +127,11 @@
                                     <div class="col-6 mb-3">
                                         <h6>Course</h6>
                                         <a href="#" class="course">
-                                          <% course.forEach(function(course) { %>
-                                            <p><%= course.name %></p>
-                                        <% }); %>
+                                            <% if (course) { %>
+                                                <p>
+                                                    <%= course.name %>
+                                                </p>
+                                                <% } %>
                                         </a>
                                     </div>
                                     <div class="col-6 mb-3">

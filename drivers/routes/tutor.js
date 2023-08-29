@@ -290,7 +290,8 @@ router.post('/login', async function (req, res) { //NOSONAR
     res.render('User/login', { message: 'Đã xảy ra lỗi khi đăng nhập.' });
   }
 });
-router.get('/profile', checkMember, async function (req, res) { //NOSONAR
+ //Tìm thông tin 
+ router.get('/profile', checkMember, async function (req, res) {
   try {
     let tutors;
     const usernametutor = req.session.name_tutor;
@@ -298,16 +299,48 @@ router.get('/profile', checkMember, async function (req, res) { //NOSONAR
     if (usernametutor || emailtutor) {
       tutors = await Tutor.findOne({ $or: [{ email: emailtutor }, { username: usernametutor }] })
     };
-    //Tìm thông tin 
+
+    // Lấy ID Tutor từ thông tin đăng nhập
+    const tutorId = tutors._id;
+
+    // Truy vấn Tutor dựa trên ID
+    Tutor.findOne({ _id: tutorId })
+      .exec()
+      .then((tutor) => {
+        if (tutor) {
+          // Nếu tìm thấy Tutor
+          Course.findOne({ tutor: tutor._id })
+            .exec()
+            .then((course) => {
+              if (course) {
+                // Nếu tìm thấy Course với Tutor tương ứng
+                console.log('Tên của Tutor trong Course:', course.name);
+              } else {
+                // Nếu không tìm thấy Course với Tutor tương ứng
+                console.log('Không tìm thấy Course cho Tutor này');
+              }
+            })
+            .catch((error) => {
+              console.error('Lỗi truy vấn Course:', error);
+            });
+        } else {
+          // Nếu không tìm thấy Tutor
+          console.log('Không tìm thấy Tutor');
+        }
+      })
+      .catch((error) => {
+        console.error('Lỗi truy vấn Tutor:', error);
+      });
 
     const reviews = await Review.findOne({ nametutor: usernametutor });
-    //const course = await Course.findOne({ nametutor: usernametutor });
-    const course = await Course.find({});
-    //Định dạng chỉ ngày tháng năm cho birthday
+    const course = await Course.findOne({ tutor: tutorId });
+
+    // Định dạng chỉ ngày tháng năm cho birthday
     const birthday = new Date(tutors.birthday);
     const options = { day: 'numeric', month: 'numeric', year: 'numeric' };
     const formattedBirthday = birthday.toLocaleDateString('vi-VN', options);
-    //render 
+
+    // Render
     res.render('User/account/index.ejs', {
       tutors,
       reviews,
@@ -572,17 +605,19 @@ router.post('/accept', async (req, res) => {
 });
 
 // huy apply
-router.post('/ancel', async (req, res) => {
+router.post('/cancel', async (req, res) => {
   try {
     const courseId = req.body.courseId;
-    const notification = await Course.find({})
     const course = await Course.findById(courseId);
+    
     if (!course) {
       res.status(404).send('Khóa học không tồn tại');
       return;
     }
-    course.student = ''; // remove the user's name from the course
+    
+    course.student = null; // Xóa thông tin sinh viên trong khóa học
     await course.save();
+
     res.redirect('/tutor/home');
   } catch (err) {
     console.log(err);
