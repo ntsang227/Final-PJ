@@ -298,11 +298,11 @@ router.get('/profile', checkMember, async function (req, res) { //NOSONAR
     if (usernametutor || emailtutor) {
       tutors = await Tutor.findOne({ $or: [{ email: emailtutor }, { username: usernametutor }] })
     };
-
     //Tìm thông tin 
 
     const reviews = await Review.findOne({ nametutor: usernametutor });
-    const course = await Course.findOne({ nametutor: usernametutor });
+    //const course = await Course.findOne({ nametutor: usernametutor });
+    const course = await Course.find({});
     //Định dạng chỉ ngày tháng năm cho birthday
     const birthday = new Date(tutors.birthday);
     const options = { day: 'numeric', month: 'numeric', year: 'numeric' };
