@@ -605,16 +605,16 @@ router.post('/accept', async (req, res) => {
 });
 
 // huy apply
-router.post('/cancel', async (req, res) => {
+router.post('/ancel', async (req, res) => {
   try {
     const courseId = req.body.courseId;
     const course = await Course.findById(courseId);
-    
+
     if (!course) {
       res.status(404).send('Khóa học không tồn tại');
       return;
     }
-    
+
     course.student = null; // Xóa thông tin sinh viên trong khóa học
     await course.save();
 
