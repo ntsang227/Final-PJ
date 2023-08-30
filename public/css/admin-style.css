@@ -393,7 +393,7 @@ a:hover, a:focus {
     min-height: 60px;
     position: fixed;
     width: 100%;
-    background-color: #3F51B5;
+    background-color: #0054B6;
     top: 0px;
     left: 0px;
     z-index: 1999;
@@ -406,7 +406,7 @@ a:hover, a:focus {
 }
 .page-topbar .logo-area {
     width: 260px;
-    background-color: #3F51B5;
+    background-color:#0054B6;
     display: block;
     min-height: 60px;
     float: left;
@@ -1393,7 +1393,7 @@ input[type=checkbox], input[type=color], input[type=date], input[type=datetime-l
     -ms-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
 .input-group .input-group-btn.input-focus button, .input-group .input-group-addon.input-focus {
-    border-color: #3F51B5;
+    border-color: #0054B6;
     height: 34px;
 }
 .input-group.transparent {
@@ -1533,7 +1533,7 @@ input[type=checkbox], input[type=color], input[type=date], input[type=datetime-l
     background: transparent;
 }
 .btn.btn-border.btn-primary {
-    border: 2px solid #3F51B5;
+    border: 2px solid #0054B6;
     color: #3F51B5;
     background: transparent;
 }
@@ -1579,7 +1579,7 @@ input[type=checkbox], input[type=color], input[type=date], input[type=datetime-l
     color: #ffffff;
 }
 .btn.btn-primary {
-    background: #3F51B5;
+    background: #0054B6;
     color: #ffffff;
 }
 .btn.btn-secondary {
