@@ -24,6 +24,7 @@ const upload = multer({ storage: storage });
                 {
                     news ,
                     username: req.session.username,
+                    author: req.session.author,
                     });
             }
             catch (error) {
@@ -33,7 +34,7 @@ const upload = multer({ storage: storage });
         // Chuyển hướng  đến edit 
     router.get('/news/edit', checkAdmin ,   function(req, res) {
         try {
-        res.render('Admin/news/edit', { username: req.session.username });
+        res.render('Admin/news/edit', { username: req.session.username , author: req.session.author,});
         }
         catch (error) {
             res.status(500).json({ message: 'Lỗi' })
@@ -47,6 +48,7 @@ const upload = multer({ storage: storage });
                 {
                     news ,
                     username: req.session.username,
+                    author: req.session.author,
                     });
         }
         catch (error) {
@@ -62,6 +64,7 @@ const upload = multer({ storage: storage });
                 {
                     news ,
                     username: req.session.username,
+                    author: req.session.author,
                     });
         }
         catch (error) {
@@ -107,13 +110,15 @@ const upload = multer({ storage: storage });
 
             res.render('Admin/news/add', {
             message: 'Tạo tin tức thành công!',
-            username: req.session.username
+            username: req.session.username,
+            author: req.session.author,
             });
         } catch (error) {
             console.error(error);
             res.render('Admin/news/add', {
             message: 'Có lỗi xảy ra khi thêm bài viết!',
-            username: req.session.username
+            username: req.session.username,
+            author: req.session.author,
             });
         }
         });
@@ -122,7 +127,7 @@ const upload = multer({ storage: storage });
         try {
           const id = req.params.id;
           const news = await News.findById(id);
-          res.render('Admin/news/edit', { news, username: req.session.username });
+          res.render('Admin/news/edit', { news, username: req.session.username, author: req.session.author, });
         } catch (error) {
           res.status(500).json({ message: error.message });
         }
@@ -168,7 +173,7 @@ const upload = multer({ storage: storage });
             }
             await news.save();
     
-            res.render('Admin/news/edit', { news, username: req.session.username, message: 'Sửa thành công' });
+            res.render('Admin/news/edit', { news, username: req.session.username, author: req.session.author, message: 'Sửa thành công' });
         } catch (error) {
             res.status(500).json({ message: error.message });
         }
@@ -217,6 +222,7 @@ const upload = multer({ storage: storage });
                 {
                     news ,
                     username: req.session.username,
+                    author: req.session.author,
                     });
         } catch (err) {
             res.status(500).json({ message: error.message })

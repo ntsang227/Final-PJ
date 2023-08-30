@@ -17,6 +17,7 @@ const router = express.Router();
           reviews,
           tutors,
           username: req.session.username,
+          author: req.session.author,
         });
       }
     catch (error) {
@@ -38,6 +39,7 @@ const router = express.Router();
           reviews,
           course,
           username: req.session.username,
+          author: req.session.author,
           });
   }
   catch (error) {
@@ -54,6 +56,7 @@ const router = express.Router();
       {
           reviews,
           username: req.session.username,
+          author: req.session.author,
           });
   }
   catch (error) {
@@ -69,6 +72,7 @@ const router = express.Router();
       {
           reviews,
           username: req.session.username,
+          author: req.session.author,
           });
     }
     catch (error) {
@@ -89,6 +93,7 @@ router.get('/tutor/block/:id', checkAdmin, async function(req, res) {// NOSONAR
     {
       message: 'Đã khóa tài khoản' ,
       username: req.session.username,
+      author: req.session.author,
       tutors,
       reviews
     });
@@ -110,6 +115,7 @@ router.get('/tutor/unblock/:id', checkAdmin, async function(req, res) { // NOSON
     {
       message: 'Đã mở khóa tài khoản' ,
       username: req.session.username,
+      author: req.session.author,
       tutors,
       reviews
     });
@@ -168,6 +174,7 @@ router.get('/tutor/search' ,checkAdmin,  async (req, res) => {  // NOSONAR
                 reviews,
                 tutors ,
                 username: req.session.username,
+                author: req.session.author,
                 });
   } catch (err) {
       res.status(500).json({ message: err.message })

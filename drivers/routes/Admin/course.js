@@ -35,6 +35,7 @@ router.get('/course/apply-course.html', checkAdmin, async (req, res) => { //NOSO
             {
                 courses,
                 username: req.session.username,
+                author: req.session.author,
             });
     }
     catch (error) {
@@ -54,6 +55,7 @@ router.get('/course/apply/:id', checkAdmin, async (req, res) => { //NOSONAR
             {
                 courses,
                 username: req.session.username,
+                author: req.session.author,
                 message: 'Duyệt khóa thành công'
             });
     }
@@ -70,6 +72,7 @@ router.get('/course/', checkAdmin, async (req, res) => { //NOSONAR
             {
                 courses,
                 username: req.session.username,
+                author: req.session.author,
             });
     }
     catch (error) {
@@ -79,7 +82,7 @@ router.get('/course/', checkAdmin, async (req, res) => { //NOSONAR
 // Chuyển hướng  đến edit 
 router.get('/course/edit', checkAdmin, function (req, res) {
     try {
-        res.render('Admin/course/edit', { username: req.session.username });
+        res.render('Admin/course/edit', { username: req.session.username  ,author: req.session.author,});
     }
     catch (error) {
         res.status(500).json({ message: 'Lỗi' })
@@ -93,6 +96,7 @@ router.get('/course/add', checkAdmin, async function (req, res) {
             {
                 course,
                 username: req.session.username,
+                author: req.session.author,
             });
     }
     catch (error) {
@@ -108,6 +112,7 @@ router.get('/course/details.html/:id', checkAdmin, async function (req, res) {
             {
                 courses,
                 username: req.session.username,
+                author: req.session.author,
             });
     }
     catch (error) {
@@ -130,7 +135,8 @@ router.post('/course/add', upload.single('image'), function (req, res) {
             res.render('Admin/course/add ',
                 {
                     message: 'Thêm thành công',
-                    username: req.session.username
+                    username: req.session.username,
+                    author: req.session.author,
                 })
 
         })
@@ -144,7 +150,7 @@ router.get('/course/edit/:id', checkAdmin, async (req, res) => {
     try {
         const id = req.params.id;
         const courses = await Course.findById(id);
-        res.render('Admin/course/edit', { courses, username: req.session.username });
+        res.render('Admin/course/edit', { courses, username: req.session.username, author: req.session.author, });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -155,7 +161,7 @@ router.get('/course/edit/:id', checkAdmin, async (req, res) => {
         Course.findOneAndDelete({ _id: req.params.id })
             .then(data => {
                 if (!data) {
-                    res.render('Admin/course/index', { username: req.session.username, message: 'Xóa không thành công' })
+                    res.render('Admin/course/index', { username: req.session.username, author: req.session.author, message: 'Xóa không thành công' })
                 }
                 return res.redirect('/course')
             })
@@ -175,7 +181,7 @@ router.get('/course/edit/:id', checkAdmin, async (req, res) => {
             await Course.findByIdAndUpdate(
                 id, updateCourse
             )
-            res.render('Admin/course/edit', { courses, username: req.session.username, message: 'Sửa thành công' })
+            res.render('Admin/course/edit', { courses, username: req.session.username, author: req.session.author, message: 'Sửa thành công' })
         }
         catch (error) {
             res.status(500).json({ message: error.message })
@@ -199,6 +205,7 @@ router.get('/course/search', checkAdmin, async (req, res) => { //NOSONAR
             {
                 courses,
                 username: req.session.username,
+                author: req.session.author,
                 message: 'Không tìm thấy thông tin',
             });
     } catch (err) {

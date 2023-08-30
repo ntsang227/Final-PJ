@@ -1,0 +1,18 @@
+<div class='col-xs-12'>
+  <div class="page-title">
+    <nav class="navbar navbar-light justify-content-between" style="margin-bottom: 20px; background-color: #C0C0C0;">
+      <h3 class="title ">Danh sách</h3>
+      <form class="form-inline" action="/admin/search" autocomplete="off">
+        <input class="form-control mr-sm-2" type="search" id="query" name="query" placeholder="Search" aria-label="Search" style="border-radius: 3px;">
+        <div class="input-group mb-3" style="margin-top: 3%;" >
+          <select class="custom-select" name="filter" id="filter" style="margin-right: 7px ">
+            <option value="" selected>Chọn...</option>
+            <option value="active">Đang hoạt động</option>
+            <option value="inactive">Tài khoản bị khóa</option>
+          </select>
+        </div>
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </nav>
+  </div>
+</div>  

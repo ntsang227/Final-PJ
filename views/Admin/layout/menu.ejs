@@ -14,7 +14,13 @@
                     <!-- Available statuses: online, idle, busy, away and offline -->
                     <span class="profile-status online"></span>
                 </h3>
-                <p class="profile-title">Xin chào,<b><%= username %></b>!</p>
+                <p class="profile-title" style="font-size: 14px; color: #0054B6; margin-left: 8px ;" ><b> <% if (author===0 ) { %>
+                Quản trị viên
+                <% } else { %>  
+                    Cộng tác viên
+                    <% } %> 
+                </b>
+            </p>
             </div>
         </div>
         <!-- USER INFO - END -->
@@ -26,7 +32,24 @@
                 <span class="title">Bảng điều khiển</span>
                 </a>
             </li>
-            
+            <% if (author===0 ) { %>
+                <li class="">
+                    <a href="javascript:;">
+                    <i class="fa fa-users"></i>
+                    <span class="title">Admin</span>
+                    <span class="arrow "></span>
+                    </a>
+                    <ul class="sub-menu" >
+                        <li>
+                            <a class="" href="/admin/index.html"  >Danh Sách</a>
+                        </li>
+                        <li>
+                            <a class="" href="/admin/tutor/reviews.html"  >Đánh giá cho Gia Sư</a>
+                        </li>
+                    </ul>
+                </li>
+            <% } %>    
+                
             <li class="">
                 <a href="javascript:;">
                 <i class="fa fa-users"></i>

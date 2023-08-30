@@ -1,0 +1,123 @@
+<%- include('../layout/header.ejs') %>
+    <!-- END TOPBAR -->
+    <!-- START CONTAINER -->
+    <div class="page-container row-fluid container-fluid">
+        <!-- SIDEBAR - START -->
+        <%- include('../layout/menu.ejs') %>
+            <!--  SIDEBAR - END -->
+            <!-- START CONTENT -->
+            <section id="main-content" class=" ">
+                <section class="wrapper main-wrapper row">
+                    <%- include('../admin/search.ejs') %>
+                    <div class="container">
+                        <table class="table">
+                            <% if (typeof admins !=='undefined' && Array.isArray(admins) && admins.length> 0) { %>
+                            <thead class="" style="background-color: #1dafee; color: aliceblue;">
+                                <tr>
+                                    <th scope="col">STT</th>
+                                    <th scope="col">Tên</th>
+                                    <th scope="col">Tài khoản</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Quyền hạn</th>
+                                    <th scope="col">Trạng thái</th>
+                                    <th scope="col">Ghi Chú</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    <% for(var i=0; i< admins.length; i++){ %>
+
+                                        <tr>
+                                            <td>
+                                                <%= i+1 %>
+                                            </td>
+                                            <td>
+                                                <%= admins[i].name %>
+                                            </td>
+                                            <td>
+                                                <%= admins[i].username %>
+                                            </td>
+                                            <td>
+                                                <%= admins[i].email %>
+                                            </td>
+                                            <td>
+                                                <% if (admins[i].authority===0 ) { %>
+                                                    Quản trị viên
+                                                    <% } else { %>
+                                                        Cộng tác viên
+                                                        <% } %>
+                                            </td>
+                                            <td>
+                                                <% if (admins[i].status==='inactive' ) { %>
+                                                    Đã khóa
+                                                    <% } else { %>
+                                                        Hoạt động
+                                                        <% } %>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-primary btn-sm" onclick="urlAction('/admin/details.html/<%= admins[i]._id %>')">Chi tiết</button>
+                                                <% if (admins[i].status==="active" ) { %>
+                                                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#exampleModalCenter">Khóa</button>
+                                                <% } else { %>
+                                                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#exampleModalCenter2">Mở khóa</button>
+                                                <% } %>
+                                                  <!-- Modal -->
+                                                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                  <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content" style="border-radius: 4px;">
+                                                      <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalCenterTitle">Bạn muốn thực hiện hành động này không?</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                          <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                      </div>
+                                                      <div class="modal-body">
+                                                        Vui lòng nhấn xác nhận nếu đồng ý hoặc hủy để dừng thao tác!
+                                                      </div>
+                                                      <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                                        <button type="submit" class="btn btn-primary" onclick="urlAction('/admin/block/<%= admins[i]._id %>')" data-toggle="modal">Đồng ý</button>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                      <div class="modal-content" style="border-radius: 4px;">
+                                                        <div class="modal-header">
+                                                          <h5 class="modal-title" id="exampleModalCenterTitle">Bạn muốn thực hiện hành động này không?</h5>
+                                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                          </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                          Vui lòng nhấn xác nhận nếu đồng ý hoặc hủy để dừng thao tác!
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                                          <button type="submit" class="btn btn-primary" onclick="urlAction('/admin/unblock/<%= admins[i]._id %>')" data-toggle="modal">Đồng ý</button>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                            </td>
+                                                                                      
+                                        </tr>
+
+                                        <% } %>
+                                            <% } else { %>
+                                                <div class="alert" role="alert" style="backround-color: #FFFF66" >
+                                                    <a style="font-size: 20;">Không có admin nào theo yêu cầu tìm kiếm của bạn!</a>
+                                                  </div>
+                                                        <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+            </section>
+            <!-- END CONTENT -->
+            <div class="chatapi-windows ">
+            </div>
+            <%- include('../layout/footer.ejs') %>

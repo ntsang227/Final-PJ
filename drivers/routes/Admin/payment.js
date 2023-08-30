@@ -34,7 +34,7 @@ router.get('/payment', checkAdmin, async (req, res) => { //NOSONAR
 
     const sumAmount = transactions.reduce((total, transaction) => total + transaction.amount, 0);
 
-    res.render('Admin/payment/index', { transactions: dailyTransactions, sumAmount, username: req.session.username });
+    res.render('Admin/payment/index', { transactions: dailyTransactions, sumAmount, username: req.session.username, author: req.session.author, });
   } catch (error) {
     console.error('Lỗi khi truy vấn thông tin giao dịch từ Stripe:', error);
     res.status(500).send('Đã xảy ra lỗi');
@@ -58,7 +58,7 @@ router.get('/detail-payment', checkAdmin, async (req, res) => { //NOSONAR
     
 
     // Render trang '/admin/payment/detail' với thông tin giao dịch đã lấy
-    res.render('Admin/payment/details', { transactions, username: req.session.username });
+    res.render('Admin/payment/details', { transactions, username: req.session.username , author: req.session.author,});
   } catch (error) {
     console.error('Lỗi khi truy vấn thông tin giao dịch từ Stripe:', error);
     res.status(500).send('Đã xảy ra lỗi');
@@ -98,7 +98,7 @@ router.get('/payment/search', checkAdmin, async (req, res) => { //NOSONAR
     const sumAmount = transactions.reduce((total, transaction) => total + transaction.amount, 0);
 
     // Tiếp tục xử lý và render trang như trong code ban đầu
-    res.render('Admin/payment/index', { transactions, username: req.session.username, sumAmount });
+    res.render('Admin/payment/index', { transactions, username: req.session.username, author: req.session.author, sumAmount });
   } catch (error) {
     console.error('Lỗi khi truy vấn thông tin giao dịch từ Stripe:', error);
     res.status(500).send('Đã xảy ra lỗi');

@@ -15,10 +15,24 @@ const stripe = require('stripe')('sk_test_51NTGMgAD16dsBsnGCco498WE2Kanpe4eCq5kl
     }
   });
   router.get('/login', function(req, res) {
-    req.session.loggedin = false;
-    res.render('Admin/login/index', { message: 'Bạn cần đăng nhập để tiếp tục' });
+    if(req.session.loggedin){
+      res.redirect("/admin/home");
+    }else{
+      req.session.loggedin = false;
+      res.render('Admin/login/index', { message: 'Bạn cần đăng nhập để tiếp tục' });
+    }
   });
-  
+  router.get('/index.html', checkAdmin, async function(req, res) {//NOSONAR
+    try {
+      const admins = await Admin.find();
+      res.render('Admin/admin/index',{admins, username: req.session.username, author: req.session.author,});
+      //console.log(admin);
+    } catch (err) {
+      console.error(err);
+      res.redirect("/admin/home");
+    }
+  });
+
   router.post('/login', async function(req, res) { //NOSONAR 
         const username = req.body.username;
         const password = req.body.password;
@@ -32,6 +46,7 @@ const stripe = require('stripe')('sk_test_51NTGMgAD16dsBsnGCco498WE2Kanpe4eCq5kl
           } else {
             req.session.loggedin = true;
             req.session.username = username;
+            req.session.author= admin.authority;
             res.redirect('/admin/home');
           }
           //console.log(admin);
@@ -66,6 +81,7 @@ const stripe = require('stripe')('sk_test_51NTGMgAD16dsBsnGCco498WE2Kanpe4eCq5kl
               courses,
               tutor,
               username: req.session.username,
+              author: req.session.author,
               sumAmount,
               reviews
             });
@@ -119,18 +135,67 @@ const stripe = require('stripe')('sk_test_51NTGMgAD16dsBsnGCco498WE2Kanpe4eCq5kl
         res.status(500).json({ message: 'Lỗi' })
     }
   });
+//Khóa tài khoản cộng tác viên
+  router.get('/block/:id', checkAdmin, async function(req, res) {// NOSONAR
+    try {
+      const id = req.params.id;
+      const status = "inactive";
+      await Admin.findByIdAndUpdate(id, { $set: { status } }, { new: true });
+      //lấy lại danh sách
+      const admins = await Admin.find()
+      res.render('Admin/admin/index', 
+      {
+        message: 'Đã khóa tài khoản' ,
+        username: req.session.username,
+        author: req.session.author,
+        admins
+      });
+    } catch (error) {
+      res.status(500).json({ message: error.message })
+    }
+  })
+  //Yêu cầu mở khóa tài khoản
+  router.get('/unblock/:id', checkAdmin, async function(req, res) {// NOSONAR
+    try {
+      const id = req.params.id;
+      const status = "active";
+      await Admin.findByIdAndUpdate(id, { $set: { status } }, { new: true });
+      //lấy lại danh sách
+      const admins = await Admin.find()
+      res.render('Admin/admin/index', 
+      {
+        message: 'Đã mở khóa tài khoản' ,
+        username: req.session.username,
+        author: req.session.author,
+        admins
+      });
+    } catch (error) {
+      res.status(500).json({ message: error.message })
+    }
+  })
 //Functions
   function checkAdmin(req, res, next){
     try {
-    if (req.session.loggedin) {
-        next();  
-    } else {
-        res.redirect('/admin');
+      if (req.session.loggedin) {
+          next();  
+      } else {
+          res.redirect('/admin');
+      }
     }
-}
-catch (error) {
-    res.status(500).json({ message: 'Lỗi' })
+    catch (error) {
+        res.status(500).json({ message: 'Lỗi' })
+        }
     }
-}
-
+    function checkAuthor(req, res, next){
+      try {
+        if (req.session.author===0) {
+            next();  
+        } else {
+          res.redirect('/admin/home');
+        }
+      }
+      catch (error) {
+          res.status(500).json({ message: 'Lỗi' })
+          }
+      }
 module.exports = router;
