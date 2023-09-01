@@ -37,14 +37,14 @@
                                             <p class="card-text">Số sao đánh giá: Không có đánh giá nào</p>
                                         <% } else { %>
                                             <% for (let i = 0; i < reviews.length; i++) { %>
-                                                <p class="card-text">Số sao đánh giá :
+                                                <p class="card-text" style="white-space: wrap;">Số sao đánh giá :
                                                       <% for (let j = 0; j < reviews[i].rate; j++) { %>
                                                           <span>&#11088;</span>
                                                       <% } %>
                                                     </p>
                                             <% } %>
                                         <% } %>
-                                        <p class="card-text">Khóa học tham gia hiện tại :
+                                        <p class="card-text" style="white-space: wrap;">Khóa học tham gia hiện tại :
                                         <% if (course.length === 0) { %>
                                             <a>Không có khóa học nào.</a>
                                         <% } else { %>

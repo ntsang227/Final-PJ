@@ -19,7 +19,7 @@
                                             <p class="card-text">Mã khóa học : <%= courses.key %></p>
                                             <p class="card-text">Tên giáo viên: <%= courses.nametutor %></p>
                                             <p class="card-text">Tên học sinh: <%= courses.nameuser %></p>
-                                            <p class="card-text">Môn học : <%= courses.subject %> - 
+                                            <p class="card-text" style="white-space: wrap;">Môn học : <%= courses.subject %> - 
                                                 <% if (courses.category==='primary' ) { %>
                                                     Dành cho Tiểu Học
                                                     <% } else if (courses.category==='secondary' ) { %>
@@ -35,7 +35,7 @@
                                                               <% } %>
                                             </p>
                                             <p class="card-text">Nội dung: <%= courses.decs %></p>
-                                            <p class="card-text">Trạng thái:
+                                            <p class="card-text" style="white-space: wrap;">Trạng thái:
                                                 <% if (courses.status === 'active') { %>
                                                   <span style="color: rgb(0, 228, 0);">Đang mở</span>
                                                 <% } else if (courses.status === 'inactive') { %>
