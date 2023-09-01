@@ -16,7 +16,8 @@
     margin-right: 20px;
     line-height: 40px;
 }
-.header-top a:hover{
+
+.header-top a:hover {
     color: white;
     text-decoration: none;
 }
@@ -33,6 +34,7 @@
     line-height: 60px;
     color: #000000cc;
 }
+
 .dropdowna {
     color: #000000cc;
 }
@@ -54,6 +56,20 @@ button:hover {
 
 .footer .row {
     justify-content: space-around;
+}
+
+.footer p.copyright {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-top: 1px solid rgb(212, 212, 212);
+    padding: 20px;
+    text-align: center;
+    background: #414141;
+    width: 100%;
+    margin-bottom: 0;
+    color: white;
 }
 
 .dropdowna {
@@ -89,7 +105,7 @@ button:hover {
     line-height: 30px;
 }
 
-.dropdown-content a:hover { 
+.dropdown-content a:hover {
     text-decoration: none;
     color: #0054b6;
 }
@@ -175,7 +191,9 @@ form.form-search {
     justify-content: space-around;
 
 }
-.dropdown #grade-select, .dropdown #subject-select{
+
+.dropdown #grade-select,
+.dropdown #subject-select {
     margin-bottom: 10px;
 
 }
@@ -183,13 +201,15 @@ form.form-search {
 form.form-course .status {
     padding: 10px;
 }
-.btn-tb{
+
+.btn-tb {
     font-style: normal;
     background-color: #0054b6;
     color: #000000cc;
     margin-top: 15px;
     margin-right: 5px;
 }
+
 .btn-search {
     color: aliceblue;
     padding: 10px;
@@ -197,6 +217,7 @@ form.form-course .status {
     background-color: #0054b6;
     border-radius: 4px;
     min-width: 100px;
+    max-height: 45px;
 
 }
 
@@ -223,6 +244,7 @@ form.form-course .status {
     justify-content: space-between;
     max-width: 1000px;
     margin-left: 5%;
+    border: none !important;
 }
 
 .card-body {
@@ -232,22 +254,26 @@ form.form-course .status {
     display: flex;
     flex-direction: row;
 }
-.card-body .detail{
+
+.card-body .detail {
     flex: 9;
 }
-.card-body .btn{
+
+.card-body .btn {
     flex: 1;
     display: flex;
     flex-direction: column;
     margin: auto;
 }
-.card-items{
-  margin-bottom: 10px;
+
+.card-items {
+    margin-bottom: 10px;
 }
 
-.card-body .text-status{
+.card-body .text-status {
     color: #338ff8 !important;
 }
+
 /* Style the card title */
 .card-title,
 .course h5 {
@@ -270,14 +296,17 @@ form.form-course .status {
     overflow: hidden;
 
 }
-p.card-text.card-decs{
+
+p.card-text.card-decs {
     min-height: 100px;
 }
+
 .card-wrapper p a,
 .course a {
     color: #0054b6;
     font-weight: bold;
 }
+
 .text-sub {
     min-height: 45px;
     max-height: 65px;
@@ -299,16 +328,19 @@ button.btn-apply {
 button.btn-apply:hover {
     background: #066ee6;
 }
+
 button.btn-contact {
     background-color: #fff;
     color: #0054b6;
     font-weight: 500;
 }
-button.btn-contact:hover{
+
+button.btn-contact:hover {
     font-weight: normal;
     background-color: #0054b6;
     color: #FFFFFF;
 }
+
 .form-course {
     max-width: 600px;
     margin: 0 auto;
@@ -375,7 +407,7 @@ textarea,
     max-width: 600px;
     margin: 0 auto;
     margin-top: 30px;
-    
+
 }
 
 /* card tutors  */
@@ -485,13 +517,15 @@ div.d-calendar {
     text-decoration: none;
     cursor: pointer;
 }
-#add-event-btn{
+
+#add-event-btn {
     margin-top: 15px;
     height: 40px;
     line-height: 40px;
     width: 70px;
 }
-.section-tutor{
+
+.section-tutor {
     display: flex;
     align-items: center;
     max-width: 750px;
@@ -500,41 +534,49 @@ div.d-calendar {
 }
 
 
-.tutors{
+.tutors {
     margin: 3%;
 }
-.tutors .card-body{
+
+.tutors .card-body {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-.tutors .card{
+
+.tutors .card {
     border: none !important;
 }
-.tutors .card-body h6{
+
+.tutors .card-body h6 {
     margin-top: 10px;
 }
-div.detail-tutor{
+
+div.detail-tutor {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     border: solid 1px #cccc;
     padding: 30px;
 }
-.btn-primary{
-    background-color:rgb(0, 84, 182) !important;
+
+.btn-primary {
+    background-color: rgb(0, 84, 182) !important;
     max-height: 38px;
 }
-.collapse{
-    height: 60px ;
+
+.collapse {
+    height: 60px;
 }
-.navbar li{
+
+.navbar li {
     font-style: normal;
     font-weight: 500;
     font-size: 16px;
     line-height: 60px;
     color: #000000cc;
 }
-.sm-collapse{
+
+.sm-collapse {
     margin-left: 48px;
 }

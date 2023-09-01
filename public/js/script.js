@@ -5,7 +5,7 @@ const subjectList = {
   secondary: ['Tiếng Anh', 'Toán', 'Vật Lý','Hóa Học', 'Sinh Học', 'Ngữ Văn'],
   'high-school': ['Tiếng Anh', 'Toán', 'Vật Lý','Hóa Học', 'Sinh Học', 'Ngữ Văn'],
   'training-high-school': ['Khối A', 'Khối B','Khối C', 'Khối D'],
-  'english-cerificate': ['Chứng chỉ IELTS', 'Chứng chỉ TOEIC', 'Chứng chỉ TOEFL', 'Chứng chỉ SAT'],
+  'english-certificate': ['Chứng chỉ IELTS', 'Chứng chỉ TOEIC', 'Chứng chỉ TOEFL', 'Chứng chỉ SAT'],
   'english-communication': ['Mất gốc', 'Căn bản', 'Nâng cao']
   }
           

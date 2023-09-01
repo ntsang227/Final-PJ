@@ -674,10 +674,15 @@ router.get('/search-grade', checkMember, async (req, res) => {
     const selectedCategory = req.query.category;
     const courses = await Course.find({ category: selectedCategory, status: 'active' }).populate('tutor', 'username');
     const tutors = await Tutor.find({ status: 'active' });
+    const notification = await Course.find({}).populate('tutor', 'username').populate('student','username' );
+    const username = req.cookies.username;
+
 
     res.render('User/main/index.ejs', {
       courses,
-      tutors
+      tutors,
+      notification,
+      username
     });
   } catch (err) {
     res.status(500).json({ message: err.message });
